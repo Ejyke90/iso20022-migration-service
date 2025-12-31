@@ -2,7 +2,27 @@ from flask import Flask, request, send_file, jsonify
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
-from converter import WordToPDFConverter
+import sys
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+logger.info("Starting Word to PDF API...")
+logger.info(f"Python version: {sys.version}")
+logger.info(f"Current working directory: {os.getcwd()}")
+logger.info(f"Directory contents: {os.listdir('.')}")
+
+try:
+    from converter import WordToPDFConverter
+    logger.info("Successfully imported WordToPDFConverter")
+except Exception as e:
+    logger.error(f"Failed to import WordToPDFConverter: {e}")
+    # Create a dummy class to prevent total crash if import fails
+    class WordToPDFConverter:
+        def convert(self, *args, **kwargs):
+            raise Exception(f"Converter failed to load: {e}")
 
 app = Flask(__name__)
 
