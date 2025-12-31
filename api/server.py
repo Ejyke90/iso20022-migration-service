@@ -46,7 +46,7 @@ CORS(app, resources={
 # Configuration
 UPLOAD_FOLDER = 'uploads'
 OUTPUT_FOLDER = 'outputs'
-ALLOWED_EXTENSIONS = {'docx'}
+ALLOWED_EXTENSIONS = {'docx', 'doc'}
 
 # Create folders if they don't exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -66,7 +66,8 @@ def health_check():
     return jsonify({
         'status': 'healthy', 
         'message': 'Word to PDF API is running',
-        'version': '1.0.0'
+        'version': '1.0.0',
+        'supported_formats': ['.docx', '.doc']
     })
 
 @app.route('/api/convert', methods=['OPTIONS'])
@@ -107,9 +108,19 @@ def convert_document():
         output_filename = filename.rsplit('.', 1)[0] + '.pdf'
         output_path = os.path.join(app.config['OUTPUT_FOLDER'], output_filename)
         
+        # Validate file before conversion
+        converter = WordToPDFConverter()
+        is_valid, validation_message = converter.validate_file(input_path)
+        
+        if not is_valid:
+            # Clean up invalid file
+            if os.path.exists(input_path):
+                os.remove(input_path)
+            logger.warning(f"File validation failed: {validation_message}")
+            return jsonify({'error': validation_message}), 400
+        
         # Convert using the Word to PDF converter
         logger.info(f"Converting {filename} to PDF")
-        converter = WordToPDFConverter()
         success = converter.convert(input_path, output_path)
         
         if not success:
