@@ -13,11 +13,13 @@ CORS(app, resources={
             "http://localhost:3000",
             "http://localhost:3001", 
             "http://localhost:3002",
+            "https://word-to-pdf-agent.vercel.app",
             "https://*.vercel.app",
             "https://vercel.app"
         ],
         "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
+        "allow_headers": ["Content-Type", "Authorization"],
+        "expose_headers": ["Content-Type"]
     }
 })
 
