@@ -28,18 +28,18 @@ app = Flask(__name__)
 
 # CORS configuration - allows localhost and Vercel deployments
 CORS(app, resources={
-    r"/api/*": {
+    r"/*": {
         "origins": [
             "http://localhost:3000",
             "http://localhost:3001", 
             "http://localhost:3002",
             "https://word-to-pdf-agent.vercel.app",
-            "https://*.vercel.app",
-            "https://vercel.app"
+            "https://*.vercel.app"
         ],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
-        "expose_headers": ["Content-Type"]
+        "expose_headers": ["Content-Type", "Content-Disposition"],
+        "supports_credentials": False
     }
 })
 
@@ -62,16 +62,28 @@ def allowed_file(filename):
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
-    return jsonify({'status': 'healthy', 'message': 'Word to PDF API is running'})
+    logger.info("Health check requested")
+    return jsonify({
+        'status': 'healthy', 
+        'message': 'Word to PDF API is running',
+        'version': '1.0.0'
+    })
+
+@app.route('/api/convert', methods=['OPTIONS'])
+def convert_options():
+    """Handle CORS preflight for convert endpoint"""
+    return '', 204
 
 @app.route('/api/convert', methods=['POST'])
 def convert_document():
     """
     Convert uploaded Word document to PDF
     """
+    logger.info("Convert request received")
     try:
         # Check if file is present
         if 'file' not in request.files:
+            logger.warning("No file in request")
             return jsonify({'error': 'No file provided'}), 400
         
         file = request.files['file']
@@ -96,10 +108,12 @@ def convert_document():
         output_path = os.path.join(app.config['OUTPUT_FOLDER'], output_filename)
         
         # Convert using the Word to PDF converter
+        logger.info(f"Converting {filename} to PDF")
         converter = WordToPDFConverter()
         success = converter.convert(input_path, output_path)
         
         if not success:
+            logger.error(f"Conversion failed for {filename}")
             # Clean up input file
             if os.path.exists(input_path):
                 os.remove(input_path)
@@ -109,6 +123,7 @@ def convert_document():
         if os.path.exists(input_path):
             os.remove(input_path)
         
+        logger.info(f"Successfully converted {filename} to {output_filename}")
         return jsonify({
             'success': True,
             'message': 'Conversion successful',
@@ -117,6 +132,7 @@ def convert_document():
         })
     
     except Exception as e:
+        logger.error(f"Conversion error: {str(e)}", exc_info=True)
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/download/<filename>', methods=['GET'])
