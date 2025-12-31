@@ -1,3 +1,6 @@
+watchdog
+streamlit
 docx2pdf
+
 typer
 rich
