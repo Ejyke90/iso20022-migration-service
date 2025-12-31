@@ -1,12 +1,12 @@
 """
 Word to PDF Converter Class
-Simple converter without Windows-specific dependencies
+Standalone converter using aspose-words (works on Linux/Railway)
 """
-from docx2pdf import convert as docx2pdf_convert
+import aspose.words as aw
 import os
 
 class WordToPDFConverter:
-    """Simple Word to PDF converter"""
+    """Word to PDF converter using Aspose.Words"""
     
     def __init__(self, config=None):
         self.config = config or {}
@@ -26,8 +26,11 @@ class WordToPDFConverter:
             if not os.path.exists(input_path):
                 raise FileNotFoundError(f"Input file not found: {input_path}")
             
-            # Convert using docx2pdf
-            docx2pdf_convert(input_path, output_path)
+            # Load the document from the absolute path
+            doc = aw.Document(input_path)
+            
+            # Save as PDF
+            doc.save(output_path)
             
             return os.path.exists(output_path)
         except Exception as e:
