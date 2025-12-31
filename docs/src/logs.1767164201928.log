@@ -1,0 +1,1001 @@
+2025-12-31T06:56:15.046306998Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:15.046315811Z [err]      worker.init_process()
+2025-12-31T06:56:15.046324247Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.046332739Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:15.046340809Z [err]      self.load_wsgi()
+2025-12-31T06:56:15.046347963Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.046357319Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:15.046365835Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:15.046374309Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.046384739Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:15.046393688Z [err]      self.callable = self.load()
+2025-12-31T06:56:15.046401661Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:15.046409838Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:15.046423886Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:15.046431055Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.046437175Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:15.046443301Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:15.046449719Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:15.046456815Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:15.047811489Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:15.047821205Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:15.047828760Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:15.047834811Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:15.047841273Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:15.047874179Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:15.047881844Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:15.047888230Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:15.047894657Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:15.047902560Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:15.047911467Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:15.047918464Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:15.047924470Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:15.047932331Z [err]  [2025-12-31 06:56:15 +0000] [3] [INFO] Worker exiting (pid: 3)
+2025-12-31T06:56:15.075969427Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:15.075975684Z [err]  [2025-12-31 06:56:15 +0000] [5] [ERROR] Exception in worker process
+2025-12-31T06:56:15.075986176Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:15.075987242Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:15.075995491Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:15.076000632Z [err]      worker.init_process()
+2025-12-31T06:56:15.076004801Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.076010119Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:15.076015551Z [err]      self.load_wsgi()
+2025-12-31T06:56:15.076020498Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.076025142Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:15.076029874Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:15.076034353Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.076038439Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:15.076042468Z [err]      self.callable = self.load()
+2025-12-31T06:56:15.076066387Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:15.076071568Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:15.076075742Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:15.076079994Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.076085191Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:15.076089112Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:15.077456053Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:15.077465590Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:15.077473960Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:15.077482165Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:15.077489519Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:15.077496271Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:15.077551549Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:15.077558287Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:15.077574684Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:15.077592427Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:15.077598909Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:15.077605558Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:15.077611454Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:15.077616935Z [err]  [2025-12-31 06:56:15 +0000] [5] [INFO] Worker exiting (pid: 5)
+2025-12-31T06:56:15.091836884Z [err]  [2025-12-31 06:56:15 +0000] [1] [ERROR] Worker (pid:4) exited with code 3
+2025-12-31T06:56:15.092955841Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:15.107948676Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 209, in run
+2025-12-31T06:56:15.107957051Z [err]      WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+2025-12-31T06:56:15.107958992Z [err]      self.sleep()
+2025-12-31T06:56:15.107965033Z [err]      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.107966961Z [err]      ~~~~~~~~~~^^
+2025-12-31T06:56:15.107972563Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 236, in run
+2025-12-31T06:56:15.107974065Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 360, in sleep
+2025-12-31T06:56:15.107979753Z [err]      ready = select.select([self.PIPE[0]], [], [], 1.0)
+2025-12-31T06:56:15.107985577Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 242, in handle_chld
+2025-12-31T06:56:15.107986244Z [err]  
+2025-12-31T06:56:15.107991619Z [err]      self.reap_workers()
+2025-12-31T06:56:15.107992385Z [err]  During handling of the above exception, another exception occurred:
+2025-12-31T06:56:15.107997750Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.107999829Z [err]  
+2025-12-31T06:56:15.108003848Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 530, in reap_workers
+2025-12-31T06:56:15.108005826Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:15.108011857Z [err]      raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+2025-12-31T06:56:15.108011909Z [err]    File "/app/.venv/bin/gunicorn", line 7, in <module>
+2025-12-31T06:56:15.108017730Z [err]      sys.exit(run())
+2025-12-31T06:56:15.108017776Z [err]  gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+2025-12-31T06:56:15.108023648Z [err]               ~~~^^
+2025-12-31T06:56:15.108029935Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 67, in run
+2025-12-31T06:56:15.109991144Z [err]      raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+2025-12-31T06:56:15.110001023Z [err]      super().run()
+2025-12-31T06:56:15.110002309Z [err]  gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+2025-12-31T06:56:15.110013737Z [err]      ~~~~~~~~~~~^^
+2025-12-31T06:56:15.110021139Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 72, in run
+2025-12-31T06:56:15.110028863Z [err]      Arbiter(self).run()
+2025-12-31T06:56:15.110036346Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.110044347Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 229, in run
+2025-12-31T06:56:15.110051061Z [err]      self.halt(reason=inst.reason, exit_status=inst.exit_status)
+2025-12-31T06:56:15.110057484Z [err]      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:15.110064112Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 342, in halt
+2025-12-31T06:56:15.110071261Z [err]      self.stop()
+2025-12-31T06:56:15.110079781Z [err]      ~~~~~~~~~^^
+2025-12-31T06:56:15.110102310Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 396, in stop
+2025-12-31T06:56:15.110110595Z [err]      time.sleep(0.1)
+2025-12-31T06:56:15.110117538Z [err]      ~~~~~~~~~~^^^^^
+2025-12-31T06:56:15.110128279Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 242, in handle_chld
+2025-12-31T06:56:15.110134777Z [err]      self.reap_workers()
+2025-12-31T06:56:15.110141412Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:15.110149905Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 530, in reap_workers
+2025-12-31T06:56:16.408202409Z [err]  [2025-12-31 06:56:16 +0000] [1] [INFO] Starting gunicorn 21.2.0
+2025-12-31T06:56:16.409354980Z [err]  [2025-12-31 06:56:16 +0000] [1] [INFO] Listening at: http://0.0.0.0:8080 (1)
+2025-12-31T06:56:16.409365209Z [err]  [2025-12-31 06:56:16 +0000] [1] [INFO] Using worker: sync
+2025-12-31T06:56:16.417407524Z [err]  [2025-12-31 06:56:16 +0000] [2] [INFO] Booting worker with pid: 2
+2025-12-31T06:56:16.447484090Z [err]  [2025-12-31 06:56:16 +0000] [3] [INFO] Booting worker with pid: 3
+2025-12-31T06:56:16.547459602Z [err]  [2025-12-31 06:56:16 +0000] [4] [INFO] Booting worker with pid: 4
+2025-12-31T06:56:16.944795178Z [err]      self.callable = self.load()
+2025-12-31T06:56:16.944812176Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:16.944821110Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:16.944829527Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:16.944837692Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.944845776Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:16.944853497Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:16.944860503Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:16.944868132Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:16.944907628Z [err]  [2025-12-31 06:56:16 +0000] [2] [ERROR] Exception in worker process
+2025-12-31T06:56:16.944912411Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:16.944916492Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:16.944920775Z [err]      worker.init_process()
+2025-12-31T06:56:16.944925064Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.944929914Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:16.944934539Z [err]      self.load_wsgi()
+2025-12-31T06:56:16.944940230Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.944944740Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:16.944949866Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:16.944955151Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.944959785Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:16.947147344Z [err]  [2025-12-31 06:56:16 +0000] [2] [INFO] Worker exiting (pid: 2)
+2025-12-31T06:56:16.947157636Z [err]  [2025-12-31 06:56:16 +0000] [5] [INFO] Booting worker with pid: 5
+2025-12-31T06:56:16.947163214Z [err]  [2025-12-31 06:56:16 +0000] [3] [ERROR] Exception in worker process
+2025-12-31T06:56:16.947169103Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:16.947174662Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:16.947181083Z [err]      worker.init_process()
+2025-12-31T06:56:16.947186619Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.947295114Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:16.947301463Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:16.947307508Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:16.947313235Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:16.947320529Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:16.947325290Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:16.947331409Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:16.947338301Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:16.947344294Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:16.947350538Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:16.947356239Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:16.947363518Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:16.947369850Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:16.948754595Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:16.948757061Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:16.948762063Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:16.948765528Z [err]      self.callable = self.load()
+2025-12-31T06:56:16.948768389Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:16.948774709Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:16.948775386Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:16.948781354Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:16.948782512Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:16.948788662Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:16.948791100Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:16.948793347Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:16.948797341Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:16.948804228Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.948804604Z [err]      self.load_wsgi()
+2025-12-31T06:56:16.948807363Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:16.948818319Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:16.948820106Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.948827685Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:16.948832071Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:16.948836221Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.949810539Z [err]      self.load_wsgi()
+2025-12-31T06:56:16.949816733Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.949821258Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:16.949836910Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:16.949841694Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:16.949846567Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:16.949850969Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:16.949854910Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:16.949859317Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:16.949863654Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:16.949869495Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:16.949873908Z [err]  [2025-12-31 06:56:16 +0000] [3] [INFO] Worker exiting (pid: 3)
+2025-12-31T06:56:16.949877737Z [err]  [2025-12-31 06:56:16 +0000] [1] [ERROR] Worker (pid:2) exited with code 3
+2025-12-31T06:56:16.949882302Z [err]  [2025-12-31 06:56:16 +0000] [1] [ERROR] Worker (pid:3) was sent SIGTERM!
+2025-12-31T06:56:16.949886274Z [err]  [2025-12-31 06:56:16 +0000] [4] [ERROR] Exception in worker process
+2025-12-31T06:56:16.949890136Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:16.949894030Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:16.949898033Z [err]      worker.init_process()
+2025-12-31T06:56:16.949901960Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.949905826Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:16.950709964Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:16.950717748Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.950723454Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:16.950728580Z [err]      self.callable = self.load()
+2025-12-31T06:56:16.950733423Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:16.950740019Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:16.950746047Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:16.950750928Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.950756211Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:16.950761884Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:16.950767505Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:16.950773052Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:16.950779743Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:16.950786163Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:16.950792142Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:16.950797967Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:16.950803471Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:16.950808145Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:16.950813263Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:16.950818108Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:16.952109971Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 360, in sleep
+2025-12-31T06:56:16.952111843Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:16.952118121Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:16.952123527Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:16.952124698Z [err]      ready = select.select([self.PIPE[0]], [], [], 1.0)
+2025-12-31T06:56:16.952128110Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:16.952133980Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 242, in handle_chld
+2025-12-31T06:56:16.952134027Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:16.952139942Z [err]  [2025-12-31 06:56:16 +0000] [4] [INFO] Worker exiting (pid: 4)
+2025-12-31T06:56:16.952142282Z [err]      self.reap_workers()
+2025-12-31T06:56:16.952146772Z [err]  [2025-12-31 06:56:16 +0000] [1] [ERROR] Worker (pid:4) exited with code 3
+2025-12-31T06:56:16.952151195Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.952152452Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:16.952159569Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 209, in run
+2025-12-31T06:56:16.952160594Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 530, in reap_workers
+2025-12-31T06:56:16.952165948Z [err]      self.sleep()
+2025-12-31T06:56:16.952170293Z [err]      raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+2025-12-31T06:56:16.952171273Z [err]      ~~~~~~~~~~^^
+2025-12-31T06:56:16.952178284Z [err]  gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+2025-12-31T06:56:16.952184987Z [err]  
+2025-12-31T06:56:16.952191516Z [err]  During handling of the above exception, another exception occurred:
+2025-12-31T06:56:16.953372995Z [err]  
+2025-12-31T06:56:16.953377105Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:16.953381167Z [err]    File "/app/.venv/bin/gunicorn", line 7, in <module>
+2025-12-31T06:56:16.953386122Z [err]      sys.exit(run())
+2025-12-31T06:56:16.953390458Z [err]               ~~~^^
+2025-12-31T06:56:16.953394946Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 67, in run
+2025-12-31T06:56:16.953399486Z [err]      WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+2025-12-31T06:56:16.953403342Z [err]      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.953407335Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 236, in run
+2025-12-31T06:56:16.953411200Z [err]      super().run()
+2025-12-31T06:56:16.953414827Z [err]      ~~~~~~~~~~~^^
+2025-12-31T06:56:16.953419750Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 72, in run
+2025-12-31T06:56:16.953424758Z [err]      Arbiter(self).run()
+2025-12-31T06:56:16.953428814Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.953432835Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 229, in run
+2025-12-31T06:56:16.953436941Z [err]      self.halt(reason=inst.reason, exit_status=inst.exit_status)
+2025-12-31T06:56:16.953440602Z [err]      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:16.953444229Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 342, in halt
+2025-12-31T06:56:16.953447790Z [err]      self.stop()
+2025-12-31T06:56:16.953451824Z [err]      ~~~~~~~~~^^
+2025-12-31T06:56:16.953457817Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 396, in stop
+2025-12-31T06:56:16.953461507Z [err]      time.sleep(0.1)
+2025-12-31T06:56:16.953465234Z [err]      ~~~~~~~~~~^^^^^
+2025-12-31T06:56:16.955139278Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 242, in handle_chld
+2025-12-31T06:56:16.955146888Z [err]      self.reap_workers()
+2025-12-31T06:56:16.955152957Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.955159065Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 530, in reap_workers
+2025-12-31T06:56:16.955164679Z [err]      raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+2025-12-31T06:56:16.955170998Z [err]  gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+2025-12-31T06:56:16.955178020Z [err]  [2025-12-31 06:56:16 +0000] [5] [ERROR] Exception in worker process
+2025-12-31T06:56:16.955184433Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:16.955191832Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:16.955199591Z [err]      worker.init_process()
+2025-12-31T06:56:16.955207043Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.955214652Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:16.955223462Z [err]      self.load_wsgi()
+2025-12-31T06:56:16.955230167Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.955237591Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:16.955248366Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:16.955257549Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.955264495Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:16.955272297Z [err]      self.callable = self.load()
+2025-12-31T06:56:16.955283085Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:16.955290364Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:16.956787101Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:16.956792110Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:16.956795162Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:16.956799692Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:16.956804181Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:16.956808589Z [err]  [2025-12-31 06:56:16 +0000] [5] [INFO] Worker exiting (pid: 5)
+2025-12-31T06:56:16.956811728Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:16.956816897Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:16.956821625Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:16.956826599Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:16.956831437Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:16.956835767Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:16.956840428Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:16.956844798Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:16.956849298Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:16.956853964Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:16.956858058Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:16.956862108Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:16.956866265Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:16.956870684Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:18.260164147Z [err]  [2025-12-31 06:56:18 +0000] [1] [INFO] Starting gunicorn 21.2.0
+2025-12-31T06:56:18.260175722Z [err]  [2025-12-31 06:56:18 +0000] [1] [INFO] Listening at: http://0.0.0.0:8080 (1)
+2025-12-31T06:56:18.260183915Z [err]  [2025-12-31 06:56:18 +0000] [1] [INFO] Using worker: sync
+2025-12-31T06:56:18.260190444Z [err]  [2025-12-31 06:56:18 +0000] [2] [INFO] Booting worker with pid: 2
+2025-12-31T06:56:18.309246950Z [err]  [2025-12-31 06:56:18 +0000] [3] [INFO] Booting worker with pid: 3
+2025-12-31T06:56:18.402810402Z [err]  [2025-12-31 06:56:18 +0000] [4] [INFO] Booting worker with pid: 4
+2025-12-31T06:56:18.410455521Z [err]  [2025-12-31 06:56:18 +0000] [5] [INFO] Booting worker with pid: 5
+2025-12-31T06:56:18.551761566Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:18.551774255Z [err]      self.callable = self.load()
+2025-12-31T06:56:18.551781318Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:18.551786934Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:18.551792564Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:18.551799621Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:18.551805103Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:18.551811786Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:18.551817981Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:18.551823148Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:18.551870709Z [err]  [2025-12-31 06:56:18 +0000] [2] [ERROR] Exception in worker process
+2025-12-31T06:56:18.551877828Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:18.551884326Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:18.551890651Z [err]      worker.init_process()
+2025-12-31T06:56:18.551896299Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:18.551901781Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:18.551907378Z [err]      self.load_wsgi()
+2025-12-31T06:56:18.551913657Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:18.551921727Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:18.551927647Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:18.551932844Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:18.554037602Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:18.554045943Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:18.554052476Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:18.554057735Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:18.554063430Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:18.554069568Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:18.554075368Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:18.554081304Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:18.554087203Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:18.554093206Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:18.554099707Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:18.554105630Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:18.554112751Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:18.554117656Z [err]  [2025-12-31 06:56:18 +0000] [2] [INFO] Worker exiting (pid: 2)
+2025-12-31T06:56:19.080210476Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:19.080218500Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:19.080542584Z [err]  [2025-12-31 06:56:18 +0000] [3] [ERROR] Exception in worker process
+2025-12-31T06:56:19.080549716Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:19.080556574Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:19.080564192Z [err]      worker.init_process()
+2025-12-31T06:56:19.080571316Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.080577731Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:19.080584344Z [err]      self.load_wsgi()
+2025-12-31T06:56:19.080616104Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.080623863Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:19.080630970Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:19.080637750Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.080646233Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:19.080654178Z [err]      self.callable = self.load()
+2025-12-31T06:56:19.080662159Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:19.080669863Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:19.080676413Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:19.080684267Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.080691207Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:19.080698711Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:19.080706029Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:19.080713796Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:19.080891638Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:19.080899717Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:19.080907117Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:19.080914247Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:19.080920662Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:19.080927637Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:19.080934205Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:19.080941549Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:19.080949258Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:19.080957323Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:19.080964085Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:19.080971267Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:19.080978271Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:19.080985610Z [err]  [2025-12-31 06:56:18 +0000] [3] [INFO] Worker exiting (pid: 3)
+2025-12-31T06:56:19.080992595Z [err]  [2025-12-31 06:56:18 +0000] [1] [ERROR] Worker (pid:2) exited with code 3
+2025-12-31T06:56:19.081000915Z [err]  [2025-12-31 06:56:18 +0000] [1] [ERROR] Worker (pid:3) was sent SIGTERM!
+2025-12-31T06:56:19.081012590Z [err]  [2025-12-31 06:56:18 +0000] [5] [ERROR] Exception in worker process
+2025-12-31T06:56:19.084626794Z [err]      worker.init_process()
+2025-12-31T06:56:19.084633634Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.084639934Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:19.084647373Z [err]      self.load_wsgi()
+2025-12-31T06:56:19.084656119Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.084664593Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:19.084677165Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:19.084684711Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.084694353Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:19.084701559Z [err]      self.callable = self.load()
+2025-12-31T06:56:19.084707973Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:19.084721890Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:19.084729660Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:19.084736051Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.084744592Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:19.084749481Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:19.084754650Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:19.084760489Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:19.084765041Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:19.084775438Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:19.084780296Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:19.084785694Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:19.084790343Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:19.084796132Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:19.084801323Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:19.084808329Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:19.084814610Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:19.084821081Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:19.084829336Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:19.084834493Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:19.084839543Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:19.084844314Z [err]  [2025-12-31 06:56:18 +0000] [5] [INFO] Worker exiting (pid: 5)
+2025-12-31T06:56:19.084849300Z [err]  [2025-12-31 06:56:18 +0000] [4] [ERROR] Exception in worker process
+2025-12-31T06:56:19.084854170Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:19.084860228Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:19.084865733Z [err]      worker.init_process()
+2025-12-31T06:56:19.084871302Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.084876083Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:19.084881100Z [err]      self.load_wsgi()
+2025-12-31T06:56:19.084886160Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.084890786Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:19.084896363Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:19.084902848Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.084909268Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:19.084915009Z [err]      self.callable = self.load()
+2025-12-31T06:56:19.084921274Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:19.084928976Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:19.084934796Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:19.084940350Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.084946575Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:19.084952907Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:19.084960164Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:19.084967528Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:19.084974803Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:19.084982009Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:19.084989127Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:19.084995831Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:19.085003127Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:19.085010164Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:19.085019085Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:19.085027834Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:19.085063009Z [err]  During handling of the above exception, another exception occurred:
+2025-12-31T06:56:19.085067961Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:19.085068030Z [err]  
+2025-12-31T06:56:19.085082724Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:19.085085442Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 242, in handle_chld
+2025-12-31T06:56:19.085092747Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:19.085103910Z [err]      self.reap_workers()
+2025-12-31T06:56:19.085108140Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:19.085118881Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.085119863Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:19.085134996Z [err]  [2025-12-31 06:56:18 +0000] [4] [INFO] Worker exiting (pid: 4)
+2025-12-31T06:56:19.085136015Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 530, in reap_workers
+2025-12-31T06:56:19.085143385Z [err]  [2025-12-31 06:56:18 +0000] [1] [ERROR] Worker (pid:5) exited with code 3
+2025-12-31T06:56:19.085149448Z [err]      raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+2025-12-31T06:56:19.085154450Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:19.085163350Z [err]  gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+2025-12-31T06:56:19.085165881Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 209, in run
+2025-12-31T06:56:19.085171972Z [err]      self.sleep()
+2025-12-31T06:56:19.085177242Z [err]      ~~~~~~~~~~^^
+2025-12-31T06:56:19.085182654Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 360, in sleep
+2025-12-31T06:56:19.085188519Z [err]      ready = select.select([self.PIPE[0]], [], [], 1.0)
+2025-12-31T06:56:19.087347531Z [err]      Arbiter(self).run()
+2025-12-31T06:56:19.087355740Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.087362915Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 229, in run
+2025-12-31T06:56:19.087369537Z [err]      self.halt(reason=inst.reason, exit_status=inst.exit_status)
+2025-12-31T06:56:19.087372514Z [err]  
+2025-12-31T06:56:19.087377432Z [err]      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:19.087379613Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:19.087386537Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 342, in halt
+2025-12-31T06:56:19.087391499Z [err]      self.stop()
+2025-12-31T06:56:19.087396650Z [err]      ~~~~~~~~~^^
+2025-12-31T06:56:19.087401467Z [err]    File "/app/.venv/bin/gunicorn", line 7, in <module>
+2025-12-31T06:56:19.087403563Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 396, in stop
+2025-12-31T06:56:19.087408941Z [err]      sys.exit(run())
+2025-12-31T06:56:19.087411115Z [err]      time.sleep(0.1)
+2025-12-31T06:56:19.087416683Z [err]               ~~~^^
+2025-12-31T06:56:19.087418959Z [err]      ~~~~~~~~~~^^^^^
+2025-12-31T06:56:19.087424774Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 67, in run
+2025-12-31T06:56:19.087430597Z [err]      WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+2025-12-31T06:56:19.087436859Z [err]      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.087442585Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 236, in run
+2025-12-31T06:56:19.087463516Z [err]      super().run()
+2025-12-31T06:56:19.087468923Z [err]      ~~~~~~~~~~~^^
+2025-12-31T06:56:19.087474798Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 72, in run
+2025-12-31T06:56:19.087788819Z [err]  gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+2025-12-31T06:56:19.087808933Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 242, in handle_chld
+2025-12-31T06:56:19.087818893Z [err]      self.reap_workers()
+2025-12-31T06:56:19.087825874Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:19.087832672Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 530, in reap_workers
+2025-12-31T06:56:19.087838971Z [err]      raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+2025-12-31T06:56:20.338392193Z [err]  [2025-12-31 06:56:20 +0000] [1] [INFO] Starting gunicorn 21.2.0
+2025-12-31T06:56:20.338398380Z [err]  [2025-12-31 06:56:20 +0000] [1] [INFO] Listening at: http://0.0.0.0:8080 (1)
+2025-12-31T06:56:20.338403437Z [err]  [2025-12-31 06:56:20 +0000] [1] [INFO] Using worker: sync
+2025-12-31T06:56:20.339493781Z [err]  [2025-12-31 06:56:20 +0000] [2] [INFO] Booting worker with pid: 2
+2025-12-31T06:56:20.353247100Z [err]  [2025-12-31 06:56:20 +0000] [3] [INFO] Booting worker with pid: 3
+2025-12-31T06:56:20.397118536Z [err]  [2025-12-31 06:56:20 +0000] [4] [INFO] Booting worker with pid: 4
+2025-12-31T06:56:20.426361134Z [err]  [2025-12-31 06:56:20 +0000] [5] [INFO] Booting worker with pid: 5
+2025-12-31T06:56:21.066417380Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.066425877Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:21.066432049Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:21.066437165Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:21.066442516Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:21.066454471Z [err]  [2025-12-31 06:56:20 +0000] [2] [ERROR] Exception in worker process
+2025-12-31T06:56:21.066455955Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.066462679Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.066464017Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:21.066465214Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:21.066472800Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:21.066474110Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:21.066479968Z [err]      self.callable = self.load()
+2025-12-31T06:56:21.066481236Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.066484939Z [err]      worker.init_process()
+2025-12-31T06:56:21.066485345Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:21.066488905Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:21.066491666Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:21.066494702Z [err]      self.load_wsgi()
+2025-12-31T06:56:21.066499764Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:21.066504897Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:21.069469886Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:21.069474176Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:21.069477744Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:21.069481402Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:21.069485873Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:21.069490063Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:21.069493658Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:21.069498334Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:21.069502420Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:21.069511828Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:21.069516175Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:21.069521009Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:21.069988013Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:21.069996089Z [err]  [2025-12-31 06:56:20 +0000] [2] [INFO] Worker exiting (pid: 2)
+2025-12-31T06:56:21.070001828Z [err]  [2025-12-31 06:56:20 +0000] [3] [ERROR] Exception in worker process
+2025-12-31T06:56:21.070007207Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:21.070012206Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:21.070021133Z [err]      worker.init_process()
+2025-12-31T06:56:21.070027223Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.070030509Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:21.070033649Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:21.070037576Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:21.070042282Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:21.070051031Z [err]      self.load_wsgi()
+2025-12-31T06:56:21.070055397Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.070060347Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:21.070065679Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:21.070076062Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:21.070076335Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:21.070081693Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:21.070089340Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:21.070089618Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:21.070099574Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:21.070103665Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:21.070106730Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.070110037Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:21.070116272Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:21.070121337Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.070123919Z [err]      self.callable = self.load()
+2025-12-31T06:56:21.070126809Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:21.070130146Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:21.070679306Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:21.070686206Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:21.070690696Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:21.070695094Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:21.070701467Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:21.070707280Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:21.070713799Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:21.070726556Z [err]  [2025-12-31 06:56:20 +0000] [3] [INFO] Worker exiting (pid: 3)
+2025-12-31T06:56:21.070732442Z [err]  [2025-12-31 06:56:20 +0000] [4] [ERROR] Exception in worker process
+2025-12-31T06:56:21.070738814Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:21.070739288Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:21.070743836Z [err]      self.load_wsgi()
+2025-12-31T06:56:21.070746553Z [err]      worker.init_process()
+2025-12-31T06:56:21.070749788Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.070752549Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.070754902Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:21.070759165Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:21.070759932Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:21.070765593Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.070769418Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:21.070773204Z [err]      self.callable = self.load()
+2025-12-31T06:56:21.071572846Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:21.071581285Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:21.071588098Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:21.071593615Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:21.071598119Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:21.071604643Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:21.071607371Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:21.071613511Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:21.071618873Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:21.071623705Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:21.071631651Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:21.071635936Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:21.071638748Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:21.071643738Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:21.071646115Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:21.071650541Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:21.071652179Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.071657712Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:21.071660231Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:21.071665653Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:21.072495418Z [err]  [2025-12-31 06:56:20 +0000] [4] [INFO] Worker exiting (pid: 4)
+2025-12-31T06:56:21.072502606Z [err]  [2025-12-31 06:56:20 +0000] [5] [ERROR] Exception in worker process
+2025-12-31T06:56:21.072507940Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:21.072513798Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:21.072518929Z [err]      worker.init_process()
+2025-12-31T06:56:21.072523996Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.072528976Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:21.072533601Z [err]      self.load_wsgi()
+2025-12-31T06:56:21.072538245Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.072543619Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:21.072549416Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:21.072554124Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.072560733Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:21.072565667Z [err]      self.callable = self.load()
+2025-12-31T06:56:21.072570757Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:21.072575047Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:21.072580764Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:21.072602895Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:21.072609454Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:21.072615774Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:21.072622470Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:21.072632577Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:21.074791187Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:21.074792968Z [err]  [2025-12-31 06:56:20 +0000] [1] [ERROR] Worker (pid:5) was sent SIGTERM!
+2025-12-31T06:56:21.074797424Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:21.074802764Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:21.074806833Z [err]  [2025-12-31 06:56:20 +0000] [1] [ERROR] Worker (pid:2) exited with code 3
+2025-12-31T06:56:21.074809980Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:21.074812947Z [err]  [2025-12-31 06:56:20 +0000] [1] [ERROR] Worker (pid:3) was sent SIGTERM!
+2025-12-31T06:56:21.074816325Z [err]  [2025-12-31 06:56:20 +0000] [5] [INFO] Worker exiting (pid: 5)
+2025-12-31T06:56:21.074819268Z [err]  [2025-12-31 06:56:20 +0000] [1] [ERROR] Worker (pid:4) was sent SIGTERM!
+2025-12-31T06:56:21.074834129Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:21.074845081Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:21.074852287Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:21.074859232Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:21.074869984Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:21.074878441Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:21.074881287Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:21.074887875Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:21.074891183Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:21.074895893Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:21.075906046Z [err]  [2025-12-31 06:56:20 +0000] [1] [ERROR] Shutting down: Master
+2025-12-31T06:56:21.075910172Z [err]  [2025-12-31 06:56:20 +0000] [1] [ERROR] Reason: Worker failed to boot.
+2025-12-31T06:56:22.522454557Z [err]  [2025-12-31 06:56:22 +0000] [1] [INFO] Starting gunicorn 21.2.0
+2025-12-31T06:56:22.522461822Z [err]  [2025-12-31 06:56:22 +0000] [1] [INFO] Listening at: http://0.0.0.0:8080 (1)
+2025-12-31T06:56:22.522466557Z [err]  [2025-12-31 06:56:22 +0000] [1] [INFO] Using worker: sync
+2025-12-31T06:56:22.522471276Z [err]  [2025-12-31 06:56:22 +0000] [2] [INFO] Booting worker with pid: 2
+2025-12-31T06:56:22.575465152Z [err]  [2025-12-31 06:56:22 +0000] [3] [INFO] Booting worker with pid: 3
+2025-12-31T06:56:22.637317039Z [err]  [2025-12-31 06:56:22 +0000] [4] [INFO] Booting worker with pid: 4
+2025-12-31T06:56:22.990203942Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:22.990241640Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:22.990258488Z [err]  [2025-12-31 06:56:22 +0000] [5] [INFO] Booting worker with pid: 5
+2025-12-31T06:56:22.990264382Z [err]  [2025-12-31 06:56:22 +0000] [2] [ERROR] Exception in worker process
+2025-12-31T06:56:22.990269383Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:22.990274511Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:22.990278773Z [err]      worker.init_process()
+2025-12-31T06:56:22.990283838Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.990289063Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:22.990293877Z [err]      self.load_wsgi()
+2025-12-31T06:56:22.990298211Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.990302750Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:22.990307375Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:22.990312138Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.990316829Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:22.990321877Z [err]      self.callable = self.load()
+2025-12-31T06:56:22.990326116Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:22.990330312Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:22.990334727Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:22.990339798Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.990344693Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:22.990348854Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:22.990626022Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:22.990631821Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:22.990636792Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:22.990641271Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:22.990645654Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:22.990650101Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:22.990654157Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:22.990659693Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:22.990664480Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:22.990668488Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:22.990672997Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:22.990676954Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:22.990680981Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:22.990686237Z [err]  [2025-12-31 06:56:22 +0000] [2] [INFO] Worker exiting (pid: 2)
+2025-12-31T06:56:22.990691145Z [err]  [2025-12-31 06:56:22 +0000] [3] [ERROR] Exception in worker process
+2025-12-31T06:56:22.990695467Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:22.990700035Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:22.990704517Z [err]      worker.init_process()
+2025-12-31T06:56:22.990708675Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.990712765Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:22.991627439Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:22.991631730Z [err]      self.load_wsgi()
+2025-12-31T06:56:22.991637859Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.991642055Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:22.991642645Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:22.991647540Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:22.991651912Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:22.991654938Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.991660774Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:22.991660879Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:22.991666270Z [err]      self.callable = self.load()
+2025-12-31T06:56:22.991669078Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:22.991671353Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:22.991677921Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:22.991678887Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:22.991684647Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:22.991688766Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:22.991689254Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.991695712Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:22.991697571Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:22.991702088Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:22.992661568Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:22.992661709Z [err]      worker.init_process()
+2025-12-31T06:56:22.992663326Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:22.992663451Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:22.992672498Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:22.992673116Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.992677094Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:22.992681346Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:22.992688344Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:22.992689251Z [err]      self.load_wsgi()
+2025-12-31T06:56:22.992696561Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.992699151Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:22.992706226Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:22.992712843Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:22.992718904Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:22.992724966Z [err]  [2025-12-31 06:56:22 +0000] [3] [INFO] Worker exiting (pid: 3)
+2025-12-31T06:56:22.992731110Z [err]  [2025-12-31 06:56:22 +0000] [1] [ERROR] Worker (pid:2) exited with code 3
+2025-12-31T06:56:22.992740081Z [err]  [2025-12-31 06:56:22 +0000] [1] [ERROR] Worker (pid:3) was sent SIGTERM!
+2025-12-31T06:56:22.992746824Z [err]  [2025-12-31 06:56:22 +0000] [4] [ERROR] Exception in worker process
+2025-12-31T06:56:22.992753802Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:22.993773900Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.993775222Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:22.993778271Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:22.993784206Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:22.993786293Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:22.993789858Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:22.993792778Z [err]      self.callable = self.load()
+2025-12-31T06:56:22.993794098Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:22.993799300Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:22.993801756Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:22.993802329Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.993808339Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:22.993808505Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:22.993813832Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:22.993815724Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:22.993821850Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:22.993828239Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:22.993833934Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:22.993840871Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:22.993847827Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:22.994630492Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:22.994638913Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:22.994644033Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:22.994648388Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.994657168Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:22.994661422Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:22.994665869Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:22.994670681Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:22.994675083Z [err]  [2025-12-31 06:56:22 +0000] [4] [INFO] Worker exiting (pid: 4)
+2025-12-31T06:56:22.994679667Z [err]  [2025-12-31 06:56:22 +0000] [5] [ERROR] Exception in worker process
+2025-12-31T06:56:22.994684416Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:22.994688787Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:22.994693509Z [err]      worker.init_process()
+2025-12-31T06:56:22.994698147Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.994702608Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:22.994706844Z [err]      self.load_wsgi()
+2025-12-31T06:56:22.994711410Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.994715547Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:22.994719737Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:22.994725005Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.994728990Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:22.994733351Z [err]      self.callable = self.load()
+2025-12-31T06:56:22.995503163Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:22.995510783Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:22.995512644Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:22.995516265Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:22.995522583Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:22.995523494Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:22.995530293Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:22.995533692Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:22.995537957Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:22.995541649Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:22.995546478Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:22.995549467Z [err]  [2025-12-31 06:56:22 +0000] [5] [INFO] Worker exiting (pid: 5)
+2025-12-31T06:56:22.995554280Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:22.995557874Z [err]  [2025-12-31 06:56:22 +0000] [1] [ERROR] Worker (pid:4) exited with code 3
+2025-12-31T06:56:22.995562114Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:22.995568236Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:22.995574123Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:22.995580955Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:22.995586957Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:22.997102579Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:22.997110960Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 209, in run
+2025-12-31T06:56:22.997118411Z [err]      self.sleep()
+2025-12-31T06:56:22.997120115Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 236, in run
+2025-12-31T06:56:22.997123106Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 242, in handle_chld
+2025-12-31T06:56:22.997124507Z [err]  
+2025-12-31T06:56:22.997127118Z [err]      ~~~~~~~~~~^^
+2025-12-31T06:56:22.997133523Z [err]  During handling of the above exception, another exception occurred:
+2025-12-31T06:56:22.997134624Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 360, in sleep
+2025-12-31T06:56:22.997134885Z [err]      self.reap_workers()
+2025-12-31T06:56:22.997135798Z [err]    File "/app/.venv/bin/gunicorn", line 7, in <module>
+2025-12-31T06:56:22.997141721Z [err]  
+2025-12-31T06:56:22.997145267Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.997145813Z [err]      ready = select.select([self.PIPE[0]], [], [], 1.0)
+2025-12-31T06:56:22.997145958Z [err]      sys.exit(run())
+2025-12-31T06:56:22.997150447Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:22.997155195Z [err]               ~~~^^
+2025-12-31T06:56:22.997155462Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 530, in reap_workers
+2025-12-31T06:56:22.997159730Z [err]      WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+2025-12-31T06:56:22.997162897Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 67, in run
+2025-12-31T06:56:22.997164186Z [err]      raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+2025-12-31T06:56:22.997171234Z [err]      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.997172313Z [err]  gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+2025-12-31T06:56:22.998062039Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 242, in handle_chld
+2025-12-31T06:56:22.998067420Z [err]      self.reap_workers()
+2025-12-31T06:56:22.998072442Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.998076472Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 530, in reap_workers
+2025-12-31T06:56:22.998080517Z [err]      raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+2025-12-31T06:56:22.998085482Z [err]  gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+2025-12-31T06:56:22.998091691Z [err]      super().run()
+2025-12-31T06:56:22.998099561Z [err]      ~~~~~~~~~~~^^
+2025-12-31T06:56:22.998105320Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 72, in run
+2025-12-31T06:56:22.998110679Z [err]      Arbiter(self).run()
+2025-12-31T06:56:22.998116699Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:22.998122030Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 229, in run
+2025-12-31T06:56:22.998127383Z [err]      self.halt(reason=inst.reason, exit_status=inst.exit_status)
+2025-12-31T06:56:22.998132448Z [err]      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:22.998137786Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 342, in halt
+2025-12-31T06:56:22.998143178Z [err]      self.stop()
+2025-12-31T06:56:22.998148309Z [err]      ~~~~~~~~~^^
+2025-12-31T06:56:22.998153416Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 396, in stop
+2025-12-31T06:56:22.998159374Z [err]      time.sleep(0.1)
+2025-12-31T06:56:22.998165213Z [err]      ~~~~~~~~~~^^^^^
+2025-12-31T06:56:24.310426986Z [err]  [2025-12-31 06:56:24 +0000] [1] [INFO] Starting gunicorn 21.2.0
+2025-12-31T06:56:24.310431385Z [err]  [2025-12-31 06:56:24 +0000] [1] [INFO] Listening at: http://0.0.0.0:8080 (1)
+2025-12-31T06:56:24.310435763Z [err]  [2025-12-31 06:56:24 +0000] [1] [INFO] Using worker: sync
+2025-12-31T06:56:24.310440168Z [err]  [2025-12-31 06:56:24 +0000] [2] [INFO] Booting worker with pid: 2
+2025-12-31T06:56:24.335818784Z [err]  [2025-12-31 06:56:24 +0000] [3] [INFO] Booting worker with pid: 3
+2025-12-31T06:56:24.402759256Z [err]  [2025-12-31 06:56:24 +0000] [4] [INFO] Booting worker with pid: 4
+2025-12-31T06:56:24.487614246Z [err]  [2025-12-31 06:56:24 +0000] [5] [INFO] Booting worker with pid: 5
+2025-12-31T06:56:24.525322046Z [err]  [2025-12-31 06:56:24 +0000] [2] [ERROR] Exception in worker process
+2025-12-31T06:56:24.525334388Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:24.525344352Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:24.525351036Z [err]      worker.init_process()
+2025-12-31T06:56:24.525357897Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:24.525365056Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:24.525369988Z [err]      self.load_wsgi()
+2025-12-31T06:56:24.525374255Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:24.525378865Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:24.525384241Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:24.525389763Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:24.525394550Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:24.525399157Z [err]      self.callable = self.load()
+2025-12-31T06:56:24.525406136Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:24.525410722Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:24.525414843Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:24.525419008Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:24.525424695Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:24.525429080Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:24.525432973Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:24.525438105Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:24.526602283Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:24.526611539Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:24.526617926Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:24.526623841Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:24.526629695Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:24.526635292Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:24.526640733Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:24.526647129Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:24.526652974Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:24.526659396Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:24.526665686Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:24.526671567Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:24.526678044Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:24.526684961Z [err]  [2025-12-31 06:56:24 +0000] [2] [INFO] Worker exiting (pid: 2)
+2025-12-31T06:56:24.629701273Z [err]  [2025-12-31 06:56:24 +0000] [1] [ERROR] Worker (pid:2) exited with code 3
+2025-12-31T06:56:24.629711526Z [err]  [2025-12-31 06:56:24 +0000] [3] [ERROR] Exception in worker process
+2025-12-31T06:56:24.629718568Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:24.629724779Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:24.629730898Z [err]      worker.init_process()
+2025-12-31T06:56:24.629739153Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:24.629745595Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:24.629752592Z [err]      self.load_wsgi()
+2025-12-31T06:56:24.629758719Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:24.629765609Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:24.629771837Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:24.629778046Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:24.629784487Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:24.629790040Z [err]      self.callable = self.load()
+2025-12-31T06:56:24.629795651Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:24.629803311Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:24.629809464Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:24.629818454Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:24.629824254Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:24.629830445Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:24.629836392Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:24.629842265Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:24.630908785Z [err]  [2025-12-31 06:56:24 +0000] [3] [INFO] Worker exiting (pid: 3)
+2025-12-31T06:56:24.630910803Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:24.630920214Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:24.630921767Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:24.630928826Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:24.630932413Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:24.630936571Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:24.630941653Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:24.630944575Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:24.630949647Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:24.630955466Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:24.630958388Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:24.630966114Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:24.630972653Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:25.099823041Z [err]  [2025-12-31 06:56:24 +0000] [4] [ERROR] Exception in worker process
+2025-12-31T06:56:25.099830962Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:25.099839858Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 609, in spawn_worker
+2025-12-31T06:56:25.099846723Z [err]      worker.init_process()
+2025-12-31T06:56:25.099870186Z [err]      ~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:25.099877777Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 134, in init_process
+2025-12-31T06:56:25.099889195Z [err]      self.load_wsgi()
+2025-12-31T06:56:25.099895627Z [err]      ~~~~~~~~~~~~~~^^
+2025-12-31T06:56:25.099901835Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+2025-12-31T06:56:25.099914264Z [err]      self.wsgi = self.app.wsgi()
+2025-12-31T06:56:25.099920572Z [err]                  ~~~~~~~~~~~~~^^
+2025-12-31T06:56:25.099927690Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 67, in wsgi
+2025-12-31T06:56:25.099934835Z [err]      self.callable = self.load()
+2025-12-31T06:56:25.099940792Z [err]                      ~~~~~~~~~^^
+2025-12-31T06:56:25.099946930Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+2025-12-31T06:56:25.099953992Z [err]      return self.load_wsgiapp()
+2025-12-31T06:56:25.099962578Z [err]             ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:25.099969388Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+2025-12-31T06:56:25.099975238Z [err]      return util.import_app(self.app_uri)
+2025-12-31T06:56:25.099981574Z [err]             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+2025-12-31T06:56:25.099988288Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/util.py", line 371, in import_app
+2025-12-31T06:56:25.101924462Z [err]  [2025-12-31 06:56:24 +0000] [4] [INFO] Worker exiting (pid: 4)
+2025-12-31T06:56:25.101936042Z [err]  [2025-12-31 06:56:24 +0000] [1] [ERROR] Worker (pid:3) exited with code 3
+2025-12-31T06:56:25.101942067Z [err]      mod = importlib.import_module(module)
+2025-12-31T06:56:25.101945564Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:25.101956440Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 209, in run
+2025-12-31T06:56:25.101959612Z [err]    File "/mise/installs/python/3.13.11/lib/python3.13/importlib/__init__.py", line 88, in import_module
+2025-12-31T06:56:25.101970669Z [err]      self.sleep()
+2025-12-31T06:56:25.101971561Z [err]      return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-31T06:56:25.101981891Z [err]             ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:25.101984813Z [err]      ~~~~~~~~~~^^
+2025-12-31T06:56:25.101992277Z [err]    File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2025-12-31T06:56:25.101997160Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 360, in sleep
+2025-12-31T06:56:25.102002988Z [err]    File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2025-12-31T06:56:25.102009949Z [err]    File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2025-12-31T06:56:25.102018379Z [err]    File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2025-12-31T06:56:25.102025655Z [err]    File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+2025-12-31T06:56:25.102032517Z [err]    File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2025-12-31T06:56:25.102040039Z [err]    File "/app/server.py", line 10, in <module>
+2025-12-31T06:56:25.102047212Z [err]      from converter import WordToPDFConverter
+2025-12-31T06:56:25.102054072Z [err]  ModuleNotFoundError: No module named 'converter'
+2025-12-31T06:56:25.103329275Z [err]      ready = select.select([self.PIPE[0]], [], [], 1.0)
+2025-12-31T06:56:25.103337957Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 242, in handle_chld
+2025-12-31T06:56:25.103344026Z [err]      self.reap_workers()
+2025-12-31T06:56:25.103349295Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:25.103354122Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 530, in reap_workers
+2025-12-31T06:56:25.103359380Z [err]      raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+2025-12-31T06:56:25.103364111Z [err]  gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
+2025-12-31T06:56:25.103369973Z [err]  
+2025-12-31T06:56:25.103375734Z [err]  During handling of the above exception, another exception occurred:
+2025-12-31T06:56:25.103383572Z [err]  
+2025-12-31T06:56:25.103387984Z [err]  Traceback (most recent call last):
+2025-12-31T06:56:25.103393593Z [err]    File "/app/.venv/bin/gunicorn", line 7, in <module>
+2025-12-31T06:56:25.103398538Z [err]      sys.exit(run())
+2025-12-31T06:56:25.103403054Z [err]               ~~~^^
+2025-12-31T06:56:25.103408772Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/wsgiapp.py", line 67, in run
+2025-12-31T06:56:25.103413172Z [err]      WSGIApplication("%(prog)s [OPTIONS] [APP_MODULE]").run()
+2025-12-31T06:56:25.103417295Z [err]      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:25.103421604Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 236, in run
+2025-12-31T06:56:25.103426141Z [err]      super().run()
+2025-12-31T06:56:25.103431420Z [err]      ~~~~~~~~~~~^^
+2025-12-31T06:56:25.103435938Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/app/base.py", line 72, in run
+2025-12-31T06:56:25.103440080Z [err]      Arbiter(self).run()
+2025-12-31T06:56:25.103444518Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:25.104444076Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 229, in run
+2025-12-31T06:56:25.104449672Z [err]      self.halt(reason=inst.reason, exit_status=inst.exit_status)
+2025-12-31T06:56:25.104453787Z [err]      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-31T06:56:25.104458087Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 342, in halt
+2025-12-31T06:56:25.104461877Z [err]      self.stop()
+2025-12-31T06:56:25.104465476Z [err]      ~~~~~~~~~^^
+2025-12-31T06:56:25.104469599Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 396, in stop
+2025-12-31T06:56:25.104474103Z [err]      time.sleep(0.1)
+2025-12-31T06:56:25.104479995Z [err]      ~~~~~~~~~~^^^^^
+2025-12-31T06:56:25.104483923Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 242, in handle_chld
+2025-12-31T06:56:25.104487898Z [err]      self.reap_workers()
+2025-12-31T06:56:25.104491927Z [err]      ~~~~~~~~~~~~~~~~~^^
+2025-12-31T06:56:25.104495363Z [err]    File "/app/.venv/lib/python3.13/site-packages/gunicorn/arbiter.py", line 530, in reap_workers
+2025-12-31T06:56:25.104498987Z [err]      raise HaltServer(reason, self.WORKER_BOOT_ERROR)
+2025-12-31T06:56:25.104503208Z [err]  gunicorn.errors.HaltServer: <HaltServer 'Worker failed to boot.' 3>
