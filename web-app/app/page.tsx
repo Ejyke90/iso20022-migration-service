@@ -26,7 +26,8 @@ export default function Home() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+      'application/msword': ['.doc']
     },
     maxFiles: 1,
     multiple: false
@@ -132,7 +133,7 @@ export default function Home() {
                         Drag & drop your Word document here
                       </p>
                       <p className="text-white/60">or click to browse</p>
-                      <p className="text-white/40 text-sm mt-4">Supports .docx files only</p>
+                      <p className="text-white/40 text-sm mt-4">Supports .docx and .doc files</p>
                     </>
                   )}
                 </div>
