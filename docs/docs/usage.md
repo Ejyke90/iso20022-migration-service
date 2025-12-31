@@ -13,10 +13,14 @@ Learn how to use the Word to PDF Agent effectively for your document conversion 
 The simplest way to convert a document:
 
 ```bash
-python main.py input.docx output.pdf
+python main.py input.docx
 ```
 
-That's it! Your Word document will be converted to PDF.
+This will create `input.pdf` in the same directory. To specify a custom output filename:
+
+```bash
+python main.py input.docx --output-file output.pdf
+```
 
 ---
 
@@ -25,46 +29,30 @@ That's it! Your Word document will be converted to PDF.
 ### Basic Syntax
 
 ```bash
-python main.py [OPTIONS] <input_file> <output_file>
+python main.py INPUT_FILE [--output-file OUTPUT_FILE]
 ```
 
 ### Examples
 
-#### Simple Conversion
+#### Simple Conversion (Auto-named output)
 ```bash
-python main.py report.docx report.pdf
+python main.py report.docx
+```
+Creates `report.pdf` automatically.
+
+#### Custom Output Name
+```bash
+python main.py report.docx --output-file my-report.pdf
 ```
 
 #### With Relative Paths
 ```bash
-python main.py documents/report.docx output/report.pdf
+python main.py documents/report.docx --output-file output/report.pdf
 ```
 
 #### With Absolute Paths
 ```bash
-python main.py /Users/username/Documents/report.docx /Users/username/Desktop/report.pdf
-```
-
-### Advanced Options
-
-#### High Quality Output
-```bash
-python main.py --quality high document.docx document.pdf
-```
-
-#### Enable Compression
-```bash
-python main.py --compress large-file.docx compressed-output.pdf
-```
-
-#### Verbose Logging
-```bash
-python main.py --verbose document.docx output.pdf
-```
-
-#### Combine Multiple Options
-```bash
-python main.py --quality high --compress --verbose report.docx report.pdf
+python main.py /Users/username/Documents/report.docx --output-file /Users/username/Desktop/report.pdf
 ```
 
 ---
@@ -200,7 +188,7 @@ for file in *.docx; do
     if [ -f "$file" ]; then
         output="${file%.docx}.pdf"
         echo "Converting: $file → $output"
-        python main.py "$file" "$output"
+        python main.py "$file" --output-file "$output"
     fi
 done
 
@@ -302,7 +290,7 @@ jobs:
       
       - name: Convert documents
         run: |
-          python main.py docs/manual.docx docs/manual.pdf
+          python main.py docs/manual.docx --output-file docs/manual.pdf
       
       - name: Upload PDFs
         uses: actions/upload-artifact@v2
@@ -409,29 +397,25 @@ logger.info(f"Conversion complete: {output_file}")
 
 ## Tips & Tricks
 
-### Preserve Document Quality
+### Auto-named Output
 ```bash
-python main.py --quality high document.docx document.pdf
+python main.py document.docx
 ```
-
-### Reduce File Size
-```bash
-python main.py --compress large-document.docx compressed.pdf
-```
+Automatically creates `document.pdf`
 
 ### Process Files with Spaces in Names
 ```bash
-python main.py "My Document.docx" "My Document.pdf"
+python main.py "My Document.docx" --output-file "My Document.pdf"
 ```
 
 ### Convert and Open Automatically (macOS)
 ```bash
-python main.py document.docx document.pdf && open document.pdf
+python main.py document.docx && open document.pdf
 ```
 
 ### Convert and Open Automatically (Windows)
 ```bash
-python main.py document.docx document.pdf && start document.pdf
+python main.py document.docx && start document.pdf
 ```
 
 ---
@@ -439,9 +423,9 @@ python main.py document.docx document.pdf && start document.pdf
 ## Performance Optimization
 
 ### For Large Documents
-- Use compression: `--compress`
 - Process during off-peak hours
 - Ensure sufficient system memory
+- Close other applications
 
 ### For Batch Processing
 - Process files in parallel (advanced):

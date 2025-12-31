@@ -81,7 +81,7 @@ You should see the help message with usage instructions.
 A test document is included in the repository:
 
 ```bash
-python main.py test_doc.docx test_output.pdf
+python main.py test_doc.docx --output-file test_output.pdf
 ```
 
 If successful, you'll see a confirmation message and `test_output.pdf` will be created.

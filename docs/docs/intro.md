@@ -42,7 +42,7 @@ pip install -r requirements.txt
 Convert a Word document to PDF with a single command:
 
 ```bash
-python main.py input.docx output.pdf
+python main.py input.docx --output-file output.pdf
 ```
 
 That's it! Your PDF is ready.
@@ -64,7 +64,7 @@ Explore the documentation to learn more:
 
 ### Command-Line Conversion
 ```bash
-python main.py report.docx report.pdf
+python main.py report.docx --output-file report.pdf
 ```
 
 ### Python API

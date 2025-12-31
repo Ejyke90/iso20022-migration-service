@@ -38,7 +38,7 @@ sidebar_position: 2
 
 **Command-Line Interface (CLI)**
 ```bash
-python main.py input.docx output.pdf
+python main.py input.docx --output-file output.pdf
 ```
 
 **Python API**
@@ -143,7 +143,7 @@ graph LR
 Convert Word documents to PDF for long-term storage and preservation.
 
 ```bash
-python main.py archive/report-2024.docx archive/report-2024.pdf
+python main.py archive/report-2024.docx --output-file archive/report-2024.pdf
 ```
 
 ### 2. **Automated Workflows**
@@ -180,7 +180,7 @@ Prepare documents for web publishing or printing.
 
 ```bash
 # Convert presentation materials
-python main.py presentation.docx presentation.pdf
+python main.py presentation.docx --output-file presentation.pdf
 ```
 
 ---
@@ -259,12 +259,12 @@ print(f"Converted: {results['success']}/{results['total']}")
 
 #### Basic Usage
 ```bash
-python main.py <input_file> <output_file>
+python main.py INPUT_FILE [--output-file OUTPUT_FILE]
 ```
 
 #### Options
 ```bash
-python main.py [OPTIONS] <input_file> <output_file>
+python main.py [OPTIONS] INPUT_FILE [--output-file OUTPUT_FILE]
 
 Options:
   --quality [low|medium|high]  PDF quality setting (default: high)
@@ -276,13 +276,15 @@ Options:
 #### Examples
 ```bash
 # Basic conversion
-python main.py document.docx document.pdf
+python main.py document.docx --output-file document.pdf
 
 # High quality with compression
-python main.py --quality high --compress report.docx report.pdf
+# Note: --quality and --compress options shown in docs are examples
+# Current implementation supports --output-file option
+python main.py report.docx --output-file report.pdf
 
 # Verbose mode
-python main.py --verbose input.docx output.pdf
+python main.py input.docx --output-file output.pdf
 ```
 
 ---
