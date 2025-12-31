@@ -2,11 +2,6 @@ from flask import Flask, request, send_file, jsonify
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
-import sys
-from pathlib import Path
-
-# Add parent directory to path to import converter module
-sys.path.append(str(Path(__file__).parent.parent))
 from converter import WordToPDFConverter
 
 app = Flask(__name__)
