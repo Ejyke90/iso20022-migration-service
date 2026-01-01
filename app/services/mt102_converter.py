@@ -11,12 +11,14 @@ from decimal import Decimal
 from typing import Dict, List, Optional, Tuple
 
 from app.models.pacs008 import (
-    Pacs008Document,
+    Pacs008Message,
     FIToFICustomerCreditTransfer,
     GroupHeader,
     CreditTransferTransaction,
     Party,
     CashAccount,
+    AccountIdentificationOther,
+    AccountIdentification,
     BranchAndFinancialInstitutionIdentification,
     FinancialInstitutionIdentification,
     PostalAddress,
@@ -206,9 +208,9 @@ class Pacs008Mapper:
     """Maps parsed MT102 data to pacs.008 structure"""
     
     @staticmethod
-    def map_to_pacs008(parsed_data: Dict) -> Pacs008Document:
+    def map_to_pacs008(parsed_data: Dict) -> Pacs008Message:
         """
-        Map parsed MT102 data to pacs.008 document structure
+        Map parsed MT102 data to pacs.008 message structure
         
         Args:
             parsed_data: Dictionary from MT102Parser.parse()
@@ -267,15 +269,15 @@ class Pacs008Mapper:
                 )
                 credit_transfers.append(credit_transfer)
             
-            # Create root document
-            pacs008_doc = Pacs008Document(
+            # Create pacs.008 message
+            pacs008_msg = Pacs008Message(
                 FIToFICstmrCdtTrf=FIToFICustomerCreditTransfer(
                     GrpHdr=group_header,
                     CdtTrfTxInf=credit_transfers
                 )
             )
             
-            return pacs008_doc
+            return pacs008_msg
             
         except Exception as e:
             raise Pacs008ConversionError(f"Failed to map MT102 to pacs.008: {str(e)}")
@@ -330,8 +332,11 @@ class Pacs008Mapper:
         
         # Create debtor account
         debtor_account = CashAccount(
-            Id={"IBAN": ordering_account} if ordering_account and ordering_account.startswith(('GB', 'DE', 'FR', 'IT'))
-                else {"Othr": {"Id": ordering_account or "UNKNOWN"}}
+            Id=AccountIdentificationOther(
+                Othr=AccountIdentification(
+                    Id=ordering_account if ordering_account else "UNKNOWN"
+                )
+            )
         )
         
         # Create debtor agent
@@ -360,8 +365,11 @@ class Pacs008Mapper:
         
         # Create creditor account
         creditor_account = CashAccount(
-            Id={"IBAN": beneficiary_account} if beneficiary_account and beneficiary_account.startswith(('GB', 'DE', 'FR', 'IT'))
-                else {"Othr": {"Id": beneficiary_account or "UNKNOWN"}}
+            Id=AccountIdentificationOther(
+                Othr=AccountIdentification(
+                    Id=beneficiary_account if beneficiary_account else "UNKNOWN"
+                )
+            )
         )
         
         # Create remittance information
@@ -408,25 +416,25 @@ class XMLGenerator:
     """Generates pacs.008 XML from Pydantic model"""
     
     @staticmethod
-    def pacs008_to_xml(pacs008_doc: Pacs008Document) -> str:
+    def pacs008_to_xml(pacs008_msg: Pacs008Message) -> str:
         """
-        Convert pacs.008 document to XML string
+        Convert pacs.008 message to XML string
         
         Args:
-            pacs008_doc: Pacs008Document instance
+            pacs008_msg: Pacs008Message instance
             
         Returns:
             Formatted XML string with namespaces
         """
         # Convert to dictionary
-        doc_dict = pacs008_doc.model_dump(exclude_none=True, by_alias=False)
+        msg_dict = pacs008_msg.model_dump(exclude_none=True, by_alias=False)
         
         # Wrap in Document root with namespaces
         xml_dict = {
             'Document': {
                 '@xmlns': 'urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08',
                 '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-                **doc_dict
+                **msg_dict
             }
         }
         

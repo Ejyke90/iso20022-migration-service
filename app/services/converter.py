@@ -137,11 +137,11 @@ class MT103Parser:
             parsed['transaction_type_code'] = match.group(1).strip()
         
         # Extract value date, currency, and amount (:32A:) - MANDATORY
-        match = re.search(MT103Parser.PATTERNS['value_date_currency_amount'], mt103_text)
-        if not match:
+        match_32a = re.search(MT103Parser.PATTERNS['value_date_currency_amount'], mt103_text)
+        if not match_32a:
             raise MT103MissingFieldError(':32A: (Value Date, Currency, Amount)')
         
-        value_date_str = match.group(1)  # YYMMDD
+        value_date_str = match_32a.group(1)  # YYMMDD
         
         # Extract currency/instructed amount (:33B:) - OPTIONAL
         match = re.search(MT103Parser.PATTERNS['currency_instructed_amount'], mt103_text)
@@ -161,8 +161,10 @@ class MT103Parser:
                 parsed['exchange_rate'] = Decimal(match.group(1))
             except (ValueError, TypeError):
                 pass  # Optional field, ignore errors
-        parsed['currency'] = match.group(2)
-        amount_str = match.group(3).replace(',', '')  # Remove comma separator
+        
+        # Get currency and amount from :32A: field
+        parsed['currency'] = match_32a.group(2)
+        amount_str = match_32a.group(3).replace(',', '')  # Remove comma separator
         
         try:
             parsed['amount'] = Decimal(amount_str)
@@ -177,7 +179,26 @@ class MT103Parser:
         except ValueError as e:
             raise MT103ValidationError(f"Invalid date format: {value_date_str}") from e
         
-        # Extract orderin - Financial Institutions
+        # Extract ordering customer (:50K:) - MANDATORY
+        match = re.search(MT103Parser.PATTERNS['ordering_customer'], mt103_text)
+        if not match:
+            raise MT103MissingFieldError(':50K: (Ordering Customer)')
+        parsed['ordering_customer'] = match.group(1).strip()
+        
+        # Extract beneficiary customer (:59:) - MANDATORY
+        match = re.search(MT103Parser.PATTERNS['beneficiary_customer'], mt103_text)
+        if not match:
+            raise MT103MissingFieldError(':59: (Beneficiary Customer)')
+        parsed['beneficiary_customer'] = match.group(1).strip()
+        
+        # Extract details of charges (:71A:) - MANDATORY
+        match = re.search(MT103Parser.PATTERNS['details_of_charges'], mt103_text)
+        if not match:
+            raise MT103MissingFieldError(':71A: (Details of Charges)')
+        parsed['details_of_charges'] = match.group(1).strip()
+        parsed['charge_bearer'] = MT103Parser._map_charge_bearer(parsed['details_of_charges'])
+        
+        # Extract ordering institution - Financial Institutions
         match = re.search(MT103Parser.PATTERNS['ordering_institution'], mt103_text)
         if match:
             parsed['ordering_institution'] = match.group(1).strip()

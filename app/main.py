@@ -513,7 +513,7 @@ async def convert_mt101_endpoint(request: MT101Message) -> Pain001Response:
 
 
 @app.post("/convert/mt102", response_model=ConversionResponse, status_code=status.HTTP_200_OK)
-async def convert_mt102_endpoint(request: MT103Message) -> ConversionResponse:
+async def convert_mt102_endpoint(request: ConvertRequest) -> ConversionResponse:
     """
     Convert MT102 SWIFT message to ISO 20022 pacs.008.001.08 XML.
     
@@ -524,13 +524,13 @@ async def convert_mt102_endpoint(request: MT103Message) -> ConversionResponse:
     4. Logs the conversion attempt
     
     Args:
-        request: MT103Message containing MT102 message (reuses model)
+        request: ConvertRequest containing MT102 message
         
     Returns:
         ConversionResponse with XML output or error details
     """
     start_time = time.time()
-    mt102_text = request.mt103_message  # Field name is mt103_message but holds MT102
+    mt102_text = request.mt103_message  # Reuses field name from MT103
     
     # Compute input hash for logging (anonymized)
     from app.services.mt102_converter import compute_input_hash as compute_mt102_hash
