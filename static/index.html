@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISO 20022 Migration Hub | SWIFT to MX Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --dark: #0f172a;
+            --dark-secondary: #1e293b;
+            --dark-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #f59e0b;
+            --glow: rgba(99, 102, 241, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, 50px); }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header with animated logo */
+        header {
+            text-align: center;
+            padding: 3rem 0 4rem;
+            position: relative;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 0 30px var(--glow);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 30px var(--glow); }
+            50% { box-shadow: 0 0 50px var(--glow), 0 0 80px rgba(99, 102, 241, 0.3); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            animation: fadeInDown 0.8s ease-out 0.2s both;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            animation: fadeInDown 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        .stat-card {
+            background: var(--dark-secondary);
+            border: 1px solid var(--dark-tertiary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Main Conversion Area */
+        .conversion-container {
+            background: var(--dark-secondary);
+            border: 1px solid var(--dark-tertiary);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.8s ease-out 0.8s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .conversion-header {
+            background: linear-gradient(135deg, var(--dark-tertiary) 0%, var(--dark-secondary) 100%);
+            padding: 2rem;
+            border-bottom: 1px solid var(--dark-tertiary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .message-type-selector {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .message-type-selector label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--dark);
+            color: var(--text-primary);
+            border: 1px solid var(--dark-tertiary);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236366f1' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 3rem;
+        }
+
+        select:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .sample-selector {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .sample-selector label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* Grid Layout */
+        .conversion-grid {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            gap: 0;
+            min-height: 600px;
+        }
+
+        @media (max-width: 1200px) {
+            .conversion-grid {
+                grid-template-columns: 1fr;
+            }
+            .arrow-column {
+                display: none !important;
+            }
+        }
+
+        .panel {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .panel.input-panel {
+            border-right: 1px solid var(--dark-tertiary);
+        }
+
+        .panel-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        textarea {
+            flex: 1;
+            background: var(--dark);
+            border: 1px solid var(--dark-tertiary);
+            border-radius: 12px;
+            padding: 1.25rem;
+            color: var(--text-primary);
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            resize: none;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        textarea::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        /* Arrow Column */
+        .arrow-column {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--dark-secondary);
+            position: relative;
+        }
+
+        .arrow-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+            animation: arrowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+            }
+        }
+
+        /* Action Buttons */
+        .action-bar {
+            padding: 2rem;
+            background: var(--dark-tertiary);
+            border-top: 1px solid var(--dark-tertiary);
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--dark);
+            color: var(--text-primary);
+            border: 1px solid var(--dark-tertiary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: var(--dark-tertiary);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Loading Spinner */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .spinner-container {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            border: 4px solid var(--dark-tertiary);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .loading-subtext {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Alerts */
+        .alert-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 2000;
+            max-width: 400px;
+        }
+
+        .alert {
+            background: var(--dark-secondary);
+            border: 1px solid;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            animation: slideInRight 0.3s ease-out;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .alert-success {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+        }
+
+        .alert-error {
+            border-color: var(--error);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+        }
+
+        .alert-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-message {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--dark-tertiary);
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--dark-secondary);
+            border: 1px solid var(--dark-tertiary);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 24px;
+        }
+
+        .feature-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">MX</div>
+            </div>
+            <h1>ISO 20022 Migration Hub</h1>
+            <p class="subtitle">Transform SWIFT MT messages to ISO 20022 MX format instantly</p>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-value" id="totalConversions">0</div>
+                <div class="stat-label">Total Conversions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="successRate">100%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgTime">0ms</div>
+                <div class="stat-label">Avg Processing Time</div>
+            </div>
+        </div>
+
+        <!-- Main Conversion Area -->
+        <div class="conversion-container">
+            <div class="conversion-header">
+                <div class="message-type-selector">
+                    <label for="messageType">Message Type</label>
+                    <select id="messageType">
+                        <option value="mt103">MT103 → pacs.008 (Customer Credit Transfer)</option>
+                        <option value="mt101">MT101 → pain.001 (Customer Transfer Initiation)</option>
+                        <option value="mt102">MT102 → pacs.008 (Multiple Customer Transfer)</option>
+                        <option value="mt202">MT202 → pacs.009 (FI Credit Transfer)</option>
+                    </select>
+                </div>
+                <div class="sample-selector">
+                    <label for="sampleSelect">Quick Start Sample</label>
+                    <select id="sampleSelect">
+                        <option value="">-- Select Sample --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="conversion-grid">
+                <div class="panel input-panel">
+                    <div class="panel-title">📝 SWIFT MT Message Input</div>
+                    <textarea id="mtInput" placeholder="Paste your SWIFT MT message here...
+
+Example MT103:
+:20:TRF123456789
+:32A:231005USD10000,
+:50K:/1234567890
+JOHN DOE
+123 MAIN ST
+:59:/0987654321
+JANE SMITH
+456 HIGH ST
+:71A:OUR"></textarea>
+                </div>
+
+                <div class="arrow-column">
+                    <div class="arrow-icon">→</div>
+                </div>
+
+                <div class="panel output-panel">
+                    <div class="panel-title">✨ ISO 20022 XML Output</div>
+                    <textarea id="xmlOutput" readonly placeholder="Converted ISO 20022 XML will appear here..."></textarea>
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <button class="btn btn-primary" id="convertBtn">
+                    <span>⚡</span> Convert Message
+                </button>
+                <button class="btn btn-secondary" id="clearBtn">
+                    <span>🗑️</span> Clear All
+                </button>
+                <button class="btn btn-success" id="downloadBtn" disabled>
+                    <span>⬇️</span> Download XML
+                </button>
+                <button class="btn btn-secondary" id="copyBtn" disabled>
+                    <span>📋</span> Copy to Clipboard
+                </button>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">Lightning Fast</div>
+                <div class="feature-desc">Convert messages in milliseconds with optimized processing</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <div class="feature-title">Secure & Private</div>
+                <div class="feature-desc">All conversions happen locally with anonymized logging</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <div class="feature-title">ISO Compliant</div>
+                <div class="feature-desc">Full compliance with ISO 20022 standards and schemas</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <div class="feature-title">Multi-Format</div>
+                <div class="feature-desc">Support for MT103, MT101, MT102, and MT202 messages</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 ISO 20022 Migration Hub. Built for the future of payments.</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading">
+        <div class="spinner-container">
+            <div class="spinner"></div>
+            <div class="loading-text">Converting Message...</div>
+            <div class="loading-subtext">Parsing and transforming to ISO 20022</div>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div class="alert-container">
+        <div class="alert alert-success" id="successAlert">
+            <div class="alert-title">✅ Success!</div>
+            <div class="alert-message" id="successMessage"></div>
+        </div>
+        <div class="alert alert-error" id="errorAlert">
+            <div class="alert-title">❌ Error</div>
+            <div class="alert-message" id="errorMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        // Constants
+        const API_URL = 'http://127.0.0.1:8000';
+
+        // Create floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Sample messages by type
+        const samples = {
+            mt103: {
+                basic: `:20:TRF123456789
+:32A:231005USD10000,
+:50K:/1234567890
+JOHN DOE
+123 MAIN ST
+NEW YORK, NY
+:59:/0987654321
+JANE SMITH
+456 HIGH ST
+LONDON, UK
+:71A:OUR`,
+                europe: `:20:WIRE20231215001
+:32A:231215EUR50000,00
+:50K:/DE89370400440532013000
+MUELLER GMBH
+HAUPTSTRASSE 123
+10115 BERLIN
+GERMANY
+:59:/GB29NWBK60161331926819
+SMITH TRADING LTD
+456 OXFORD STREET
+LONDON W1D 1BS
+UNITED KINGDOM
+:71A:SHA`,
+                uk_us: `:20:PAY2023120812345
+:32A:231208GBP25000,50
+:50K:/GB82WEST12345698765432
+ACME CORPORATION
+SUITE 500 BUSINESS PARK
+MANCHESTER M1 1AE
+:59:/US64SVBKUS6S3300958879
+TECH INNOVATIONS INC
+789 SILICON VALLEY BLVD
+SAN FRANCISCO CA 94105
+:71A:BEN`,
+                asia: `:20:INT2023Q4567890
+:32A:240101JPY1000000,
+:50K:/JP1234567890123456
+TOKYO ELECTRONICS CO LTD
+1-1-1 SHIBUYA
+TOKYO 150-0002
+JAPAN
+:59:/SG9876543210987654
+SINGAPORE IMPORTS PTE LTD
+10 RAFFLES PLACE
+SINGAPORE 048622
+:71A:OUR`
+            },
+            mt101: {
+                multi_payment: `:20:REQ2023100501
+:23E:SDVA
+:30:231005
+:50K:/GB29NWBK60161331926819
+ACME CORPORATION LTD
+125 LONDON WALL
+LONDON EC2Y 5AJ
+GB
+:52A:NWBKGB2LXXX
+:32B:EUR150000,00
+:21:001
+:32B:EUR75000,00
+:57A:DEUTDEFFXXX
+:59:/DE89370400440532013000
+MUELLER GMBH
+HAUPTSTRASSE 100
+60313 FRANKFURT
+DE
+:70:INVOICE INV-2023-1001
+PAYMENT FOR MACHINERY
+:21:002
+:32B:EUR75000,00
+:57A:BNPAFRPPXXX
+:59:/FR1420041010050500013M02606
+PARIS SUPPLIES SARL
+15 RUE DE LA PAIX
+75002 PARIS
+FR
+:70:INVOICE INV-2023-1002
+PAYMENT FOR COMPONENTS
+:71A:SHA`
+            },
+            mt102: {
+                multi_customer: `:20:MULTI20231205001
+:23:CRED
+:32A:231205USD95000,00
+:50K:/GB82WEST12345698765432
+CORPORATE PAYMENTS LTD
+250 BUSINESS PARK DRIVE
+MANCHESTER M2 3BB
+UNITED KINGDOM
+:52A:NWBKGB2LXXX
+:21:001
+:32B:USD45000,00
+:57A:CHASUS33XXX
+:59:/US64SVBKUS6S3300958879
+TECH SOLUTIONS INC
+1500 MARKET STREET
+SAN FRANCISCO CA 94103
+USA
+:70:INVOICE 2023-INV-1234
+SOFTWARE LICENSE PAYMENT
+:21:002
+:32B:USD50000,00
+:57A:BOFAUS3NXXX
+:59:/US98BOFA00012345678900
+CONSULTING PARTNERS LLC
+789 FIFTH AVENUE
+NEW YORK NY 10022
+USA
+:70:PROFESSIONAL SERVICES
+DECEMBER 2023
+:71A:SHA`
+            },
+            mt202: {
+                cover_payment: `:20:COV20231210001
+:21:REF2023121001
+:32A:231210USD250000,00
+:52A:CHASUS33XXX
+:56A:DEUTDEFFXXX
+:58A:BNPAFRPPXXX
+:72:/INS/SHA
+/ACC/COVER FOR CUSTOMER PAYMENT
+/REF/INVOICE INV-2023-CORP-789`
+            }
+        };
+
+        // Sample options by message type
+        const sampleOptions = {
+            mt103: [
+                { value: 'basic', text: '💵 Basic US Transfer (USD 10,000)' },
+                { value: 'europe', text: '🇪🇺 European Transfer (EUR 50,000)' },
+                { value: 'uk_us', text: '🇬🇧 UK to US Transfer (GBP 25,000)' },
+                { value: 'asia', text: '🌏 Asia Transfer (JPY 1,000,000)' }
+            ],
+            mt101: [
+                { value: 'multi_payment', text: '💰 Multi-Payment Request (EUR 150,000)' }
+            ],
+            mt102: [
+                { value: 'multi_customer', text: '👥 Multiple Customer Transfer (USD 95,000)' }
+            ],
+            mt202: [
+                { value: 'cover_payment', text: '🏦 Cover Payment (USD 250,000)' }
+            ]
+        };
+
+        // Elements
+        const mtInput = document.getElementById('mtInput');
+        const xmlOutput = document.getElementById('xmlOutput');
+        const convertBtn = document.getElementById('convertBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const sampleSelect = document.getElementById('sampleSelect');
+        const messageType = document.getElementById('messageType');
+        const loading = document.getElementById('loading');
+        const successAlert = document.getElementById('successAlert');
+        const errorAlert = document.getElementById('errorAlert');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Update sample options when message type changes
+        messageType.addEventListener('change', updateSampleOptions);
+
+        function updateSampleOptions() {
+            const type = messageType.value;
+            const options = sampleOptions[type] || [];
+            
+            sampleSelect.innerHTML = '<option value="">-- Select Sample --</option>';
+            options.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.text;
+                sampleSelect.appendChild(option);
+            });
+            
+            sampleSelect.value = '';
+        }
+
+        // Initialize sample options
+        updateSampleOptions();
+
+        // Load sample
+        sampleSelect.addEventListener('change', function() {
+            if (this.value) {
+                const type = messageType.value;
+                const sample = samples[type][this.value];
+                if (sample) {
+                    mtInput.value = sample;
+                    showSuccess('Sample loaded successfully!');
+                }
+            }
+        });
+
+        // Clear button
+        clearBtn.addEventListener('click', () => {
+            mtInput.value = '';
+            xmlOutput.value = '';
+            downloadBtn.disabled = true;
+            copyBtn.disabled = true;
+            sampleSelect.value = '';
+        });
+
+        // Convert button
+        convertBtn.addEventListener('click', async () => {
+            const mtMessage = mtInput.value.trim();
+            const type = messageType.value;
+            
+            if (!mtMessage) {
+                showError('Please enter a SWIFT MT message');
+                return;
+            }
+            
+            await convertMessage(mtMessage, type);
+        });
+
+        // Download button
+        downloadBtn.addEventListener('click', () => {
+            const type = messageType.value;
+            const schemaMap = {
+                mt103: 'pacs008',
+                mt101: 'pain001',
+                mt102: 'pacs008',
+                mt202: 'pacs009'
+            };
+            const schema = schemaMap[type] || 'mx';
+            
+            const blob = new Blob([xmlOutput.value], { type: 'application/xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${schema}_${Date.now()}.xml`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showSuccess('XML file downloaded successfully!');
+        });
+
+        // Copy button
+        copyBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(xmlOutput.value);
+                showSuccess('XML copied to clipboard!');
+            } catch (err) {
+                showError('Failed to copy to clipboard');
+            }
+        });
+
+        // Convert message
+        async function convertMessage(mtMessage, messageType) {
+            hideAlerts();
+            loading.classList.add('show');
+            convertBtn.disabled = true;
+            xmlOutput.value = '';
+            downloadBtn.disabled = true;
+            copyBtn.disabled = true;
+
+            // Determine endpoint and field name based on message type
+            const config = {
+                mt103: { endpoint: '/convert', field: 'mt103_message', outputField: 'pacs008_xml', schema: 'pacs.008' },
+                mt101: { endpoint: '/convert/mt101', field: 'mt101_message', outputField: 'pain001_xml', schema: 'pain.001' },
+                mt102: { endpoint: '/convert/mt102', field: 'mt103_message', outputField: 'pacs008_xml', schema: 'pacs.008' },
+                mt202: { endpoint: '/convert/mt202', field: 'mt202_message', outputField: 'pacs009_xml', schema: 'pacs.009' }
+            };
+
+            const { endpoint, field, outputField, schema } = config[messageType];
+
+            try {
+                const response = await fetch(`${API_URL}${endpoint}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        [field]: mtMessage
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success || data[outputField]) {
+                    xmlOutput.value = data[outputField];
+                    downloadBtn.disabled = false;
+                    copyBtn.disabled = false;
+                    showSuccess(`Successfully converted to ${schema}!`);
+                    updateStats();
+                } else {
+                    const errors = data.errors || ['Unknown error occurred'];
+                    showError(errors.join(', '));
+                }
+            } catch (error) {
+                showError(`Network error: ${error.message}`);
+            } finally {
+                loading.classList.remove('show');
+                convertBtn.disabled = false;
+            }
+        }
+
+        // Update stats
+        async function updateStats() {
+            try {
+                const response = await fetch(`${API_URL}/stats`);
+                const data = await response.json();
+                
+                document.getElementById('totalConversions').textContent = data.total_conversions || 0;
+                document.getElementById('successRate').textContent = 
+                    data.total_conversions > 0 
+                        ? Math.round((data.successful_conversions / data.total_conversions) * 100) + '%'
+                        : '100%';
+                document.getElementById('avgTime').textContent = 
+                    data.avg_processing_time 
+                        ? Math.round(data.avg_processing_time) + 'ms'
+                        : '0ms';
+            } catch (error) {
+                console.error('Failed to update stats:', error);
+            }
+        }
+
+        // Show success alert
+        function showSuccess(message) {
+            hideAlerts();
+            successMessage.textContent = message;
+            successAlert.classList.add('show');
+            setTimeout(() => {
+                successAlert.classList.remove('show');
+            }, 5000);
+        }
+
+        // Show error alert
+        function showError(message) {
+            hideAlerts();
+            errorMessage.textContent = message;
+            errorAlert.classList.add('show');
+            setTimeout(() => {
+                errorAlert.classList.remove('show');
+            }, 7000);
+        }
+
+        // Hide all alerts
+        function hideAlerts() {
+            successAlert.classList.remove('show');
+            errorAlert.classList.remove('show');
+        }
+
+        // Initialize stats on load
+        updateStats();
+        setInterval(updateStats, 10000); // Update every 10 seconds
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+INFO:     Started server process [50153]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+ISO 20022 Migration Service started
+Logging to: /Users/ejikeudeze/JourneyBegins/iso20022-migration-service/data/conversion_logs.jsonl
+GET / - 200 - 0.97ms
+INFO:     127.0.0.1:61158 - "GET / HTTP/1.1" 200 OK
+POST /convert - 200 - 5.03ms
+INFO:     127.0.0.1:61159 - "POST /convert HTTP/1.1" 200 OK
+POST /convert - 200 - 0.58ms
+INFO:     127.0.0.1:61161 - "POST /convert HTTP/1.1" 200 OK
+GET /stats - 200 - 0.48ms
+INFO:     127.0.0.1:61162 - "GET /stats HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [50153]
