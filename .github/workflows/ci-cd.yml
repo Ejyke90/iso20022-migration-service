@@ -1,0 +1,239 @@
+name: ISO 20022 Migration Service CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  PYTHON_VERSION: '3.13'
+
+jobs:
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run MT103 converter tests
+      run: |
+        python test_converter.py
+        
+    - name: Run comprehensive endpoint tests
+      run: |
+        # Start server in background
+        python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 &
+        SERVER_PID=$!
+        
+        # Wait for server to start
+        sleep 5
+        
+        # Run tests
+        python test_all_endpoints.py
+        
+        # Kill server
+        kill $SERVER_PID || true
+        
+    - name: Test MT102 direct conversion
+      run: |
+        python test_mt102_direct.py
+
+  lint:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Install linting tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 black isort mypy
+        
+    - name: Run flake8
+      run: |
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 app --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Exit-zero treats all errors as warnings
+        flake8 app --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      continue-on-error: true
+        
+    - name: Check code formatting with black
+      run: |
+        black --check app
+      continue-on-error: true
+        
+    - name: Check import sorting with isort
+      run: |
+        isort --check-only app
+      continue-on-error: true
+
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: [test]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Build Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: false
+        tags: iso20022-migration-service:${{ github.sha }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        
+    - name: Test Docker image
+      run: |
+        docker build -t iso20022-test .
+        docker run -d -p 8000:8000 --name test-container iso20022-test
+        sleep 10
+        
+        # Test health endpoint
+        curl -f http://localhost:8000/health || exit 1
+        
+        # Test stats endpoint
+        curl -f http://localhost:8000/stats || exit 1
+        
+        # Cleanup
+        docker stop test-container
+        docker rm test-container
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Install safety
+      run: |
+        python -m pip install --upgrade pip
+        pip install safety
+        
+    - name: Run safety check
+      run: |
+        pip install -r requirements.txt
+        safety check --continue-on-error
+      continue-on-error: true
+
+  coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+        
+    - name: Install dependencies with coverage
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+        
+    - name: Run tests with coverage
+      run: |
+        pytest --cov=app --cov-report=xml --cov-report=term
+      continue-on-error: true
+        
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+      continue-on-error: true
+
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [test, build]
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    environment:
+      name: staging
+      url: https://staging.iso20022-migration.example.com
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to staging
+      run: |
+        echo "Deploying to staging environment..."
+        echo "This step would typically deploy to Railway, Heroku, AWS, etc."
+        # Add your deployment commands here
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [test, build, security]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: production
+      url: https://iso20022-migration.example.com
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to production
+      run: |
+        echo "Deploying to production environment..."
+        echo "This step would typically deploy to your production server"
+        # Add your production deployment commands here
+        
+    - name: Create release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        body: |
+          Automated release from CI/CD pipeline
+          
+          Changes in this release:
+          - All 4 message types supported (MT103, MT101, MT102, MT202)
+          - Modern dark theme UI
+          - Comprehensive error handling
+        draft: false
+        prerelease: false
+      continue-on-error: true
