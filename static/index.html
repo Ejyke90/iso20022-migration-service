@@ -809,7 +809,8 @@ JANE SMITH
 
     <script>
         // Constants
-        const API_URL = 'http://127.0.0.1:8000';
+        // Constants
+        const API_URL = window.API_URL || ''; // Empty string means use relative paths if on same domain
 
         // Create floating particles
         function createParticles() {
