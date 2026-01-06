@@ -1,4 +1,4 @@
-# RBC Mapping Strategy: Path-Driven Architecture
+# Mapping Strategy: Path-Driven Architecture
 
 ## 1. The "Path-to-Method" Rule
 You must analyze the "Source Path" column to determine code structure. Do not map deep paths in the main strategy class.
