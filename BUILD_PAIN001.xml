@@ -1,0 +1,33 @@
+<task_execution>
+    <role>Senior Integration Engineer</role>
+    <objective>Generate the 'Pain001Strategy.java' class from scratch.</objective>
+    
+    <inputs>
+        <context>Refere to the 'SKILLS_MANUAL.md' provided above for strict coding standards.</context>
+        <data_source>Use the attached 'Mapping_Matrix.csv' and the provided XSD/Avro schemas.</data_source>
+    </inputs>
+
+    <step_by_step_instructions>
+        1. **Analyze the CSV Structure:**
+           - Scan the CSV paths. Identify the "Complex Objects" (paths > 3 levels deep).
+           - *Example:* If you see multiple rows for `.../IntrmyAgt1/FinInstnId/...`, group them into a `financialInstitutionIdentificationMapping` method.
+
+        2. **Draft the Helper Methods:**
+           - Generate `protected` methods for each complex object found in Step 1.
+           - Apply the **NullSafe Pattern** (Section 3 of Manual) to EVERY getter.
+           - Apply **Type Converters** (Section 4 of Manual) where the Schema types differ (e.g., XMLGregorianCalendar -> Long).
+
+        3. **Assemble the Main Strategy:**
+           - Create the `Pain001Strategy` class extending `CommonStrategy`.
+           - In the main `@Mappings` block, ONLY map the top-level objects using `expression="java(helperMethod(...))"`.
+           
+        4. **Review against Standards:**
+           - Did you disable the Builder in `@Mapper`?
+           - Did you use `NullSafe.get`?
+           - Did you handle the `xsd:pain.001` namespace replacement logic (if required)?
+    </step_by_step_instructions>
+    
+    <output_format>
+        Provide the full, compilable Java code for 'Pain001Strategy.java'.
+    </output_format>
+</task_execution>
