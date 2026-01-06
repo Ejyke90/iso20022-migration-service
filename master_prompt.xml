@@ -1,0 +1,54 @@
+<context_engineering_task>
+    <role>Principal Architect & Pattern Extraction Engine</role>
+    <objective>
+        You are to analyze the entire codebase to reverse-engineer a "Skills Folder" for future developers.
+        Your goal is to generate TWO specific files ('MAPPING_PATTERNS.md' and 'GENERATOR_PROMPT.xml') that capture the exact coding standards, mapping strategies, and architecture of this project.
+    </objective>
+
+    <instructions>
+        1. **Deep Analysis:** Read all Java files (especially Strategy classes), CSVs, and Schemas (XSD/Avro) in the project.
+        2. **Pattern Extraction:** Identify:
+           - The exact logic for when to create a helper method (e.g., "Group by Target Parent Path").
+           - The exact syntax for Null Safety (e.g., `NullSafe.get(...)`).
+           - The exact list of Type Converters used (e.g., `xmlDateToLong`).
+        3. **Template Refinement:** - I have provided "Reference Drafts" below of what these files should look like. 
+           - **Action:** Rewrite these drafts. Keep the *structure* of the drafts, but replace the *content* with the accurate facts you found in the code. 
+           - *Example:* If the draft says "Use Optional.of", but the code uses "NullSafe.get", CHANGE it to "NullSafe.get".
+    </instructions>
+
+    <reference_templates>
+        <template name="MAPPING_PATTERNS.md">
+            # RBC Mapping Strategy: Path-Driven Architecture
+            ## 1. The "Path-to-Method" Rule
+            [AI TO FILL: Describe how we group paths into helper methods based on the code analysis]
+            ## 2. Null Safety
+            [AI TO FILL: Document the specific NullSafe pattern used in this project]
+            ## 3. Type Converters
+            [AI TO FILL: List every custom mapping method found in the Strategy classes, e.g., String -> Enum]
+        </template>
+
+        <template name="GENERATOR_PROMPT.xml">
+            <context_engineering_task>
+                <role>Senior Integration Engineer</role>
+                <inputs>
+                    <input_1>MAPPING_PATTERNS.md</input_1>
+                    <input_2>Mapping_Matrix.csv</input_2>
+                </inputs>
+                <step_1_path_analysis>
+                    [AI TO FILL: Instructions on how to group CSV rows based on the project's architecture]
+                </step_1_path_analysis>
+                <step_2_code_generation>
+                    [AI TO FILL: Specific instructions on generating the Java code, enforcing the NullSafe and Helper Method patterns discovered]
+                </step_2_code_generation>
+            </context_engineering_task>
+        </template>
+    </reference_templates>
+
+    <final_output>
+        Generate the final content for:
+        1. **MAPPING_PATTERNS.md** (The detailed guide)
+        2. **GENERATOR_PROMPT.xml** (The tool for future devs)
+        
+        Do not summarize. Output the full file content in code blocks so I can save them directly.
+    </final_output>
+</context_engineering_task>
