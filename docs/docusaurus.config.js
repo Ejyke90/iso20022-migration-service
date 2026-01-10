@@ -10,8 +10,8 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Word to PDF Agent',
-  tagline: 'Intelligent document conversion powered by AI',
+  title: 'ISO20022 Migration Service',
+  tagline: 'SWIFT MT to ISO 20022 MX conversion service',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -23,12 +23,12 @@ const config = {
   url: 'https://vectorsystems.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/word-to-pdf-agent/',
+  baseUrl: '/iso20022-migration-service/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'Vector Systems', // Usually your GitHub org/user name.
-  projectName: 'word-to-pdf-agent', // Usually your repo name.
+  organizationName: 'Ejyke90', // Usually your GitHub org/user name.
+  projectName: 'iso20022-migration-service', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
@@ -79,9 +79,9 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'Word to PDF Agent',
+        title: 'ISO20022 Migration Service',
         logo: {
-          alt: 'Word to PDF Agent Logo',
+          alt: 'ISO20022 Migration Service Logo',
           src: 'img/logo.svg',
         },
         items: [
@@ -97,7 +97,7 @@ const config = {
             position: 'left',
           },
           {
-            href: 'https://github.com/VectorSystems/word-to-pdf-agent',
+            href: 'https://github.com/Ejyke90/iso20022-migration-service',
             label: 'GitHub',
             position: 'right',
           },
@@ -145,12 +145,12 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/VectorSystems/word-to-pdf-agent',
+                href: 'https://github.com/Ejyke90/iso20022-migration-service',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Word to PDF Agent. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} ISO20022 Migration Service. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.github,

@@ -1,0 +1,127 @@
+/**
+ * Copyright (c) 2026-present, ISO20022 Migration Service
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+@import 'https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700&display=swap';
+
+:root {
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #338f5d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* Custom styles for ISO20022 Migration Service documentation */
+.hero__title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.hero__subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.featureImg {
+  height: 200px;
+  width: 200px;
+}
+
+.footer__logo {
+  height: 50px;
+  margin-bottom: 1rem;
+}
+
+/* API documentation styles */
+.api-method {
+  font-family: 'Courier New', monospace;
+  background-color: var(--ifm-color-emphasis-100);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+}
+
+.api-endpoint {
+  font-family: 'Courier New', monospace;
+  background-color: var(--ifm-color-primary-lightest);
+  color: var(--ifm-color-primary-darkest);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  margin: 1rem 0;
+  display: inline-block;
+}
+
+/* Code block improvements */
+.theme-code-block {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table improvements */
+.markdown table {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Alert improvements */
+.alert {
+  border-radius: 0.5rem;
+  border-left: 4px solid;
+}
+
+/* Navigation improvements */
+.navbar__link--active {
+  font-weight: 600;
+}
+
+/* Sidebar improvements */
+.theme-doc-sidebar-item-link {
+  border-radius: 0.25rem;
+  margin: 0.125rem 0;
+}
+
+.theme-doc-sidebar-item-link:hover {
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+/* Responsive design */
+@media screen and (max-width: 996px) {
+  .hero__title {
+    font-size: 2.5rem;
+  }
+  
+  .hero__subtitle {
+    font-size: 1.125rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .hero__title {
+    font-size: 2rem;
+  }
+  
+  .features {
+    flex-direction: column;
+  }
+}
