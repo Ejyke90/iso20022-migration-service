@@ -1,27 +1,21 @@
 #!/bin/bash
 
 # ==============================================================================
-# RBC GLOBAL PAYMENTS - AI WORKING GROUP SETUP v4.0
-# Architecture: Consensus (Peers) + Gatekeeper (Release Manager)
-# Protocol: Strict "Prime Directive" enforcement via .windsurfrules
+# GLOBAL PAYMENTS - AI WORKING GROUP SETUP v4.1 (FIXED)
+# Fixed: Removed indentation from EOF markers to prevent empty files.
 # ==============================================================================
 
 echo "🤖 Initializing AI Working Group..."
 
-# 1. CLEANUP & PREP
-# -----------------
-# Remove old "numbered" agents if they exist (from previous versions) to avoid duplicates
+# 1. PREP
 rm -f .ai/capabilities/[0-9]_*.md
-
-# Create directory structure
 mkdir -p .ai/capabilities
 mkdir -p .ai/templates
 mkdir -p .github
 
-# 2. GENERATE DEVELOPER TEMPLATE
-# ------------------------------
+# 2. GENERATE TEMPLATES
 echo "   - Generating Developer Templates..."
-cat <<EOF > .ai/templates/_TEMPLATE_AGENT.md
+cat <<'EOF' > .ai/templates/_TEMPLATE_AGENT.md
 # AGENT PERSONA: [Job Title]
 
 ## 1. Role Definition
@@ -42,12 +36,11 @@ cat <<EOF > .ai/templates/_TEMPLATE_AGENT.md
 * **Output:** [What does success look like?]
 EOF
 
-# 3. GENERATE EXPERT PEERS (The Working Group)
-# --------------------------------------------
+# 3. GENERATE EXPERT PEERS
 echo "   - Hiring Expert Peers..."
 
 # Architect
-cat <<EOF > .ai/capabilities/architect.md
+cat <<'EOF' > .ai/capabilities/architect.md
 # AGENT: Principal Java Architect
 ## Role: Peer Expert (Builder)
 ## Responsibility: Ensure core logic, patterns, and structure are sound.
@@ -58,7 +51,7 @@ cat <<EOF > .ai/capabilities/architect.md
 EOF
 
 # Security
-cat <<EOF > .ai/capabilities/security.md
+cat <<'EOF' > .ai/capabilities/security.md
 # AGENT: Security Architect
 ## Role: Peer Expert (Guardian)
 ## Responsibility: Review code for Vulnerabilities (OWASP) and Auth issues.
@@ -69,7 +62,7 @@ cat <<EOF > .ai/capabilities/security.md
 EOF
 
 # Performance
-cat <<EOF > .ai/capabilities/performance.md
+cat <<'EOF' > .ai/capabilities/performance.md
 # AGENT: Performance Engineer
 ## Role: Peer Expert (Optimizer)
 ## Responsibility: Check for latency, memory bloat, and N+1 queries.
@@ -80,7 +73,7 @@ cat <<EOF > .ai/capabilities/performance.md
 EOF
 
 # SDET
-cat <<EOF > .ai/capabilities/sdet.md
+cat <<'EOF' > .ai/capabilities/sdet.md
 # AGENT: Lead SDET
 ## Role: Peer Expert (Verifier)
 ## Responsibility: Write Tests and Verify Coverage.
@@ -90,11 +83,10 @@ cat <<EOF > .ai/capabilities/sdet.md
 * Never mock databases in Integration Tests (use TestContainers).
 EOF
 
-# 4. GENERATE THE GATEKEEPER (Final Step)
-# ---------------------------------------
+# 4. GENERATE GATEKEEPER
 echo "   - Assigning Gatekeeper..."
 
-cat <<EOF > .ai/capabilities/z_release_mgr.md
+cat <<'EOF' > .ai/capabilities/z_release_mgr.md
 # AGENT: Release Manager
 ## Role: The Gatekeeper (FINAL STEP ONLY)
 ## Constraint: BLOCKED until code is built, secured, optimized, and tested.
@@ -104,24 +96,23 @@ cat <<EOF > .ai/capabilities/z_release_mgr.md
 * Verify that tests passed before committing.
 EOF
 
-# Debugger (On Demand)
-cat <<EOF > .ai/capabilities/debugger.md
+# Debugger
+cat <<'EOF' > .ai/capabilities/debugger.md
 # AGENT: L3 Debugger
 ## Role: Incident Response
 ## Trigger: Only when things break.
 ## Protocol: 1. Log Analysis -> 2. RCA -> 3. Fix.
 EOF
 
-# 5. GENERATE THE PRIME DIRECTIVE (.windsurfrules)
-# ------------------------------------------------
-echo "   - Enforcing Strict Global Protocols..."
+# 5. GENERATE PRIME DIRECTIVE
+echo "   - Enforcing Prime Directive..."
 
-# Backup existing rules if present
+# Backup existing rules
 if [ -f .windsurfrules ]; then
     cp .windsurfrules .windsurfrules.bak
 fi
 
-cat <<EOF > .windsurfrules
+cat <<'EOF' > .windsurfrules
 # 🚨 GLOBAL OPERATING PROTOCOL (PRIME DIRECTIVE)
 # ==============================================
 # You are NOT a generic coding assistant. You are the Orchestrator of an AI Working Group.
@@ -167,9 +158,8 @@ cat <<EOF > .windsurfrules
 EOF
 
 # 6. GENERATE MANUAL
-# ------------------
-echo "   - Updating User Manual..."
-cat <<EOF > .ai/README.md
+echo "   - Updating Manual..."
+cat <<'EOF' > .ai/README.md
 # 🤖 AI Working Group Manual
 
 We use a **Consensus Model** driven by a strict Prime Directive.
@@ -191,5 +181,4 @@ If the agent is acting "lazy" or generic, type:
 > **@.windsurfrules** Read the Prime Directive and restart.
 EOF
 
-echo "✅ AI Working Group installed. Strict protocols are now active."
-echo "👉 Run: 'source scripts/setup_ai_agents.sh' or 'bash scripts/setup_ai_agents.sh' to apply."
+echo "✅ AI Working Group installed successfully."
