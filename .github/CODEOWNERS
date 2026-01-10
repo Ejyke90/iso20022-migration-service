@@ -1,0 +1,29 @@
+# GLOBAL GOVERNANCE
+# -----------------
+# The default owner for everything in the repo (optional backup)
+* @Ejyke90
+
+# AI GOVERNANCE (RESTRICTED ACCESS)
+# ---------------------------------
+# Protect the "Brain": No one changes the Agent Personas without approval.
+.ai/capabilities/   @Ejyke90
+
+# Protect the "Router": No one changes the Trigger Rules without approval.
+.windsurfrules      @Ejyke90
+
+# Protect the "Memory": Protect the Beads configuration (if committed).
+.beads/             @Ejyke90
+
+# OPTIONAL: TEAM ALIASES
+# If you have a team on GitHub, use the team handle instead:
+# .windsurfrules    @RBC/payment-tech-leads
+
+# How to Enforce It
+# Just creating the file isn't enough; you must enable the restriction in GitHub settings:
+#
+# Go to your Repository on GitHub.
+# Click Settings -> Branches.
+# Edit your protection rule for main (or create one).
+# Check the box: "Require review from Code Owners".
+#
+# Result: If a junior dev tries to change .windsurfrules to make the "Test Agent" less strict (e.g., removing the requirement for AssertJ), GitHub will block the merge until you personally approve the PR.
