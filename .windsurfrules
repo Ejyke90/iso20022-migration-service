@@ -1,0 +1,47 @@
+# AI BEHAVIOR RULES - BEADS MEMORY SYSTEM
+
+1. ALWAYS start a session by running `bd issues` to see what work is in progress.
+2. When starting a new task, create it first: `bd create "Task description"`
+3. When a task is done, close it: `bd close <id>`
+4. If you hit a roadblock, comment on the issue: `bd comment <id> "Stuck on..."`
+5. Read `AI_CONTEXT.md` if you are confused about the project structure.
+
+## Project-Specific Rules
+
+### ISO20022 Migration Service Context
+- This is a SWIFT MT → ISO 20022 MX conversion service, NOT a Word-to-PDF converter
+- Primary API: FastAPI (`app/main.py`) on port 8000
+- Legacy API: Flask (`api/server.py`) on port 5000  
+- Web UI: Streamlit (`app.py`) on port 8501
+
+### Development Workflow
+- Use `poetry install` for dependency management
+- Test changes with `demo.sh` before committing
+- Check `test_*.py` files for testing patterns
+- All conversions log to `data/conversion_logs.jsonl`
+
+### Code Structure
+- Models in `app/models/` (Pydantic)
+- Converters in `app/services/` (business logic)
+- Samples in `samples/` (test data)
+- Documentation in `docs/` and `ai_context/`
+
+### Critical Reminders
+- README.md describing Word-to-PDF is outdated
+- Focus on SWIFT MT message formats (MT103, MT102, MT202, etc.)
+- Target ISO 20022 XML formats (pacs.008, pacs.009, pain.001, etc.)
+- Always validate XML output against ISO 20022 schemas
+- Use LangChain for intelligent field mapping
+
+## Dynamic Agent Routing
+
+### Git Operations Routing
+- If the user mentions "git", "commit", "release", "branch", "merge", "push", "pull", or "version", load `.ai/capabilities/git_ops.md`
+- Release Manager persona will enforce Conventional Commits, branch naming, and pre-push quality gates
+
+### Circuit Breaker Routing  
+- If the user mentions "circuit breaker", "resilience", "fault tolerance", "fallback", "retry", "bulkhead", or "Resilience4j", load `.ai/capabilities/java_circuit.md`
+- Principal Java Architect persona will enforce circuit breaker patterns and resilience engineering
+
+### Routing Logic
+The AI should automatically detect context and load the appropriate capability file when relevant keywords are mentioned in user requests.
