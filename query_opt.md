@@ -1,56 +1,42 @@
-OpenSpec: Personal Grounding Service (Agentic RAG)
+OpenSpec: Personal Grounding Service (Refined)
 ## Why
-Current LLM expansions are adding terms that dilute search relevance rather than improving it. We must move to a deterministic pipeline that prioritizes high-signal entities (like "Konek ID") and isolates data by user.
+Current RAG performance shows that both verbose and optimized prompts dilute search precision by adding irrelevant terms. We need a deterministic approach that extracts the "Project ID" and "User Identity" as hard filters before applying the E5 semantic search.
 
-## Goals
-Deterministic Precision: Resolve the "expanded query" dilution by prioritizing exact entity matches (e.g., "Konek ID").
+## GoalsPrecision Recovery: Restore quality to $1/1$ top-result accuracy by stopping "keyword stuffing".Deterministic Filtering: Use extracted entities (e.g., "Konek ID") as mandatory metadata filters in the vector database.Identity Isolation: Ensure the employee_id is a primary partition key for all email RAG operations.Traceability: Every result must display the source (e.g., "Kevin Sivaperumal, Sept 12, 2025").
 
-Zero-Trust Identity Isolation: Prevent cross-pollination. Every search must be hard-scoped to the employee_id.
+## The Refined LLM Gateway Prompt
+Agent Persona: Entity_Extraction_Specialist
 
-Performance with Quality: Maintain the 15.9x speed of optimized prompts while restoring the quality of the top search results.
-
-Low-Latency Performance: Ensure P95 latency remains under 2.5s for the full "Gateway -> E5 -> Search" loop on OpenShift.
-
-Source-Grounded Traceability: Ground all answers in specific email metadata (e.g., "From: Kevin Sivaperumal, Sept 12, 2025").
-
-## What Changes
-1. Refined LLM Gateway (Reasoning Layer)
 Model: meta-llama/Llama-3.1-8B-Instruct
 
-New Logic: Switch from "Query Expansion" to Structured Entity Extraction. The goal is a concise JSON object, not a verbose sentence.
+This prompt is designed to be extractive, not expansive, to prevent the "Quality Issue" where extra terms hurt relevance.
 
-Action: Extract primary_entity (e.g., "Konek ID"), sender, and intent. Stop the "over-expansion" that leads to query dilution.
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+You are a High-Precision Entity Extractor for an Enterprise RAG Gateway.
+Your goal: Transform a raw query into a minimal, high-signal JSON object.
+Rules:
+1. Identify the PRIMARY PROJECT ENTITY (e.g., "Konek ID").
+2. Identify the SENDER if mentioned (e.g., "Kevin").
+3. DO NOT expand with generic terms like "status," "updates," or "results" unless they are unique to the intent.
+4. Output ONLY valid JSON.
 
-2. E5 Embedding Optimization (Retrieval Layer)
-Model: intfloat/multilingual-e5-large
+### Examples
+Input: "How is the Konek ID E2E testing progressing?"
+Output: {"project": "Konek ID", "keywords": "E2E testing cycle execution", "intent": "status"}
 
-Signal: Embed the high-signal string only after entity isolation.
+Input: "What did Kevin say about Konek?"
+Output: {"project": "Konek ID", "sender": "Kevin", "keywords": "updates", "intent": "person_query"}
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+{user_query}
+<|eot_id|><|start_header_id|>assistant<|end_header_id|>
 
-Requirement: Mandatory query:  prefix for E5 retrieval.
+## Technical Architecture: The "Full Flow"Input: User Query $\rightarrow$ "What's the status of Konek ID?"LLM Gateway: Extracts {"project": "Konek ID", "keywords": "execution cycle"}.Signal Builder: Python service constructs the E5 string: query: Konek ID execution cycle.Vector DB (Hybrid Search):Filter 1: employee_id == <USER_ID>Filter 2: project_tag == "Konek ID" (Deterministic match).Semantic: Match E5 vector within the "Konek ID" subset.Contextual Result: "Cycle 2 execution completed" (Source: Kevin Sivaperumal, Sept 12).
 
-3. Hybrid RAG Search (Data Isolation)
-Strategy: Perform a Strict Metadata Pre-filter on the project entity (e.g., project == "Konek ID") before semantic ranking. This ensures the "Librarian" is looking in the right room before looking for the book.
+## Implementation Task for the AI Agent
+Task: "Implement the QueryEnricher class in Python.
 
-## Design & ArchitectureThe New FlowUser Query $\rightarrow$ LLM Gateway (Extracts Konek ID as a key identifier).LLM Gateway $\rightarrow$ Structured JSON (Prevents the "overly expanded" query problem).JSON $\rightarrow$ E5 Model (Embeds target keywords with query:  prefix).Vector $\rightarrow$ Hybrid Search (Strictly filtered by employee_id and project_tag).Contextual Results $\rightarrow$ Final Synthesis (Grounded in specific emails like "Cycle 2 execution completed").
+Integrate with the Llama-3.1-8B TGI endpoint using the provided Extraction Prompt.
 
-# Core logic to fix the "Expansion Dilution" problem
-class DeterministicRetriever:
-    def get_grounded_context(self, user_id, raw_query):
-        # 1. Extraction (Not Expansion)
-        enrichment = self.gateway.extract_entity(raw_query) # e.g. {"project": "Konek ID"}
-        
-        # 2. Strict Signal Construction
-        # Avoids adding generic "status" terms that dilute the vector
-        search_signal = f"query: {enrichment.project} {enrichment.specific_keywords}"
-        
-        # 3. Isolated Hybrid Search
-        results = self.db.search(
-            vector=self.e5.encode(search_signal),
-            filter={
-                "employee_id": user_id,
-                "project_tag": enrichment.project  # HARD FILTER
-            }
-        )
-        return results
+Ensure the output is a Pydantic model: EnrichedQuery(project: str, keywords: str, sender: Optional[str]).
 
-## Implementation Tasks[Prompt Tuning] Refine the LLM Gateway prompt to stop "expanding" queries and start "extracting" entities to fix the precision issues.[API] Implement a POST /v1/enrich endpoint that returns Pydantic-validated JSON.[Search] Configure the Vector DB (OpenSearch) to enforce mandatory employee_id and project metadata filtering.[Validation] Re-run the E2E test scenarios (specifically looking to improve the $6/8$ failure rate).
+Implement a 'Strict Mode' where if a project is found, the downstream search must include a metadata filter for that project, fixing the expansion dilution issue seen in previous tests."
