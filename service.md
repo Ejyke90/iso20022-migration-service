@@ -195,11 +195,11 @@ Answer: Ignore for now (email-only scope)
 Detailed Analysis: Llama-3.2-3B vs Llama-3.1-8B
 FactorLlama-3.2-3BLlama-3.1-8BWinnerAccuracy85-90% intent detection92-97% intent detection8BLatency (p95)~80ms~150ms3BGPU Memory6GB VRAM16GB VRAM3BCost per 1M tokens$0.10$0.303BEntity ExtractionMisses 15% of entitiesMisses <5% of entities8BComplex QueriesStruggles with multi-intentHandles well8BDeterminismLess consistent outputsMore consistent8B
 Specific Examples:
-python# Query: "What's the status of ProjectA ID and when is E2E testing completing?"
+python# Query: "What's the status of Konek ID and when is E2E testing completing?"
 
 # Llama-3.2-3B Output (WORSE):
 {
-  "primary_entity": "ProjectA ID",  # ❌ Missed "E2E testing" as second entity
+  "primary_entity": "Konek ID",  # ❌ Missed "E2E testing" as second entity
   "intent": "status_inquiry",     # ❌ Missed "timeline_query" as second intent
   "action_keywords": ["status"],
   "confidence": 0.72              # Lower confidence
@@ -207,7 +207,7 @@ python# Query: "What's the status of ProjectA ID and when is E2E testing complet
 
 # Llama-3.1-8B Output (BETTER):
 {
-  "primary_entity": "ProjectA ID",
+  "primary_entity": "Konek ID",
   "intent": "status_inquiry",
   "action_keywords": ["status", "progress", "E2E testing", "completion", "timeline"],
   "temporal_filter": "future",    # ✅ Correctly extracted temporal aspect
