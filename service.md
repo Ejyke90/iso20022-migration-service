@@ -205,7 +205,7 @@ python# Query: "What's the status of Konek ID and when is E2E testing completing
   "confidence": 0.72              # Lower confidence
 }
 
-# Llama-3.1-8B Output (BETTER):
+# Llama-3.1-8B (https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct) Output (BETTER):
 {
   "primary_entity": "Konek ID",
   "intent": "status_inquiry",
