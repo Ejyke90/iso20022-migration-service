@@ -1,0 +1,366 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { padding: 16px 0; font-family: var(--font-sans); color: var(--color-text-primary); }
+.tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+.tab { flex: 1; padding: 10px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; transition: all .15s; background: var(--color-background-secondary); color: var(--color-text-secondary); }
+.tab.active-v { background: #E1F5EE; color: #085041; border-color: #1D9E75; }
+.tab.active-h { background: #EEEDFE; color: #3C3489; border-color: #7F77DD; }
+.arrived-box { border-radius: var(--border-radius-lg); padding: 16px 20px; margin-bottom: 20px; }
+.arrived-box.v { background: #E1F5EE; border: 0.5px solid #5DCAA5; }
+.arrived-box.h { background: #EEEDFE; border: 0.5px solid #AFA9EC; }
+.arrived-label { font-size: 11px; font-weight: 500; letter-spacing: .4px; text-transform: uppercase; margin-bottom: 8px; }
+.arrived-label.v { color: #085041; }
+.arrived-label.h { color: #3C3489; }
+.arrived-items { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+.arrived-item { font-size: 13px; display: flex; gap: 7px; align-items: baseline; line-height: 1.4; }
+.check { font-size: 12px; flex-shrink: 0; }
+.skill-list { display: flex; flex-direction: column; gap: 10px; }
+.skill-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+.skill-header { padding: 12px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background .15s; }
+.skill-header:hover { background: var(--color-background-secondary); }
+.skill-name { font-size: 14px; font-weight: 500; }
+.skill-tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+.tag-v { background: #E1F5EE; color: #085041; }
+.tag-h { background: #EEEDFE; color: #3C3489; }
+.chevron { font-size: 11px; color: var(--color-text-secondary); transition: transform .2s; }
+.chevron.open { transform: rotate(180deg); }
+.skill-body { display: none; border-top: 0.5px solid var(--color-border-tertiary); }
+.skill-body.open { display: block; }
+.framework-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.fw-col { padding: 14px 16px; }
+.fw-col:first-child { border-right: 0.5px solid var(--color-border-tertiary); }
+.fw-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 10px; }
+.fw-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: baseline; }
+.fw-key { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); width: 52px; flex-shrink: 0; }
+.fw-val { font-size: 13px; color: var(--color-text-primary); line-height: 1.4; }
+.measure-bar { border-top: 0.5px solid var(--color-border-tertiary); padding: 10px 16px; display: flex; gap: 8px; align-items: baseline; }
+.measure-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .4px; flex-shrink: 0; }
+.measure-val { font-size: 13px; color: var(--color-text-primary); }
+.track-panel { display: none; }
+.track-panel.active { display: block; }
+</style>
+
+<div class="wrap">
+  <div class="tabs">
+    <div class="tab active-v" id="tab-v" onclick="switchTab('v')">Vertical — Cloud-Native Engineering</div>
+    <div class="tab" id="tab-h" onclick="switchTab('h')">Horizontal — AI Product Ownership</div>
+  </div>
+
+  <div class="track-panel active" id="panel-v">
+    <div class="arrived-box v">
+      <div class="arrived-label v">Arrived = Principal Software Engineer when...</div>
+      <div class="arrived-items">
+        <div class="arrived-item"><span class="check">→</span>Your ADRs are adopted by the team without debate</div>
+        <div class="arrived-item"><span class="check">→</span>You define AI app standards others follow on OCP</div>
+        <div class="arrived-item"><span class="check">→</span>You unblock teams through architecture, not code</div>
+        <div class="arrived-item"><span class="check">→</span>AI observability you built becomes the team baseline</div>
+        <div class="arrived-item"><span class="check">→</span>OpenAPI specs you write are referenced as examples</div>
+        <div class="arrived-item"><span class="check">→</span>You influence decisions in rooms beyond your squad</div>
+      </div>
+    </div>
+
+    <div class="skill-list">
+
+      <div class="skill-card">
+        <div class="skill-header" onclick="toggle('s1')">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="skill-name">AI observability via OpenLLMetry + Dynatrace</span>
+            <span class="skill-tag tag-v">Growing into</span>
+          </div>
+          <span class="chevron" id="chev-s1">▼</span>
+        </div>
+        <div class="skill-body" id="body-s1">
+          <div class="framework-grid">
+            <div class="fw-col">
+              <div class="fw-label">GROW</div>
+              <div class="fw-row"><span class="fw-key">Goal</span><span class="fw-val">AI observability layer on Personal Grounding components, extending Dynatrace via OpenLLMetry</span></div>
+              <div class="fw-row"><span class="fw-key">Reality</span><span class="fw-val">Dynatrace expertise exists at platform level — AI-specific tracing (retrieval, tokens, hallucination) not yet instrumented</span></div>
+              <div class="fw-row"><span class="fw-key">Options</span><span class="fw-val">Instrument FastAPI + FastMCP with OpenLLMetry SDK — ships as a sidecar, no new RBC tooling approval needed</span></div>
+              <div class="fw-row"><span class="fw-key">Will</span><span class="fw-val">Propose to team in Q2, instrument first service by Q3, dashboard live Q4</span></div>
+            </div>
+            <div class="fw-col">
+              <div class="fw-label">SMART</div>
+              <div class="fw-row"><span class="fw-key">Specific</span><span class="fw-val">Instrument Grounding MCP + Ingestor with OpenLLMetry, surface in Dynatrace</span></div>
+              <div class="fw-row"><span class="fw-key">Measurable</span><span class="fw-val">Retrieval latency, embedding freshness, RAG hit rate, token cost — all visible in Dynatrace</span></div>
+              <div class="fw-row"><span class="fw-key">Achievable</span><span class="fw-val">Dynatrace is already in the RBC stack — OpenLLMetry is an additive SDK layer</span></div>
+              <div class="fw-row"><span class="fw-key">Relevant</span><span class="fw-val">No one on the team currently owns AI-specific observability — this is a Principal-level gap to fill</span></div>
+              <div class="fw-row"><span class="fw-key">Time</span><span class="fw-val">Proposal Q2 · First service instrumented Q3 · Full dashboard Q4</span></div>
+            </div>
+          </div>
+          <div class="measure-bar">
+            <span class="measure-label">Arrived when</span>
+            <span class="measure-val">Team references your Dynatrace AI dashboard as the standard for all new AI services at Borealis</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header" onclick="toggle('s2')">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="skill-name">OCP Route Session Affinity patterns</span>
+            <span class="skill-tag tag-v">Growing into</span>
+          </div>
+          <span class="chevron" id="chev-s2">▼</span>
+        </div>
+        <div class="skill-body" id="body-s2">
+          <div class="framework-grid">
+            <div class="fw-col">
+              <div class="fw-label">GROW</div>
+              <div class="fw-row"><span class="fw-key">Goal</span><span class="fw-val">Implement and document OCP Route Session Affinity as a reusable pattern for MCP pod deployments</span></div>
+              <div class="fw-row"><span class="fw-key">Reality</span><span class="fw-val">Problem is understood — concurrent SQLite access on shared PVC — solution is in flight</span></div>
+              <div class="fw-row"><span class="fw-key">Options</span><span class="fw-val">Configure OCP Route with sessionAffinity + sessionAffinityConfig, validate with load test, write ADR</span></div>
+              <div class="fw-row"><span class="fw-key">Will</span><span class="fw-val">Live before May prod release · ADR written · Pattern documented for future MCP deployments</span></div>
+            </div>
+            <div class="fw-col">
+              <div class="fw-label">SMART</div>
+              <div class="fw-row"><span class="fw-key">Specific</span><span class="fw-val">Configure Session Affinity on OCP Route for Grounding MCP, validate no file lock conflicts under concurrent users</span></div>
+              <div class="fw-row"><span class="fw-key">Measurable</span><span class="fw-val">Zero SQLite lock errors under concurrent user load test before go-live</span></div>
+              <div class="fw-row"><span class="fw-key">Achievable</span><span class="fw-val">Native OCP Route feature — no additional infrastructure required</span></div>
+              <div class="fw-row"><span class="fw-key">Relevant</span><span class="fw-val">Production blocker — must be solved before May launch</span></div>
+              <div class="fw-row"><span class="fw-key">Time</span><span class="fw-val">Live and validated by end of April 2026</span></div>
+            </div>
+          </div>
+          <div class="measure-bar">
+            <span class="measure-label">Arrived when</span>
+            <span class="measure-val">Pattern is in the ADR and referenced by the next engineer deploying a stateful MCP pod</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header" onclick="toggle('s3')">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="skill-name">AI app standards on OCP — guardrails, data privacy, model governance</span>
+            <span class="skill-tag tag-v">Growing into</span>
+          </div>
+          <span class="chevron" id="chev-s3">▼</span>
+        </div>
+        <div class="skill-body" id="body-s3">
+          <div class="framework-grid">
+            <div class="fw-col">
+              <div class="fw-label">GROW</div>
+              <div class="fw-row"><span class="fw-key">Goal</span><span class="fw-val">Define and champion AI app standards for OCP — starting with Personal Grounding (handles personal email + calendar data)</span></div>
+              <div class="fw-row"><span class="fw-key">Reality</span><span class="fw-val">No formal AI app standards exist on the PG team today — security surface is real given the data sensitivity</span></div>
+              <div class="fw-row"><span class="fw-key">Options</span><span class="fw-val">Define standards across: prompt injection defence, RAG data privacy (field-level encryption), model governance (versioning, rollback), OCP RBAC for AI workloads</span></div>
+              <div class="fw-row"><span class="fw-key">Will</span><span class="fw-val">Draft standards doc by Q3 · Get team and manager sign-off · Apply to Journal Assistant before build begins</span></div>
+            </div>
+            <div class="fw-col">
+              <div class="fw-label">SMART</div>
+              <div class="fw-row"><span class="fw-key">Specific</span><span class="fw-val">Author AI app standards doc for Personal Grounding covering prompt injection, data privacy, model governance</span></div>
+              <div class="fw-row"><span class="fw-key">Measurable</span><span class="fw-val">Standards doc adopted by team · Applied to at least 1 H2 feature from inception</span></div>
+              <div class="fw-row"><span class="fw-key">Achievable</span><span class="fw-val">DB encryption already done — this extends that thinking across the full stack</span></div>
+              <div class="fw-row"><span class="fw-key">Relevant</span><span class="fw-val">Personal email and calendar data requires this — it's a risk surface, not a nice-to-have</span></div>
+              <div class="fw-row"><span class="fw-key">Time</span><span class="fw-val">Draft by Q3 · Applied to Journal Assistant build in Q4</span></div>
+            </div>
+          </div>
+          <div class="measure-bar">
+            <span class="measure-label">Arrived when</span>
+            <span class="measure-val">Your AI standards doc is referenced in the Borealis AI engineering handbook</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header" onclick="toggle('s4')">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="skill-name">ADR authorship at scale + cross-team influence</span>
+            <span class="skill-tag tag-v">Growing into</span>
+          </div>
+          <span class="chevron" id="chev-s4">▼</span>
+        </div>
+        <div class="skill-body" id="body-s4">
+          <div class="framework-grid">
+            <div class="fw-col">
+              <div class="fw-label">GROW</div>
+              <div class="fw-row"><span class="fw-key">Goal</span><span class="fw-val">ADRs adopted without debate and referenced by other teams — not just documented for the PG team</span></div>
+              <div class="fw-row"><span class="fw-key">Reality</span><span class="fw-val">2 ADRs authored in Q1 — momentum started, cross-team reach not yet established</span></div>
+              <div class="fw-row"><span class="fw-key">Options</span><span class="fw-val">Share ADRs in Borealis engineering forums · Reference them in internal talks · Invite review from engineers outside the PG team</span></div>
+              <div class="fw-row"><span class="fw-key">Will</span><span class="fw-val">6–8 ADRs by year end · At least 1 reviewed and adopted beyond the PG team</span></div>
+            </div>
+            <div class="fw-col">
+              <div class="fw-label">SMART</div>
+              <div class="fw-row"><span class="fw-key">Specific</span><span class="fw-val">Author ADRs for all significant trade-offs · Share at least 1 beyond the PG team</span></div>
+              <div class="fw-row"><span class="fw-key">Measurable</span><span class="fw-val">6–8 ADRs by year end · 1+ referenced or adopted by another Borealis team</span></div>
+              <div class="fw-row"><span class="fw-key">Achievable</span><span class="fw-val">2 done already — cadence and visibility are the next steps</span></div>
+              <div class="fw-row"><span class="fw-key">Relevant</span><span class="fw-val">Cross-team influence is the clearest marker of Principal-level impact</span></div>
+              <div class="fw-row"><span class="fw-key">Time</span><span class="fw-val">4 by Q2 · 6–8 by Q4 · 1 cross-team reference by Q3</span></div>
+            </div>
+          </div>
+          <div class="measure-bar">
+            <span class="measure-label">Arrived when</span>
+            <span class="measure-val">Engineers outside your squad cite your ADRs when making their own design decisions</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="track-panel" id="panel-h">
+    <div class="arrived-box h">
+      <div class="arrived-label h">Arrived = AI Product Owner when...</div>
+      <div class="arrived-items">
+        <div class="arrived-item"><span class="check">→</span>You write the product brief before engineering scopes</div>
+        <div class="arrived-item"><span class="check">→</span>Execs approve your PoC and greenlight the build</div>
+        <div class="arrived-item"><span class="check">→</span>You own the H2 roadmap, not just contribute to it</div>
+        <div class="arrived-item"><span class="check">→</span>Usage data from prod shapes your next feature decision</div>
+        <div class="arrived-item"><span class="check">→</span>You can say no to a feature and explain why with data</div>
+        <div class="arrived-item"><span class="check">→</span>Users ask for you by name when they have feedback</div>
+      </div>
+    </div>
+
+    <div class="skill-list">
+
+      <div class="skill-card">
+        <div class="skill-header" onclick="toggle('h1')">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="skill-name">Formal roadmap definition & OKRs</span>
+            <span class="skill-tag tag-h">Growing into</span>
+          </div>
+          <span class="chevron" id="chev-h1">▼</span>
+        </div>
+        <div class="skill-body" id="body-h1">
+          <div class="framework-grid">
+            <div class="fw-col">
+              <div class="fw-label">GROW</div>
+              <div class="fw-row"><span class="fw-key">Goal</span><span class="fw-val">Own the H2 roadmap for Personal Grounding extensions — not just contribute, but author and defend it</span></div>
+              <div class="fw-row"><span class="fw-key">Reality</span><span class="fw-val">Strong instinct for what to build next — formal OKR framing and roadmap structure not yet practised</span></div>
+              <div class="fw-row"><span class="fw-key">Options</span><span class="fw-val">Write the H2 roadmap proposal in OKR format (Objective + 3 Key Results per initiative) · Present to manager before Q2 planning</span></div>
+              <div class="fw-row"><span class="fw-key">Will</span><span class="fw-val">Draft H2 roadmap by end of Q2 · Get manager review · Own at least 1 OKR through to measurement</span></div>
+            </div>
+            <div class="fw-col">
+              <div class="fw-label">SMART</div>
+              <div class="fw-row"><span class="fw-key">Specific</span><span class="fw-val">Author H2 roadmap in OKR format covering Journal, Knowledge, and Proactive Agent</span></div>
+              <div class="fw-row"><span class="fw-key">Measurable</span><span class="fw-val">Roadmap doc reviewed by manager · At least 1 OKR tracked and reported on by Q4</span></div>
+              <div class="fw-row"><span class="fw-key">Achievable</span><span class="fw-val">Founder experience means roadmap thinking exists — OKR format is the new wrapper</span></div>
+              <div class="fw-row"><span class="fw-key">Relevant</span><span class="fw-val">Owning the roadmap is the clearest signal of Product Owner readiness</span></div>
+              <div class="fw-row"><span class="fw-key">Time</span><span class="fw-val">Draft by end of Q2 · OKR reporting starts Q3</span></div>
+            </div>
+          </div>
+          <div class="measure-bar">
+            <span class="measure-label">Arrived when</span>
+            <span class="measure-val">Your manager presents your roadmap to leadership without changing the structure</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header" onclick="toggle('h2')">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="skill-name">PoC → exec approval → build lifecycle</span>
+            <span class="skill-tag tag-h">Growing into</span>
+          </div>
+          <span class="chevron" id="chev-h2">▼</span>
+        </div>
+        <div class="skill-body" id="body-h2">
+          <div class="framework-grid">
+            <div class="fw-col">
+              <div class="fw-label">GROW</div>
+              <div class="fw-row"><span class="fw-key">Goal</span><span class="fw-val">Run the full Journal Assistant lifecycle — from idea to PoC to exec approval to build — as the owner</span></div>
+              <div class="fw-row"><span class="fw-key">Reality</span><span class="fw-val">Strong builder — the approval and stakeholder navigation layer is new territory</span></div>
+              <div class="fw-row"><span class="fw-key">Options</span><span class="fw-val">Write product brief first · Run PoC · Build exec deck with clear value prop and success metrics · Present and get go/no-go</span></div>
+              <div class="fw-row"><span class="fw-key">Will</span><span class="fw-val">Brief by Q2 · PoC by Q3 · Exec presentation by end of Q3 · Build decision by Q4</span></div>
+            </div>
+            <div class="fw-col">
+              <div class="fw-label">SMART</div>
+              <div class="fw-row"><span class="fw-key">Specific</span><span class="fw-val">Own Journal Assistant from concept to exec go/no-go decision</span></div>
+              <div class="fw-row"><span class="fw-key">Measurable</span><span class="fw-val">Product brief complete · PoC runs · Exec presentation delivered · Go/no-go received by Q4</span></div>
+              <div class="fw-row"><span class="fw-key">Achievable</span><span class="fw-val">Technical side is fully in scope — the new skill is framing value for non-technical execs</span></div>
+              <div class="fw-row"><span class="fw-key">Relevant</span><span class="fw-val">This is the signature Product Owner move — no one else on the team is doing this</span></div>
+              <div class="fw-row"><span class="fw-key">Time</span><span class="fw-val">Brief Q2 · PoC Q3 · Exec approval Q4</span></div>
+            </div>
+          </div>
+          <div class="measure-bar">
+            <span class="measure-label">Arrived when</span>
+            <span class="measure-val">Execs approve Journal Assistant and you are named as the product lead for the build</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header" onclick="toggle('h3')">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="skill-name">AI product metrics ownership</span>
+            <span class="skill-tag tag-h">Growing into</span>
+          </div>
+          <span class="chevron" id="chev-h3">▼</span>
+        </div>
+        <div class="skill-body" id="body-h3">
+          <div class="framework-grid">
+            <div class="fw-col">
+              <div class="fw-label">GROW</div>
+              <div class="fw-row"><span class="fw-key">Goal</span><span class="fw-val">Define and own the success metrics for Personal Grounding post-launch — not just ship it, but measure it</span></div>
+              <div class="fw-row"><span class="fw-key">Reality</span><span class="fw-val">Delivery metrics are natural — product health metrics (retention, engagement, cost per query) are new</span></div>
+              <div class="fw-row"><span class="fw-key">Options</span><span class="fw-val">Define metrics at launch: DAU, retrieval accuracy, session length, cost per grounded response · Review monthly with manager</span></div>
+              <div class="fw-row"><span class="fw-key">Will</span><span class="fw-val">Metrics defined before MVP launch · First review in June · Inform 1 roadmap decision from data by Q4</span></div>
+            </div>
+            <div class="fw-col">
+              <div class="fw-label">SMART</div>
+              <div class="fw-row"><span class="fw-key">Specific</span><span class="fw-val">Define and track product health metrics for Personal Grounding from day one of prod</span></div>
+              <div class="fw-row"><span class="fw-key">Measurable</span><span class="fw-val">Metrics dashboard live at launch · 1 roadmap decision driven by data by Q4</span></div>
+              <div class="fw-row"><span class="fw-key">Achievable</span><span class="fw-val">AI observability goal provides the instrumentation layer — this is the product lens on the same data</span></div>
+              <div class="fw-row"><span class="fw-key">Relevant</span><span class="fw-val">A PO who can't measure their product can't defend their roadmap</span></div>
+              <div class="fw-row"><span class="fw-key">Time</span><span class="fw-val">Metrics defined by May · First review June · Data-driven decision by Q4</span></div>
+            </div>
+          </div>
+          <div class="measure-bar">
+            <span class="measure-label">Arrived when</span>
+            <span class="measure-val">You use product metrics to kill or accelerate a feature — and the team trusts the data</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header" onclick="toggle('h4')">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="skill-name">Exec-level stakeholder management</span>
+            <span class="skill-tag tag-h">Growing into</span>
+          </div>
+          <span class="chevron" id="chev-h4">▼</span>
+        </div>
+        <div class="skill-body" id="body-h4">
+          <div class="framework-grid">
+            <div class="fw-col">
+              <div class="fw-label">GROW</div>
+              <div class="fw-row"><span class="fw-key">Goal</span><span class="fw-val">Build a direct relationship with at least 1 senior exec at Borealis who sees you as the face of Personal Grounding</span></div>
+              <div class="fw-row"><span class="fw-key">Reality</span><span class="fw-val">Strong with peers and managers — exec-level communication (framing for business value, not tech) is new muscle</span></div>
+              <div class="fw-row"><span class="fw-key">Options</span><span class="fw-key">Lead the post-launch demo · Present Journal PoC to leadership · Volunteer for cross-functional updates</span></div>
+              <div class="fw-row"><span class="fw-key">Will</span><span class="fw-val">Present at post-launch demo (June) · Journal PoC presentation to execs (Q3) · Named contact for 1 senior stakeholder by Q4</span></div>
+            </div>
+            <div class="fw-col">
+              <div class="fw-label">SMART</div>
+              <div class="fw-row"><span class="fw-key">Specific</span><span class="fw-val">Lead 2 exec-facing presentations this fiscal year on Personal Grounding</span></div>
+              <div class="fw-row"><span class="fw-key">Measurable</span><span class="fw-val">2 presentations delivered · 1 senior exec relationship established · Journal go/no-go received</span></div>
+              <div class="fw-row"><span class="fw-key">Achievable</span><span class="fw-val">BFUTR 2025 proved you can hold a room — exec framing is the new skill, not the confidence</span></div>
+              <div class="fw-row"><span class="fw-key">Relevant</span><span class="fw-val">No exec sponsor = no Journal Assistant build. This is the unlock.</span></div>
+              <div class="fw-row"><span class="fw-key">Time</span><span class="fw-val">First presentation June · Second Q3 · Relationship established Q4</span></div>
+            </div>
+          </div>
+          <div class="measure-bar">
+            <span class="measure-label">Arrived when</span>
+            <span class="measure-val">A senior exec mentions you by name when discussing Personal Grounding with other leaders</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function toggle(id) {
+  const body = document.getElementById('body-' + id);
+  const chev = document.getElementById('chev-' + id);
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.skill-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.chevron').forEach(c => c.classList.remove('open'));
+  if (!isOpen) { body.classList.add('open'); chev.classList.add('open'); }
+}
+function switchTab(track) {
+  document.getElementById('panel-v').classList.toggle('active', track === 'v');
+  document.getElementById('panel-h').classList.toggle('active', track === 'h');
+  document.getElementById('tab-v').className = 'tab' + (track === 'v' ? ' active-v' : '');
+  document.getElementById('tab-h').className = 'tab' + (track === 'h' ? ' active-h' : '');
+}
+</script>
