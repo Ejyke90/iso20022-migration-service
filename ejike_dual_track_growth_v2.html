@@ -1,0 +1,394 @@
+
+<style>
+  * { box-sizing: border-box; }
+  .wrap { padding: 20px 0; font-family: var(--font-sans, system-ui, -apple-system, sans-serif); color: var(--color-text-primary, #1a1a1a); }
+  .center-node { background: #3C3489; border-radius: 50%; width: 88px; height: 88px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto; cursor: default; }
+  .center-node span:first-child { font-size: 11px; font-weight: 500; color: #CECBF6; letter-spacing: .3px; }
+  .center-node span:last-child { font-size: 12px; font-weight: 500; color: #EEEDFE; text-align: center; line-height: 1.3; padding: 0 6px; }
+  .cross { display: grid; grid-template-columns: 1fr 88px 1fr; grid-template-rows: auto 88px auto; gap: 0; align-items: center; max-width: 640px; margin: 0 auto; }
+  .track-card { border: 0.5px solid var(--color-border-tertiary, #e0e0e0); border-radius: var(--border-radius-lg, 12px); padding: 14px 16px; cursor: pointer; transition: border-color .15s, background .15s; }
+  .track-card:hover { border-color: var(--color-border-secondary, #bbb); background: var(--color-background-secondary, #f9f9f9); }
+  .track-label { font-size: 11px; font-weight: 500; letter-spacing: .4px; text-transform: uppercase; margin-bottom: 6px; }
+  .track-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .track-sub { font-size: 12px; color: var(--color-text-secondary, #666); }
+  .connector-v { width: 1px; background: var(--color-border-tertiary, #e0e0e0); height: 40px; margin: 0 auto; }
+  .detail-panel { border: 0.5px solid var(--color-border-tertiary, #e0e0e0); border-radius: var(--border-radius-lg, 12px); padding: 16px 20px; margin-top: 20px; max-width: 640px; margin-left: auto; margin-right: auto; }
+  .detail-panel h3 { font-size: 14px; font-weight: 500; margin: 0 0 12px; }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .skill-col label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary, #666); text-transform: uppercase; letter-spacing: .4px; display: block; margin-bottom: 8px; }
+  .skill-item { display: flex; align-items: baseline; gap: 7px; font-size: 13px; margin-bottom: 6px; color: var(--color-text-primary, #1a1a1a); line-height: 1.4; }
+  .dot-have { width: 6px; height: 6px; border-radius: 50%; background: #1D9E75; flex-shrink: 0; margin-top: 4px; }
+  .dot-need { width: 6px; height: 6px; border-radius: 50%; background: #7F77DD; flex-shrink: 0; margin-top: 4px; }
+  .destination { text-align: center; padding: 10px; }
+  .dest-pill { display: inline-block; background: #EEEDFE; color: #3C3489; border-radius: 20px; font-size: 12px; font-weight: 500; padding: 4px 14px; }
+  .origin-pill { display: inline-block; background: var(--color-background-secondary, #f9f9f9); color: var(--color-text-secondary, #666); border-radius: 20px; font-size: 12px; padding: 4px 14px; border: 0.5px solid var(--color-border-tertiary, #e0e0e0); }
+  .converge-box { max-width: 640px; margin: 20px auto 0; border: 0.5px solid var(--color-border-tertiary, #e0e0e0); border-radius: var(--border-radius-lg, 12px); padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+  .converge-icon { width: 40px; height: 40px; border-radius: 50%; background: #FAEEDA; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .converge-text label { font-size: 11px; font-weight: 500; color: #854F0B; text-transform: uppercase; letter-spacing: .4px; display: block; margin-bottom: 3px; }
+  .converge-text p { font-size: 13px; color: var(--color-text-primary, #1a1a1a); margin: 0; line-height: 1.5; }
+  .legend { display: flex; gap: 20px; justify-content: center; margin: 16px 0 0; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-text-secondary, #666); }
+  .v-col { display: flex; flex-direction: column; align-items: center; }
+  .hint { text-align: center; font-size: 12px; color: var(--color-text-secondary, #666); margin-bottom: 12px; }
+  
+  /* GROW Framework & OKR Styles */
+  .section-title { font-size: 16px; font-weight: 600; margin: 32px 0 16px; text-align: center; color: var(--color-text-primary, #1a1a1a); }
+  .grow-container { max-width: 640px; margin: 0 auto; }
+  .grow-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+  .grow-card { border: 0.5px solid var(--color-border-tertiary, #e0e0e0); border-radius: var(--border-radius-lg, 12px); padding: 14px 16px; }
+  .grow-card.full-width { grid-column: 1 / -1; }
+  .grow-letter { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .grow-letter.g { color: #1D9E75; }
+  .grow-letter.r { color: #E67E22; }
+  .grow-letter.o { color: #3498DB; }
+  .grow-letter.w { color: #9B59B6; }
+  .grow-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary, #666); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 8px; }
+  .grow-content { font-size: 13px; line-height: 1.5; color: var(--color-text-primary, #1a1a1a); }
+  .grow-content ul { margin: 0; padding-left: 16px; }
+  .grow-content li { margin-bottom: 4px; }
+  
+  /* OKR Styles - Cleaner */
+  .okr-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; }
+  .okr-tab { padding: 6px 12px; border: 1px solid var(--color-border-tertiary, #e0e0e0); border-radius: 6px; font-size: 11px; font-weight: 500; cursor: pointer; transition: all .15s; background: white; }
+  .okr-tab:hover { background: var(--color-background-secondary, #f5f5f5); border-color: #bbb; }
+  .okr-tab.active { background: #3C3489; color: white; border-color: #3C3489; }
+  .okr-panel { border: 1px solid var(--color-border-tertiary, #e0e0e0); border-radius: var(--border-radius-lg, 12px); padding: 14px 16px; display: none; background: white; }
+  .okr-panel.active { display: block; }
+  .okr-objective { font-size: 13px; font-weight: 500; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--color-border-tertiary, #e0e0e0); color: #3C3489; }
+  .kr-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 12px; gap: 8px; }
+  .kr-item:last-child { border-bottom: none; }
+  .kr-label { font-weight: 500; flex: 1; }
+  .kr-meta { display: flex; gap: 12px; align-items: center; }
+  .kr-metric { color: var(--color-text-secondary, #888); font-size: 10px; }
+  .kr-target { background: #E8F5E9; color: #1D9E75; font-weight: 600; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+  .kr-timeline { background: #EDE7F6; color: #7F77DD; padding: 2px 6px; border-radius: 4px; font-size: 10px; }
+  
+  /* Timeline Styles - Compact Card */
+  .timeline-card { border: 0.5px solid var(--color-border-tertiary, #e0e0e0); border-radius: var(--border-radius-lg, 12px); padding: 16px 20px; background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%); }
+  .timeline-header { font-size: 11px; font-weight: 500; color: var(--color-text-secondary, #666); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 12px; }
+  .timeline-steps { display: flex; gap: 0; }
+  .timeline-step { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
+  .timeline-step:not(:last-child)::after { content: ''; position: absolute; top: 10px; left: 50%; width: 100%; height: 2px; background: linear-gradient(90deg, #1D9E75, #3C3489); z-index: 0; }
+  .timeline-step:nth-child(2):not(:last-child)::after { background: linear-gradient(90deg, #3C3489, #3C3489); }
+  .timeline-step:nth-child(3):not(:last-child)::after { background: linear-gradient(90deg, #3C3489, #9B59B6); }
+  .timeline-dot { width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid #3C3489; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; font-size: 10px; font-weight: 600; color: #3C3489; }
+  .timeline-step:first-child .timeline-dot { border-color: #1D9E75; background: #1D9E75; color: white; }
+  .timeline-step:last-child .timeline-dot { border-color: #9B59B6; background: #9B59B6; color: white; }
+  .timeline-content { text-align: center; margin-top: 8px; }
+  .timeline-label { font-size: 11px; font-weight: 600; color: var(--color-text-primary, #1a1a1a); }
+  .timeline-action { font-size: 10px; color: var(--color-text-secondary, #666); margin-top: 2px; }
+</style>
+
+<div class="wrap">
+  <p class="hint">Click a track to see the skill breakdown</p>
+  <div class="cross">
+    <div></div>
+    <div class="v-col">
+      <div class="destination"><div class="dest-pill">Principal Engineer</div></div>
+      <div class="connector-v"></div>
+    </div>
+    <div></div>
+
+    <div style="padding-right:12px">
+      <div style="text-align:right;padding:0 0 8px;"><div class="origin-pill">Payments background</div></div>
+      <div class="track-card" id="card-v" onclick="show('v')">
+        <div class="track-label" style="color:#0F6E56">Vertical</div>
+        <div class="track-title">Cloud-Native Engineering</div>
+        <div class="track-sub">OCP · RAG · MCP · FastAPI · SQLite-vec</div>
+      </div>
+    </div>
+
+    <div class="center-node">
+      <span>Now</span>
+      <span>Lead Cloud AI Eng.</span>
+    </div>
+
+    <div style="padding-left:12px">
+      <div class="track-card" id="card-h" onclick="show('h')">
+        <div class="track-label" style="color:#534AB7">Horizontal</div>
+        <div class="track-title">AI Product Ownership</div>
+        <div class="track-sub">Personal Grounding · Journal · Agent</div>
+      </div>
+      <div style="text-align:left;padding:8px 0 0;"><div class="origin-pill">Builder mindset</div></div>
+    </div>
+
+    <div></div>
+    <div class="v-col">
+      <div class="connector-v"></div>
+      <div class="destination"><div class="dest-pill">AI Product Owner</div></div>
+    </div>
+    <div></div>
+  </div>
+
+  <div id="detail" class="detail-panel" style="display:none"></div>
+
+  <div class="converge-box">
+    <div class="converge-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M10 2L10 18M2 10L18 10" stroke="#BA7517" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="converge-text">
+      <label>Where the two tracks meet</label>
+      <p>A technology leader who builds what they own — deeply technical, product-minded, and capable of driving AI at enterprise scale.</p>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="dot-have"></div>Have it</div>
+    <div class="legend-item"><div class="dot-need"></div>Growing into it</div>
+  </div>
+
+  <!-- GROW Framework Section -->
+  <h2 class="section-title">GROW Framework</h2>
+  <div class="grow-container">
+    <div class="grow-grid">
+      <div class="grow-card">
+        <div class="grow-letter g">G</div>
+        <div class="grow-label">Goal</div>
+        <div class="grow-content">Become a Principal Software Engineer within 18 months, combining deep technical leadership with AI product ownership.</div>
+      </div>
+      <div class="grow-card">
+        <div class="grow-letter r">R</div>
+        <div class="grow-label">Reality</div>
+        <div class="grow-content">
+          <ul>
+            <li>Current: Lead Cloud AI Engineer</li>
+            <li>Strong: Cloud-native + AI expertise, founder experience</li>
+            <li>Gaps: Cross-team influence, exec stakeholder mgmt</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grow-card">
+        <div class="grow-letter o">O</div>
+        <div class="grow-label">Options</div>
+        <div class="grow-content">
+          <ul>
+            <li>Lead AI governance standards across org</li>
+            <li>Own multi-team technical initiative</li>
+            <li>Present quarterly to leadership on AI strategy</li>
+            <li>Establish ADR practice, author 10+ ADRs</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grow-card">
+        <div class="grow-letter w">W</div>
+        <div class="grow-label">Way Forward</div>
+        <div class="grow-content">
+          <ul>
+            <li><strong>Q2:</strong> Start ADR authorship, cross-team initiative</li>
+            <li><strong>Q3:</strong> Lead AI governance standards</li>
+            <li><strong>Q4:</strong> Present AI strategy to executives</li>
+            <li><strong>Q1-Q2 '27:</strong> Own org-wide technical initiative</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-card">
+      <div class="timeline-header">18-Month Roadmap</div>
+      <div class="timeline-steps">
+        <div class="timeline-step">
+          <div class="timeline-dot">1</div>
+          <div class="timeline-content">
+            <div class="timeline-label">Q2 2026</div>
+            <div class="timeline-action">ADRs & Cross-team</div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-dot">2</div>
+          <div class="timeline-content">
+            <div class="timeline-label">Q3 2026</div>
+            <div class="timeline-action">AI Governance</div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-dot">3</div>
+          <div class="timeline-content">
+            <div class="timeline-label">Q4 2026</div>
+            <div class="timeline-action">Exec Visibility</div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-dot">★</div>
+          <div class="timeline-content">
+            <div class="timeline-label">Q1-Q2 2027</div>
+            <div class="timeline-action">Principal Engineer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SMART OKRs Section -->
+  <h2 class="section-title">SMART OKRs with Metrics</h2>
+  <div class="grow-container">
+    <div class="okr-tabs">
+      <div class="okr-tab active" onclick="showOKR(0)">Cross-Team Influence</div>
+      <div class="okr-tab" onclick="showOKR(1)">AI Governance</div>
+      <div class="okr-tab" onclick="showOKR(2)">Exec Engagement</div>
+      <div class="okr-tab" onclick="showOKR(3)">Product Metrics</div>
+    </div>
+    <div id="okr-panels">
+      <div class="okr-panel active" id="okr-0">
+        <div class="okr-objective">Establish myself as the go-to technical authority across multiple teams</div>
+        <div class="kr-item">
+          <span class="kr-label">Lead cross-team technical initiatives</span>
+          <span class="kr-meta"><span class="kr-target">2</span><span class="kr-timeline">Q2-Q3</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Author Architecture Decision Records</span>
+          <span class="kr-meta"><span class="kr-target">10</span><span class="kr-timeline">Q2-Q4</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Conduct architecture reviews for other teams</span>
+          <span class="kr-meta"><span class="kr-target">8</span><span class="kr-timeline">Q2-Q4</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Mentor senior engineers toward Staff level</span>
+          <span class="kr-meta"><span class="kr-target">3</span><span class="kr-timeline">Ongoing</span></span>
+        </div>
+      </div>
+      <div class="okr-panel" id="okr-1">
+        <div class="okr-objective">Define and implement AI application standards at organizational scale</div>
+        <div class="kr-item">
+          <span class="kr-label">Publish AI guardrails framework</span>
+          <span class="kr-meta"><span class="kr-target">1</span><span class="kr-timeline">Q2</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Implement RAG data privacy standards</span>
+          <span class="kr-meta"><span class="kr-target">4 teams</span><span class="kr-timeline">Q3</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Establish model governance process</span>
+          <span class="kr-meta"><span class="kr-target">1</span><span class="kr-timeline">Q3</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Deploy AI observability (OpenLLMetry + Dynatrace)</span>
+          <span class="kr-meta"><span class="kr-target">5 apps</span><span class="kr-timeline">Q4</span></span>
+        </div>
+      </div>
+      <div class="okr-panel" id="okr-2">
+        <div class="okr-objective">Build credibility and influence with senior leadership</div>
+        <div class="kr-item">
+          <span class="kr-label">Present AI strategy to leadership</span>
+          <span class="kr-meta"><span class="kr-target">4</span><span class="kr-timeline">Q2-Q4</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Write product briefs for AI initiatives</span>
+          <span class="kr-meta"><span class="kr-target">3</span><span class="kr-timeline">Q2-Q3</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Lead PoC → approval → build cycle</span>
+          <span class="kr-meta"><span class="kr-target">2</span><span class="kr-timeline">Q3-Q4</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Establish regular exec check-ins</span>
+          <span class="kr-meta"><span class="kr-target">2</span><span class="kr-timeline">Q2</span></span>
+        </div>
+      </div>
+      <div class="okr-panel" id="okr-3">
+        <div class="okr-objective">Demonstrate business impact through measurable AI product outcomes</div>
+        <div class="kr-item">
+          <span class="kr-label">Define AI product success metrics</span>
+          <span class="kr-meta"><span class="kr-target">2</span><span class="kr-timeline">Q2</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Establish user feedback loops</span>
+          <span class="kr-meta"><span class="kr-target">6</span><span class="kr-timeline">Q2-Q4</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Report AI ROI to stakeholders</span>
+          <span class="kr-meta"><span class="kr-target">4</span><span class="kr-timeline">Quarterly</span></span>
+        </div>
+        <div class="kr-item">
+          <span class="kr-label">Improve AI product adoption</span>
+          <span class="kr-meta"><span class="kr-target">+25%</span><span class="kr-timeline">Q4</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const data = {
+  v: {
+    title: 'Cloud-Native Engineering → Principal Engineer',
+    have: [
+      'Kubernetes & OpenShift (OCP)',
+      'RAG pipeline design & implementation',
+      'MCP tool architecture (FastMCP)',
+      'Distributed systems (Akka, Kafka)',
+      'FastAPI + Python microservices',
+      'SQLite-vec & vector search',
+      'CI/CD, containers, service mesh',
+      'Spec-Driven Development (OpenAPI-first)',
+      'Dynatrace observability (platform level)',
+    ],
+    need: [
+      'AI observability via OpenLLMetry + Dynatrace',
+      'OCP Route Session Affinity patterns',
+      'AI app standards on OCP — guardrails, RAG data privacy, model governance',
+      'ADR authorship at scale',
+      'Cross-team architecture influence',
+      'Technical due diligence (build vs. buy)',
+      'Technical debt prioritization (portfolio-level)',
+      'Incident command at scale',
+      'Vendor/partner technical evaluation',
+    ]
+  },
+  h: {
+    title: 'AI Product Ownership → AI Product Owner',
+    have: [
+      'End-to-end product delivery',
+      'Founder mindset (Vyrn, Kudegowo)',
+      'Roadmap contribution & advocacy',
+      'Mentorship & team enablement',
+      'Public speaking & storytelling',
+      'Payments domain expertise',
+    ],
+    need: [
+      'Formal roadmap definition & OKRs',
+      'Exec-level stakeholder management',
+      'PoC → approval → build lifecycle',
+      'Product brief & use case writing',
+      'User research & feedback loops',
+      'AI product metrics ownership',
+      'Budget & resource advocacy',
+      'Hiring & team composition strategy',
+      'Risk communication (technical → business)',
+      'Organizational change leadership',
+    ]
+  }
+};
+
+function showOKR(index) {
+  document.querySelectorAll('.okr-tab').forEach((tab, i) => {
+    tab.classList.toggle('active', i === index);
+  });
+  document.querySelectorAll('.okr-panel').forEach((panel, i) => {
+    panel.classList.toggle('active', i === index);
+  });
+}
+
+function show(track) {
+  const d = data[track];
+  const panel = document.getElementById('detail');
+  document.getElementById('card-v').style.borderColor = track === 'v' ? 'var(--color-border-primary)' : 'var(--color-border-tertiary)';
+  document.getElementById('card-h').style.borderColor = track === 'h' ? 'var(--color-border-primary)' : 'var(--color-border-tertiary)';
+  panel.style.display = 'block';
+  panel.innerHTML = `
+    <h3>${d.title}</h3>
+    <div class="skills-grid">
+      <div class="skill-col">
+        <label>Have it</label>
+        ${d.have.map(s=>`<div class="skill-item"><div class="dot-have"></div>${s}</div>`).join('')}
+      </div>
+      <div class="skill-col">
+        <label>Growing into</label>
+        ${d.need.map(s=>`<div class="skill-item"><div class="dot-need"></div>${s}</div>`).join('')}
+      </div>
+    </div>`;
+}
+</script>
