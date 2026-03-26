@@ -1,0 +1,16 @@
+Here's a distilled set of 5 focused goals for the Principal Software Engineer:
+
+Goal 1 — Technical Excellence & Architecture Leadership
+Drive best-practice system design and architecture decisions in RBC Borealis (kept as-is — strong, clear, and foundational to the Principal role)
+
+Goal 2 — Platform Reliability & Cloud-Native Strategy (Merge of 2 & 3)
+Champion engineering reliability, resilience standards, and cloud-native platform strategy for microservices in OCP. This combines SLO/SLA ownership, chaos engineering, security-in-SDLC, and scalable architecture patterns for MCP tool development — one unified platform thinking goal.
+
+Goal 3 — Data-Driven Product Decision Making
+Establish data-driven decision-making frameworks — define health metrics, measure feature adoption, and ensure disciplined rollout practices.
+
+Goal 4 — Product Advocacy & Scalable Platform Positioning (from Goal 6)
+Position PG Assist as a scalable, reusable product across RBC Borealis with a clear value proposition, independent team onboarding, and measurable impact demos.
+
+Goal 5 — Evolve into a Strategic Organizational Influencer & Talent Multiplier (replaces Goal 7)
+Rather than personal brand-building (already a strength), the real growth edge for a T-shaped Principal is organizational leverage — executive-level communication, proactive strategic foresight (identifying bottlenecks before they're requests), mentoring the next layer of engineers, and bridging engineering, product, and business stakeholders. This is what separates a Principal from a Staff/Senior engineer: not doing more, but multiplying others.
