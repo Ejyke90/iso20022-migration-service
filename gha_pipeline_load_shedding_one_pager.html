@@ -1,0 +1,239 @@
+
+<h2 class="sr-only">GitHub Actions Pipeline Load Shedding Framework — Enterprise DevOps brainstorming one-pager</h2>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .page { padding: 2rem 0 3rem; max-width: 680px; }
+  .masthead { border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom: 1.25rem; margin-bottom: 1.5rem; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: var(--border-radius-md); background: var(--color-background-warning); color: var(--color-text-warning); margin-bottom: 8px; }
+  .badge-info { background: var(--color-background-info); color: var(--color-text-info); }
+  h1 { font-size: 20px; font-weight: 500; color: var(--color-text-primary); line-height: 1.3; }
+  .sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 6px; }
+  .section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-tertiary); margin-bottom: 10px; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+  .card-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .card-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+  .impact-pill { font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+  .pill-red { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .pill-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .pill-green { background: var(--color-background-success); color: var(--color-text-success); }
+  .row { display: flex; align-items: flex-start; gap: 10px; }
+  .icon-circle { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+  .ic-red { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .ic-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .ic-blue { background: var(--color-background-info); color: var(--color-text-info); }
+  .ic-green { background: var(--color-background-success); color: var(--color-text-success); }
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.5rem 0; }
+  .analogy-box { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1.5rem; }
+  .analogy-row { display: grid; grid-template-columns: 1fr 28px 1fr; gap: 8px; align-items: center; margin-top: 10px; }
+  .analogy-cell { font-size: 12px; color: var(--color-text-secondary); padding: 8px 10px; background: var(--color-background-primary); border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); }
+  .analogy-cell strong { display: block; font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); margin-bottom: 2px; }
+  .arr { text-align: center; font-size: 16px; color: var(--color-text-tertiary); }
+  .stage-row { display: flex; gap: 0; margin-bottom: 12px; overflow: hidden; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); }
+  .stage { flex: 1; padding: 10px 8px; text-align: center; border-right: 0.5px solid var(--color-border-tertiary); }
+  .stage:last-child { border-right: none; }
+  .stage-label { font-size: 11px; font-weight: 500; }
+  .stage-desc { font-size: 10px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
+  .stage-green { background: var(--color-background-success); }
+  .stage-amber { background: var(--color-background-warning); }
+  .stage-red { background: var(--color-background-danger); }
+  .stage-green .stage-label { color: var(--color-text-success); }
+  .stage-amber .stage-label { color: var(--color-text-warning); }
+  .stage-red .stage-label { color: var(--color-text-danger); }
+  .practice-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .practice-item:last-child { border-bottom: none; }
+  .check { font-size: 13px; color: var(--color-text-success); flex-shrink: 0; margin-top: 1px; }
+  .practice-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+  .practice-text strong { color: var(--color-text-primary); font-weight: 500; }
+  .footer-row { display: flex; gap: 10px; margin-top: 1.5rem; }
+  .footer-card { flex: 1; background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .footer-card strong { display: block; font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .pipeline-svg { width: 100%; margin: 12px 0; }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 1.5rem; }
+  .metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; }
+  .metric-val { font-size: 20px; font-weight: 500; line-height: 1; margin-bottom: 2px; }
+  .metric-lbl { font-size: 11px; color: var(--color-text-secondary); }
+  .m-red { color: var(--color-text-danger); }
+  .m-amber { color: var(--color-text-warning); }
+</style>
+
+<div class="page">
+
+  <div class="masthead">
+    <span class="badge">Internal — DevOps brainstorming session</span>
+    <h1>GHA Pipeline Congestion:<br>A Load Shedding Framework for App Teams</h1>
+    <p class="sub">Enterprise DevOps &nbsp;·&nbsp; GitHub Actions (Self-hosted, On-prem) &nbsp;·&nbsp; May 2025</p>
+  </div>
+
+  <!-- THE PROBLEM -->
+  <p class="section-label">The problem as users experience it</p>
+  <div class="metric-grid">
+    <div class="metric"><div class="metric-val m-red">40 min</div><div class="metric-lbl">Queue wait before build picks up</div></div>
+    <div class="metric"><div class="metric-val m-red">20 min</div><div class="metric-lbl">Runner spin-up delay</div></div>
+    <div class="metric"><div class="metric-val m-amber">???</div><div class="metric-lbl">Build longer than avg baseline</div></div>
+    <div class="metric"><div class="metric-val m-red">Peak hrs</div><div class="metric-lbl">GitHub grinds to a halt</div></div>
+  </div>
+
+  <!-- ROOT CAUSES -->
+  <p class="section-label">Where congestion originates (invisible to users)</p>
+  <div class="grid-3">
+    <div class="card">
+      <div class="row">
+        <div class="icon-circle ic-red"><i class="ti ti-server" aria-hidden="true"></i></div>
+        <div>
+          <div class="card-title">Runner saturation</div>
+          <div class="card-body">All on-prem runners occupied; no cloud burst option in a regulated env.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div class="icon-circle ic-red"><i class="ti ti-database" aria-hidden="true"></i></div>
+        <div>
+          <div class="card-title">DB / VM pressure</div>
+          <div class="card-body">Underlying infra peaks alongside GHA — compound effect at the platform layer.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div class="icon-circle ic-amber"><i class="ti ti-git-branch" aria-hidden="true"></i></div>
+        <div>
+          <div class="card-title">Unthrottled triggers</div>
+          <div class="card-body">Every push, every PR, every merge triggers full pipelines simultaneously.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ANALOGY -->
+  <div class="analogy-box">
+    <p class="section-label">The load shedding analogy</p>
+    <p style="font-size:13px; color: var(--color-text-secondary); line-height:1.6;">Power utilities use <strong style="color:var(--color-text-primary)">load shedding</strong> — deliberately rotating which areas get power — when demand exceeds generation capacity. It's a controlled inconvenience that prevents a total grid collapse. Our GHA platform is facing the same pattern: constrained supply (on-prem runners) vs. unconstrained demand (all teams pushing simultaneously). The answer isn't more runners alone — it's <em>demand shaping</em> on the app side, just like utilities do.</p>
+    <div class="analogy-row">
+      <div>
+        <div class="analogy-cell"><strong>Power grid</strong>Power station</div>
+      </div><div class="arr">→</div>
+      <div>
+        <div class="analogy-cell"><strong>GHA platform</strong>On-prem runner pool</div>
+      </div>
+    </div>
+    <div class="analogy-row">
+      <div><div class="analogy-cell"><strong>Power grid</strong>Households / industrial users</div></div>
+      <div class="arr">→</div>
+      <div><div class="analogy-cell"><strong>GHA platform</strong>Application teams / pipelines</div></div>
+    </div>
+    <div class="analogy-row">
+      <div><div class="analogy-cell"><strong>Power grid</strong>Peak demand hours</div></div>
+      <div class="arr">→</div>
+      <div><div class="analogy-cell"><strong>GHA platform</strong>Business-hours push storms</div></div>
+    </div>
+    <div class="analogy-row">
+      <div><div class="analogy-cell"><strong>Power grid</strong>Rolling blackouts (reactive)</div></div>
+      <div class="arr">→</div>
+      <div><div class="analogy-cell"><strong>GHA platform</strong>Pipeline queue backlogs (reactive)</div></div>
+    </div>
+    <div class="analogy-row">
+      <div><div class="analogy-cell"><strong>Power grid</strong>Off-peak tariffs / smart meters</div></div>
+      <div class="arr">→</div>
+      <div><div class="analogy-cell"><strong>GHA platform</strong>Pipeline scheduling + concurrency limits</div></div>
+    </div>
+  </div>
+
+  <!-- TRAFFIC LIGHT SYSTEM -->
+  <p class="section-label">Proposed: three-tier pipeline pressure system</p>
+  <div class="stage-row">
+    <div class="stage stage-green">
+      <div class="stage-label"><i class="ti ti-circle-check" aria-hidden="true"></i> Green — Normal</div>
+      <div class="stage-desc">Runner pool &lt;60% occupied. Standard SLA. All pipelines proceed as triggered.</div>
+    </div>
+    <div class="stage stage-amber">
+      <div class="stage-label"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Amber — Elevated</div>
+      <div class="stage-desc">60–85% saturation. Non-critical pipelines queued. Teams notified via Slack/email. Discourage manual retriggers.</div>
+    </div>
+    <div class="stage stage-red">
+      <div class="stage-label"><i class="ti ti-flame" aria-hidden="true"></i> Red — Load shed</div>
+      <div class="stage-desc">&gt;85% saturation. Only P0 pipelines (prod deploys, security gates) run. All others held. Rolling window applied.</div>
+    </div>
+  </div>
+  <p style="font-size:12px; color:var(--color-text-tertiary); margin-bottom:1.5rem;">Status broadcast on a shared #devops-status Slack channel + optional GitHub status badge in repos. App teams opt into notifications per repo.</p>
+
+  <hr class="divider">
+
+  <!-- WHAT APP TEAMS CAN DO -->
+  <p class="section-label">Pipeline best practices for app teams (demand shaping)</p>
+  <div class="card" style="padding: 1rem 1.25rem;">
+    <div class="practice-item">
+      <span class="check"><i class="ti ti-check" aria-hidden="true"></i></span>
+      <div class="practice-text"><strong>Use path filters on triggers.</strong> Don't run the full pipeline when only a README changes. <code>paths</code> and <code>paths-ignore</code> in your workflow file are free wins.</div>
+    </div>
+    <div class="practice-item">
+      <span class="check"><i class="ti ti-check" aria-hidden="true"></i></span>
+      <div class="practice-text"><strong>Collapse draft PRs.</strong> Disable CI on draft PRs or use <code>pull_request: types: [ready_for_review]</code> only. Avoid triggering full builds on every WIP commit.</div>
+    </div>
+    <div class="practice-item">
+      <span class="check"><i class="ti ti-check" aria-hidden="true"></i></span>
+      <div class="practice-text"><strong>Stagger large merges.</strong> Batch-merging feature branches at 09:00 Monday creates the equivalent of a power surge. Spread merges across the day.</div>
+    </div>
+    <div class="practice-item">
+      <span class="check"><i class="ti ti-check" aria-hidden="true"></i></span>
+      <div class="practice-text"><strong>Cancel redundant runs.</strong> Use <code>concurrency:</code> groups with <code>cancel-in-progress: true</code> so only the latest commit on a branch runs — not 5 stacked pushes.</div>
+    </div>
+    <div class="practice-item">
+      <span class="check"><i class="ti ti-check" aria-hidden="true"></i></span>
+      <div class="practice-text"><strong>Cache aggressively.</strong> Dependency installs that hit the network on every run waste runner time. <code>actions/cache</code> for node_modules, Maven, Gradle, pip etc. reduces per-job time significantly.</div>
+    </div>
+    <div class="practice-item">
+      <span class="check"><i class="ti ti-check" aria-hidden="true"></i></span>
+      <div class="practice-text"><strong>Split heavy pipelines.</strong> A 40-min monolithic pipeline blocks a runner longer than two 10-min pipelines with a gating step. Break long chains and use <code>needs:</code> dependencies wisely.</div>
+    </div>
+    <div class="practice-item">
+      <span class="check"><i class="ti ti-check" aria-hidden="true"></i></span>
+      <div class="practice-text"><strong>Don't manually retrigger under Amber/Red.</strong> If a pipeline fails during a congestion window, wait for status to return to Green before retriggering. Retriggers under load worsen the backlog.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- WHAT DEVOPS COMMITS TO -->
+  <p class="section-label">What the DevOps team commits to in return</p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-broadcast" aria-hidden="true" style="margin-right:6px"></i>Proactive comms</div>
+      <div class="card-body">Status updates pushed before users notice pain. Slack + email. Estimated resolution time included where known.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-chart-line" aria-hidden="true" style="margin-right:6px"></i>Visibility dashboard</div>
+      <div class="card-body">Runner utilisation metrics visible to teams. Know when it's a good time to trigger large jobs.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-shield-check" aria-hidden="true" style="margin-right:6px"></i>P0 guarantee</div>
+      <div class="card-body">Production deployments and security scanning gates are always protected — never shed, regardless of tier.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-route" aria-hidden="true" style="margin-right:6px"></i>Vendor escalation</div>
+      <div class="card-body">Where DB, VM, or runner issues require vendor involvement, DevOps owns the escalation path. App teams don't need to chase.</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-row">
+    <div class="footer-card">
+      <strong>Why we can't just add runners</strong>
+      As a financial institution on GitHub Enterprise Server (private), we cannot use GitHub's cloud runners. All runners are on-prem. Scaling requires infra procurement, security sign-off, and vendor co-ordination — not a same-day fix.
+    </div>
+    <div class="footer-card">
+      <strong>Discussion questions for today</strong>
+      1. What P0 pipelines must never be shed?<br>
+      2. Which teams can flex to off-peak?<br>
+      3. How do we communicate tier changes in real time?<br>
+      4. What metrics trigger each tier automatically?
+    </div>
+  </div>
+
+</div>
