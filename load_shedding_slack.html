@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)file:///Users/ejikeudeze/Downloads/gha_slack_templates.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GHA Pipeline — Slack Status Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./load_shedding_slack_files/css2" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --surface-2: #1e2333;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.15);
+    --text: #e8eaf0;
+    --text-muted: #8b92a8;
+    --text-dim: #555c73;
+    --green: #22c55e;
+    --green-bg: rgba(34,197,94,0.08);
+    --green-border: rgba(34,197,94,0.25);
+    --amber: #f59e0b;
+    --amber-bg: rgba(245,158,11,0.08);
+    --amber-border: rgba(245,158,11,0.25);
+    --red: #ef4444;
+    --red-bg: rgba(239,68,68,0.08);
+    --red-border: rgba(239,68,68,0.25);
+    --blue: #60a5fa;
+    --blue-bg: rgba(96,165,250,0.08);
+    --blue-border: rgba(96,165,250,0.25);
+    --font-sans: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .page-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 48px 28px;
+    position: relative;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--amber), var(--red));
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .content {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 48px 80px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .template-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .template-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tier-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .dot-amber { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+  .dot-red   { background: var(--red);   box-shadow: 0 0 6px var(--red);   }
+  .dot-blue  { background: var(--blue);  box-shadow: 0 0 6px var(--blue);  }
+
+  .tier-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .copy-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text-muted);
+    transition: all 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .copy-btn:hover { background: var(--surface-2); color: var(--text); border-color: var(--border-strong); }
+  .copy-btn.copied { color: var(--green); border-color: var(--green-border); }
+
+  .accent-green { border-left: 3px solid var(--green); }
+  .accent-amber { border-left: 3px solid var(--amber); }
+  .accent-red   { border-left: 3px solid var(--red);   }
+  .accent-blue  { border-left: 3px solid var(--blue);  }
+
+  .template-body {
+    padding: 16px 18px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: #c9cdd8;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    background: var(--surface);
+  }
+
+  .template-body .bold   { color: var(--text); font-weight: 500; }
+  .template-body .placeholder { color: var(--text-dim); }
+  .template-body .bullet { color: var(--text-muted); }
+
+  .note-row {
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 8px 4px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .note-row:last-child { border-bottom: none; }
+
+  .note-icon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
+    font-size: 9px;
+    text-align: center;
+    line-height: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+    color: var(--text-muted);
+  }
+
+  .spacer { height: 32px; }
+
+  @media print {
+    body { background: white; color: #1a1a1a; }
+    .page-header { background: #f5f5f5; }
+    .template-block { background: white; border-color: #ddd; }
+    .template-body { background: #f8f8f8; color: #2a2a2a; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="eyebrow">Enterprise DevOps &nbsp;·&nbsp; GitHub Actions &nbsp;·&nbsp; Internal</div>
+  <h1>GHA Pipeline Status — Slack Templates</h1>
+  <div class="subtitle">Post to <strong>#devops-status</strong> when pipeline pressure tiers change. Fill all <code style="background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:3px;font-size:12px;">{{PLACEHOLDER}}</code> fields before sending.</div>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Status message templates</div>
+
+  <!-- GREEN -->
+  <div class="template-block accent-green">
+    <div class="template-header">
+      <span class="tier-dot dot-green"></span>
+      <span class="tier-name">Green — normal operations</span>
+      <button class="copy-btn" id="btn-green" onclick="copyMsg(&#39;green&#39;)">Copy</button>
+    </div>
+    <pre class="template-body" id="msg-green">:green_circle: *GHA Pipeline Status — Normal* | {{DATE}} {{TIME}}
+
+Runner pool utilisation is within normal range. All pipelines are processing at standard SLA.
+
+*No action required from app teams.*
+
+---
+_Next status check: {{NEXT_CHECK}}. Updates posted here if conditions change._
+_DevOps contact: @devops-oncall_</pre>
+  </div>
+  <div class="note-row"><span class="note-icon">i</span>Send at start of business, or after resolving an Amber/Red event to confirm return to normal.</div>
+
+  <!-- AMBER -->
+  <div class="template-block accent-amber">
+    <div class="template-header">
+      <span class="tier-dot dot-amber"></span>
+      <span class="tier-name">Amber — elevated pressure (60–85% runner capacity)</span>
+      <button class="copy-btn" id="btn-amber" onclick="copyMsg(&#39;amber&#39;)">Copy</button>
+    </div>
+    <pre class="template-body" id="msg-amber">:yellow_circle: *GHA Pipeline Status — Elevated Pressure* | {{DATE}} {{TIME}}
+
+Runner pool is under elevated load (60–85% capacity). Pipelines may queue longer than usual.
+
+*What this means for your team:*
+• Expect build pick-up delays of up to ~15 min
+• Non-critical pipelines will queue behind priority work
+• *Do not manually retrigger* failed jobs — this worsens the backlog
+
+*What helps right now:*
+• Hold off on large batch merges until status returns to Green
+• Cancel redundant in-progress runs if safe to do so
+
+We are actively monitoring. No intervention needed from app teams unless you have a P0 deployment — DM @devops-oncall directly in that case.
+
+---
+_Estimated resolution: {{ETA or "monitoring, no ETA yet"}}. Next update in 30 min or on status change._
+_Root cause: {{BRIEF_CAUSE — e.g. "elevated VM load" / "peak-hour push storm"}}_</pre>
+  </div>
+  <div class="note-row"><span class="note-icon">i</span>Send as soon as the 60% threshold is crossed. Filling in a root cause — even "investigating" — is better than leaving it blank.</div>
+
+  <!-- RED -->
+  <div class="template-block accent-red">
+    <div class="template-header">
+      <span class="tier-dot dot-red"></span>
+      <span class="tier-name">Red — load shedding active (&gt;85% runner capacity)</span>
+      <button class="copy-btn" id="btn-red" onclick="copyMsg(&#39;red&#39;)">Copy</button>
+    </div>
+    <pre class="template-body" id="msg-red">:red_circle: *GHA Pipeline Status — Load Shedding Active* | {{DATE}} {{TIME}}
+
+Runner pool has exceeded safe capacity (&gt;85%). Load shedding is now in effect to protect platform stability.
+
+*What is happening:*
+• Only P0 pipelines (production deploys, mandatory security gates) are running
+• All other pipelines are held in queue — they will resume automatically when capacity returns
+• The GitHub Enterprise UI may be slow during this period
+
+*What your team should do:*
+• *Stop retriggering jobs.* Queued jobs will run — extra triggers make the queue longer
+• Do not open new PRs expecting immediate CI — they will queue
+• Urgent prod deployment needed? DM @devops-oncall with repo + PR link NOW
+
+*What DevOps is doing:*
+• {{ACTION — e.g. "Investigating runner host degradation / coordinating with vendor"}}
+• Vendor escalation: {{STATUS — e.g. "ticket raised, ref #XXXX" / "not yet required"}}
+
+---
+_Estimated resolution: {{ETA}}_
+_Next update: in 15 min or sooner if status changes_
+_DevOps oncall: @devops-oncall — for P0 emergencies only_</pre>
+  </div>
+  <div class="note-row"><span class="note-icon">i</span>Send immediately when shedding activates. The 15-min update cadence is critical — silence during Red breeds panic and retriggers, which worsen the event.</div>
+
+  <!-- RESOLVED -->
+  <div class="template-block accent-blue">
+    <div class="template-header">
+      <span class="tier-dot dot-blue"></span>
+      <span class="tier-name">Resolved — return to normal (send after any Amber or Red event)</span>
+      <button class="copy-btn" id="btn-resolve" onclick="copyMsg(&#39;resolve&#39;)">Copy</button>
+    </div>
+    <pre class="template-body" id="msg-resolve">:white_check_mark: *GHA Pipeline Status — Resolved* | {{DATE}} {{TIME}}
+
+Pipeline capacity has returned to normal. All queued jobs are now processing. No further action needed from app teams.
+
+*Summary:*
+• Duration: {{START_TIME}} – {{END_TIME}}  ({{DURATION}})
+• Root cause: {{CAUSE}}
+• Impact: {{e.g. "~120 jobs queued; all processed within 20 min of resolution"}}
+• Follow-up: {{e.g. "Post-incident review scheduled for [DATE]" / "None required"}}
+
+Thank you for your patience.
+— DevOps team</pre>
+  </div>
+  <div class="note-row" style="border-bottom:none;"><span class="note-icon">i</span>Always send a resolution message. It closes the loop and reinforces trust that DevOps is on top of the platform.</div>
+
+</div>
+
+<script>
+function copyMsg(id) {
+  const el = document.getElementById('msg-' + id);
+  const btn = document.getElementById('btn-' + id);
+  if (!el || !btn) return;
+  navigator.clipboard.writeText(el.innerText).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    const range = document.createRange();
+    range.selectNode(el);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+
+
+</body></html>

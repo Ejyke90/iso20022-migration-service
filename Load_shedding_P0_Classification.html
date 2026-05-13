@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)file:///Users/ejikeudeze/Downloads/gha_p0_decision_tree.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GHA Pipeline — P0 Classification Decision Tree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./Load_shedding_P0_Classification_files/css2" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --surface-2: #1e2333;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.15);
+    --text: #e8eaf0;
+    --text-muted: #8b92a8;
+    --text-dim: #555c73;
+    --green: #22c55e;
+    --green-bg: rgba(34,197,94,0.09);
+    --green-border: rgba(34,197,94,0.3);
+    --amber: #f59e0b;
+    --amber-bg: rgba(245,158,11,0.09);
+    --amber-border: rgba(245,158,11,0.3);
+    --red: #ef4444;
+    --red-bg: rgba(239,68,68,0.09);
+    --red-border: rgba(239,68,68,0.3);
+    --blue: #60a5fa;
+    --font-sans: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .page-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 48px 28px;
+    position: relative;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--amber), var(--green));
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 600px;
+  }
+
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 48px 80px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  /* Progress */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .pdot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--border-strong);
+    transition: all 0.25s;
+  }
+
+  .pdot.active { background: var(--text); transform: scale(1.2); }
+  .pdot.done   { background: var(--text-muted); }
+
+  .breadcrumb {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    min-height: 18px;
+    line-height: 1.4;
+  }
+
+  /* Question card */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 12px;
+    transition: opacity 0.2s;
+  }
+
+  .q-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.45;
+    margin-bottom: 16px;
+  }
+
+  .q-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    margin-top: -10px;
+    line-height: 1.5;
+  }
+
+  .opts {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .opt-btn {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid var(--border-strong);
+    background: var(--surface-2);
+    color: var(--text);
+    transition: all 0.15s;
+  }
+
+  .opt-btn:hover { background: #252b3d; border-color: rgba(255,255,255,0.25); }
+  .opt-btn.sel-yes { background: var(--red-bg); color: var(--red); border-color: var(--red-border); }
+  .opt-btn.sel-no  { background: var(--surface-2); color: var(--text-muted); }
+
+  /* Results */
+  .result-card {
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-top: 8px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .result-p0 { background: var(--red-bg); border: 1px solid var(--red-border); }
+  .result-p1 { background: var(--amber-bg); border: 1px solid var(--amber-border); }
+  .result-p2 { background: var(--green-bg); border: 1px solid var(--green-border); }
+
+  .result-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .badge-p0 { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid var(--red-border); }
+  .badge-p1 { background: rgba(245,158,11,0.15); color: var(--amber); border: 1px solid var(--amber-border); }
+  .badge-p2 { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid var(--green-border); }
+
+  .result-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .dot-red   { background: var(--red); }
+  .dot-amber { background: var(--amber); }
+  .dot-green { background: var(--green); }
+
+  .result-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .result-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .result-action {
+    font-size: 12px;
+    color: var(--text-dim);
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    line-height: 1.5;
+    border-left: 3px solid var(--border-strong);
+    margin-bottom: 10px;
+  }
+
+  .examples {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.8;
+    padding-left: 4px;
+  }
+
+  .examples li { margin-left: 14px; list-style: none; }
+  .examples li::before { content: '→ '; color: var(--text-dim); }
+
+  .reset-btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    margin-top: 20px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text-muted);
+    transition: all 0.15s;
+    display: none;
+  }
+
+  .reset-btn:hover { background: var(--surface); color: var(--text); }
+
+  .hidden { display: none !important; }
+
+  /* Footer rule box */
+  .rule-box {
+    margin-top: 40px;
+    padding: 18px 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    border-left: 3px solid var(--amber);
+  }
+
+  .rule-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+
+  .rule-text {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="eyebrow">Enterprise DevOps &nbsp;·&nbsp; GitHub Actions &nbsp;·&nbsp; Internal</div>
+  <h1>P0 Pipeline Classification</h1>
+  <div class="subtitle">Use this decision tree to self-assess before requesting P0 priority protection. Registration must happen proactively — not during an active Red event.</div>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Step through the questions below</div>
+
+  <div class="progress-row">
+    <div class="pdot active" id="d0"></div>
+    <div class="pdot" id="d1"></div>
+    <div class="pdot" id="d2"></div>
+    <div class="pdot" id="d3"></div>
+    <div class="pdot" id="d4"></div>
+  </div>
+
+  <div class="breadcrumb" id="breadcrumb"></div>
+
+  <!-- Q0 -->
+  <div class="q-card" id="q0">
+    <div class="q-num">Question 1 of 5</div>
+    <div class="q-text">Does this pipeline deploy directly to a production environment — or a pre-prod environment that feeds production within 24 hours?</div>
+    <div class="opts">
+      <button class="opt-btn" onclick="answer(0,&#39;yes&#39;)">Yes</button>
+      <button class="opt-btn" onclick="answer(0,&#39;no&#39;)">No</button>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-card hidden" id="q1">
+    <div class="q-num">Question 2 of 5</div>
+    <div class="q-text">Is this pipeline required to satisfy a regulatory, audit, or compliance obligation?</div>
+    <div class="q-hint">Examples: mandatory SAST/DAST gate, SOX control evidence, vulnerability scan required before any merge.</div>
+    <div class="opts">
+      <button class="opt-btn" onclick="answer(1,&#39;yes&#39;)">Yes</button>
+      <button class="opt-btn" onclick="answer(1,&#39;no&#39;)">No</button>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card hidden" id="q2">
+    <div class="q-num">Question 3 of 5</div>
+    <div class="q-text">Would a delay of more than 2 hours cause direct financial impact, an SLA breach, or measurable reputational harm to the institution?</div>
+    <div class="opts">
+      <button class="opt-btn" onclick="answer(2,&#39;yes&#39;)">Yes</button>
+      <button class="opt-btn" onclick="answer(2,&#39;no&#39;)">No</button>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card hidden" id="q3">
+    <div class="q-num">Question 4 of 5</div>
+    <div class="q-text">Is this pipeline part of an active incident response or a hotfix for a live production issue right now?</div>
+    <div class="opts">
+      <button class="opt-btn" onclick="answer(3,&#39;yes&#39;)">Yes — active incident</button>
+      <button class="opt-btn" onclick="answer(3,&#39;no&#39;)">No</button>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card hidden" id="q4">
+    <div class="q-num">Question 5 of 5</div>
+    <div class="q-text">Has this pipeline been formally registered with the DevOps team as a named P0 pipeline in the service catalogue?</div>
+    <div class="opts">
+      <button class="opt-btn" onclick="answer(4,&#39;yes&#39;)">Yes, it is registered</button>
+      <button class="opt-btn" onclick="answer(4,&#39;no&#39;)">No / not sure</button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="result-p0" class="result-card result-p0 hidden">
+    <div class="result-badge badge-p0"><span class="result-dot dot-red"></span>P0 — protected during load shedding</div>
+    <div class="result-title">This pipeline qualifies for P0 status</div>
+    <div class="result-desc">P0 pipelines run even when Red tier load shedding is active. Production deploys, mandatory compliance gates, and active incident hotfixes are always protected regardless of runner capacity.</div>
+    <div class="result-action">If not yet registered: DM <strong>@devops-oncall</strong> with your repo name and workflow file path to complete registration in the service catalogue. Do this now — not during the next incident.</div>
+  </div>
+
+  <div id="result-p1" class="result-card result-p1 hidden">
+    <div class="result-badge badge-p1"><span class="result-dot dot-amber"></span>P1 — queued during Red, prioritised during Amber</div>
+    <div class="result-title">This pipeline has elevated priority but does not qualify as P0</div>
+    <div class="result-desc">P1 pipelines queue ahead of standard workloads during both Amber and Red events, but they do not run during active Red load shedding. They will resume automatically as soon as capacity returns.</div>
+    <div class="result-action">To request a P0 reassessment, open a DevOps service request with a written business justification. Do not contact oncall during an active Red event for classification queries.</div>
+    <ul class="examples">
+      <li>Staging deploys ahead of a scheduled release window</li>
+      <li>Pipelines with next-business-day SLA obligations</li>
+      <li>Internal tooling deploys affecting multiple teams</li>
+    </ul>
+  </div>
+
+  <div id="result-p2" class="result-card result-p2 hidden">
+    <div class="result-badge badge-p2"><span class="result-dot dot-green"></span>P2 — standard queue, held during Red</div>
+    <div class="result-title">This is a standard workload</div>
+    <div class="result-desc">P2 pipelines are held in queue during Red tier load shedding and resume automatically when capacity returns. Jobs are not lost — only delayed. No action is needed from your team.</div>
+    <div class="result-action">Typical delay during Red events: queue hold time + up to 15–45 min drain time post-resolution. Plan your release timeline accordingly and avoid retriggering held jobs.</div>
+    <ul class="examples">
+      <li>Feature branch CI, draft PR pipelines</li>
+      <li>Developer tooling, non-production environment deploys</li>
+      <li>Test runs and code quality scans with no SLA gate</li>
+    </ul>
+  </div>
+
+  <button class="reset-btn" id="reset-btn" onclick="reset()">↻ Start over</button>
+
+  <div class="rule-box">
+    <div class="rule-title">The golden rule</div>
+    <div class="rule-text">
+      P0 registration is a proactive process, not a reactive one. Pipelines are registered in the service catalogue during normal operations — not during Red events. If you believe a pipeline should be P0 but it isn't registered, raise a DevOps service request now.
+      <br><br>
+      During an active Red event, the oncall engineer's only job is stabilising the platform. Classification discussions happen after resolution.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const state = { answers: [] };
+  const qLabels = ['Prod deploy?', 'Compliance gate?', '2hr impact?', 'Active incident?', 'Registered?'];
+
+  function answer(q, val) {
+    state.answers[q] = val;
+    updateProgress(q + 1);
+    updateBreadcrumb();
+    hideResults();
+
+    if (q === 0) { show('q1'); }
+
+    if (q === 1) {
+      if (val === 'yes') { hideQs(['q2','q3','q4']); showResult('p0'); }
+      else { show('q2'); hide('q3','q4'); }
+    }
+
+    if (q === 2) { show('q3'); hide('q4'); }
+
+    if (q === 3) {
+      if (val === 'yes') { hideQs(['q4']); showResult('p0'); }
+      else { show('q4'); }
+    }
+
+    if (q === 4) {
+      const isProd     = state.answers[0] === 'yes';
+      const isFinancial = state.answers[2] === 'yes';
+      const isRegistered = val === 'yes';
+      if (isRegistered && isProd) { showResult('p0'); }
+      else if (isProd || isFinancial) { showResult('p1'); }
+      else { showResult('p2'); }
+    }
+  }
+
+  function show(...ids) { ids.forEach(id => document.getElementById(id) && document.getElementById(id).classList.remove('hidden')); }
+  function hide(...ids) { ids.forEach(id => document.getElementById(id) && document.getElementById(id).classList.add('hidden')); }
+  function hideQs(ids) { ids.forEach(id => document.getElementById(id) && document.getElementById(id).classList.add('hidden')); }
+  function hideResults() { ['result-p0','result-p1','result-p2'].forEach(id => document.getElementById(id).classList.add('hidden')); }
+
+  function showResult(tier) {
+    document.getElementById('result-' + tier).classList.remove('hidden');
+    document.getElementById('reset-btn').style.display = 'inline-block';
+    updateProgress(5);
+  }
+
+  function updateBreadcrumb() {
+    const parts = state.answers.map((a, i) => qLabels[i] + ' ' + (a === 'yes' ? 'Yes' : 'No'));
+    document.getElementById('breadcrumb').textContent = parts.join(' › ');
+  }
+
+  function updateProgress(step) {
+    for (let i = 0; i < 5; i++) {
+      const d = document.getElementById('d' + i);
+      if (!d) continue;
+      d.className = 'pdot' + (i < step ? ' done' : i === step ? ' active' : '');
+    }
+  }
+
+  function reset() {
+    state.answers = [];
+    ['q1','q2','q3','q4','result-p0','result-p1','result-p2'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    document.getElementById('q0').classList.remove('hidden');
+    document.getElementById('reset-btn').style.display = 'none';
+    document.getElementById('breadcrumb').textContent = '';
+    updateProgress(0);
+  }
+</script>
+
+
+
+</body></html>
