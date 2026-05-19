@@ -396,3 +396,48 @@ def run(user_id: str, memory_service: MemoryService, dry_run: bool = False):
 - Do not make memory write failures fatal to the ingestion pipeline
 - Do not store raw email bodies in MongoDB — only preprocessed content
 - Do not hardcode user_id anywhere — always pass it through from the calling context
+
+
+
+You are improving an existing MCP tool implementation for a RAG service (PG MCP).
+
+## Goal
+Fix four specific failure modes observed when smaller models (Haiku, Sonnet, 
+Cohere) use these tools:
+1. Date range confusion with relative phrases ("this past week", "last week")
+2. Incorrect tool/parameter selection on complex queries  
+3. Timezone resolution failure
+4. Arithmetic/logic errors on aggregate queries (e.g. "busiest day")
+
+## Constraints — read these first
+- DO NOT add new tools. Improve existing tool and parameter descriptions only.
+- DO NOT change function signatures or return shapes.
+- DO NOT refactor working logic. Touch only docstrings, descriptions, enum 
+  values, and server-side computation where explicitly noted below.
+- Each change must be independently reversible.
+- If a fix requires a new parameter, it must be optional with a sensible default.
+
+## Specific fixes — do exactly these, nothing more
+1. **Date params**: Add inline examples for relative date phrases 
+   (e.g. `"this past week" means the 7 days ending yesterday`). 
+   Include an explicit note that "past week ≠ last calendar week".
+
+2. **Parameter descriptions**: Expand descriptions and add enum hints where 
+   selection is ambiguous. Mirror the pattern already used in the clearest 
+   existing tool.
+
+3. **Timezone param**: Add an optional `timezone` parameter (default: "UTC") 
+   with a one-line description. Do not infer timezone from context.
+
+4. **Busiest-day / aggregate logic**: Move computation server-side. 
+   Return the computed result, not raw data for the model to calculate.
+
+## Acceptance bar
+- A smaller model (non-Sonnet) calling these tools should now pick the right 
+  tool and parameters on the first try for the above scenarios.
+- No change to response contracts that would break existing callers.
+- No new dependencies.
+
+## Output format
+For each fix: show the before/after diff and a one-line rationale. 
+Flag anything that feels outside scope rather than implementing it.
