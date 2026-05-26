@@ -24,3 +24,48 @@ estimated token count from logs.
 
 Do not write code until you have confirmed 
 the file contents in Step 1.
+
+
+You are a Principal Software Engineer. Do not write 
+any code until Step 3.
+
+CONTEXT:
+The get_assist tool returns well-formatted markdown.
+But the MCP client prepends the model's spoken text 
+directly to the tool result string with no separator,
+producing: "I'll get you a summary.## Catch-Up Summary"
+
+The desired output is ONLY the tool result — no model 
+preamble, no concatenation artifact.
+
+STEP 1 — DIAGNOSE (read only, no edits)
+Find and read these three things:
+a) The system prompt or tool description for get_assist
+   in email_mcp.py or wherever tools are registered
+b) The exact return statement in get_assist / 
+   catchup_service.py that builds the final string
+c) How the MCP client assembles the final response
+   (look for where tool result + model text join)
+Report what you find. Stop.
+
+STEP 2 — PROPOSE (no edits yet)
+Based on Step 1, propose the minimal fix.
+The correct fix is ONE of:
+- Tool description instructs model to return 
+  tool result only, no spoken preamble
+- System prompt sets direct=True or equivalent
+  to suppress model wrapping
+- Response assembly changed to tool-result-only mode
+Tell me which applies and show the exact line 
+you will change. Stop.
+
+STEP 3 — IMPLEMENT
+Make only the change agreed in Step 2.
+Show the diff. No other files touched.
+
+STEP 4 — VERIFY
+Rerun: "Hi catch me up last week and today"
+Confirm the output starts directly with 
+"# Catch Me Up" or the first section heading.
+No introductory sentence. Report token count 
+from logs.
