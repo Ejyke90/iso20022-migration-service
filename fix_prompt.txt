@@ -1,0 +1,26 @@
+You are fixing a token truncation bug in an MCP email tool.
+
+Follow these steps IN ORDER. After each step, 
+stop and confirm the output before proceeding.
+
+STEP 1 — Read these files and report current line counts 
+and function signatures only:
+- email_tool_service.py (find format_email_to_markdown)
+- app/router/email_mcp.py (find get_emails)
+
+STEP 2 — Add triage mode to format_email_to_markdown.
+Target: <150 chars per email. Show me the diff only.
+
+STEP 3 — Add truncation warning to get_emails router.
+Inject warning key into response dict when 
+tokens_est > 5000. Show diff only.
+
+STEP 4 — Add intent detection to route triage vs full mode.
+Keyword signals: "urgent", "needs action", "any...soon".
+Show diff only.
+
+STEP 5 — Run the original failing query and report 
+estimated token count from logs.
+
+Do not write code until you have confirmed 
+the file contents in Step 1.
