@@ -543,3 +543,149 @@ Use Excalidraw's elbow connector style for all arrows
 This prevents diagonal crossing and keeps the diagram grid-aligned.
 Set all arrow endpoints to use named anchor points 
 (top, bottom, left, right) not free-floating points.
+
+
+
+==============
+
+The current diagram has arrow routing problems that are 
+reducing legibility. 
+
+Replace all directional arrows with the following approach:
+
+1. Draw thin lines (no arrowheads) between connected components.
+   Use line colour only to indicate trust level:
+   Blue line = crosses an auth boundary
+   Grey line = internal only
+   Red line = flagged / unencrypted segment
+
+2. Label each line with a circled number only: ①②③ etc.
+   No text on the lines themselves.
+
+3. Add a CONNECTION KEY table below the diagram with columns:
+   # | From | To | Auth | Protocol | Data Carried | Encrypted?
+
+4. Remove the existing arrow colour legend — 
+   replace with the connection key table.
+
+5. The data flow summary sentence at the bottom stays as-is.
+   It provides the narrative. The connection key provides the detail.
+   The diagram itself provides the spatial layout.
+   These three layers together replace what arrows were trying to do alone.
+
+============
+
+Targeted Cleanup & Label Corrections
+
+Make the following specific corrections to the diagram.
+Do not change anything else.
+
+---
+
+CORRECTION 1 — MCP Server Pod
+Current annotations are incomplete. Replace with:
+
+  MCP Server [Pod]
+  🔑 OAuth2 + JWT + HMAC
+  🔓 Decrypts AES-256-GCM on read
+  ⚠️ Contains PII
+
+---
+
+CORRECTION 2 — Auth Service Pod
+Add the EWS protocol explicitly:
+
+  Auth Service [Pod]
+  🔑 LDAP auth
+  🔑 NTLM → EWS
+  ⚠️ Contains PII
+
+---
+
+CORRECTION 3 — Embedding Sync Pod
+Clarify the write destination:
+
+  Embedding Sync [Pod]
+  🔑 S3 key
+  → Copies encrypted DB to PVC
+
+---
+
+GLOBAL TEXT RULE — apply across entire diagram
+Shorten all labels using these substitutions:
+
+  "Encrypted at rest" → "Enc. at rest"
+  "Authentication" → "Auth"
+  "Persistent Volume Claim" → "PVC"
+  "Internal only" → "Internal"
+  "Contains" → "Has"
+  "Encrypted PII" → "Enc. PII"
+  "At rest: AES-256-GCM" → "Rest: AES-256-GCM"
+  "In transit: TLS 1.3" → "Transit: TLS 1.3"
+  "If compromised" → "If breached"
+  "All connections TLS unless noted" → "All conns. TLS"
+  "Identical Deployment" → "Mirror DC"
+
+Maximum label length: 25 characters per line.
+If a label exceeds this, split across two lines or abbreviate further.
+
+
+============
+
+
+Entra ID Classification Fix
+
+CORRECTION — Entra ID label is wrong.
+
+Current label says: Entra ID [EXTERNAL]
+This is incorrect and must be changed.
+
+Context:
+RBC operates its own internal Microsoft tenant.
+Entra ID is external to the MCP app but internal to RBC corporate network.
+It is NOT a public external service. It sits inside RBC's trust boundary.
+
+Fix as follows:
+
+1. Move Entra ID out of any EXTERNAL classification.
+   It belongs in the INTERNAL CORPORATE zone, not the internet zone.
+
+2. Relabel the component:
+   Entra ID [RBC Internal]
+   🔑 JWKS only
+   🏢 RBC Microsoft Tenant
+
+3. Add a clarification note in the legend under AUTH MECHANISMS:
+   "Entra ID = RBC-managed Microsoft tenant.
+    External to MCP app. Internal to RBC. Not public."
+
+4. If any arrow or connection line treats Entra ID as 
+   crossing an internet boundary, reclassify it as 
+   an internal corporate boundary crossing instead.
+   Change line colour from red/external to blue/auth boundary.
+
+Do not change anything else.
+
+
+===============
+
+Mitigation strategies
+
+Add a MITIGATION column to the existing Blast Radius box.
+
+For each breached component already listed, add one mitigation control.
+
+Rules:
+- Mitigations must be design-level controls, not code details
+  (e.g. "per-user AES keys" not "see encrypt_file() method")
+- If a mitigation is not yet implemented, mark it: ⚠️ Recommended
+- If a mitigation is confirmed in place, mark it: ✅ Active
+- Maximum one line per mitigation
+- Do not remove the existing impact statements
+
+Also add one row for:
+  PVC breached → all synced DBs readable
+  And one row for:
+  Entra ID breached → token forgery risk
+
+Keep the box compact. Two columns: Impact | Mitigation.
