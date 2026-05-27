@@ -713,3 +713,23 @@ component labels, or the connection key table.
 Also — fix the Entra ID label while you're at it. Still says [EXTERNAL] in this version. Add this line to the same prompt:
 Also correct: Entra ID label must read [RBC Internal] not [EXTERNAL].
 Move it visually inside the INTERNAL CORPORATE zone border if it is not already.
+
+Replace the "Enc?" column in the CONNECTION KEY table 
+with two separate columns:
+
+Column 1: "In Transit"
+Column 2: "At Rest"
+
+Rules:
+- If encrypted in transit: write the protocol e.g. "TLS 1.3"
+- If not encrypted in transit: write "Internal only" or "—"
+- If encrypted at rest: write the standard e.g. "AES-256-GCM"
+- If not encrypted at rest: write "—"
+- Never use a bare checkmark — always name the standard
+
+For rows where the current value is "Rest":
+- Move that value to the "At Rest" column
+- Fill "In Transit" based on what the code confirms 
+  for that connection
+
+Do not change any other columns.
