@@ -151,3 +151,101 @@ Rules:
   missing auth, hardcoded secrets)
 - Use actual variable names, function names, and config keys 
   where they clarify the architecture
+
+
+
+=============
+For any service, run this AFTER the first draft:
+
+
+
+
+You have just produced a first draft diagram of [SERVICE NAME].
+
+Before I accept it, I need you to do two things:
+
+---
+
+PART 1 — AUDIENCE FILTER
+
+Re-examine every element in this diagram through the eyes of 
+an AI Security Team reviewing this for the first time.
+
+They are NOT asking:
+- What are the table column names?
+- What is the method signature?
+- What is the cache TTL?
+- What does each function do internally?
+
+They ARE asking:
+- What components exist in this system?
+- What are the trust boundaries? 
+  (Where does data cross a network, a service, or an auth boundary?)
+- Where is data stored, and is it encrypted at rest?
+- Where is data in transit, and is it encrypted in transit?
+- Who or what authenticates to what? 
+  (IAM role, API key, mTLS, service account?)
+- What are the external dependencies? 
+  (S3, Cohere API, OCP cluster, etc.)
+- Where could an attacker move laterally if one component is compromised?
+- What secrets or credentials are involved and where do they live?
+
+Remove any element that answers the first list but not the second.
+Keep any element that helps a security reviewer assess risk or trust.
+
+---
+
+PART 2 — FLOW DIAGRAM vs ARCHITECTURE DIAGRAM
+
+Your current output reads as a flow diagram. 
+Convert it to an architecture diagram using these rules:
+
+REMOVE:
+- Step-by-step sequence numbering (1→2→3)
+- Method names and function calls
+- Internal implementation details (table schemas, cache keys, batch sizes)
+- Anything that requires reading the code to understand
+
+KEEP AND EMPHASISE:
+- Named components (services, databases, storage, external APIs)
+- The environment each component lives in 
+  (OCP cluster, AWS, external SaaS, local process)
+- Data classification on connections 
+  (encrypted / unencrypted, what type of data flows: embeddings, 
+  raw email, metadata, query, response)
+- Auth mechanisms on connections 
+  (IAM, API key, service account, none — "none" must be flagged)
+- Trust zone boundaries drawn as visual groupings:
+  → Internet-facing zone
+  → Internal cluster zone  
+  → Persistent storage zone
+  → External services zone
+
+ADD:
+- A legend explaining:
+  → Solid line = authenticated connection
+  → Dashed line = unauthenticated or internal-only connection
+  → Lock icon or label = encrypted at rest
+  → Shield icon or label = encrypted in transit
+- A one-line data sensitivity label per component 
+  (e.g. "contains PII", "embeddings only — no raw content", 
+  "ephemeral — no persistence")
+
+---
+
+PART 3 — FINAL CHECK
+
+Before outputting the revised diagram, answer these 5 questions 
+as the security reviewer would:
+
+1. Can I identify every place raw email content is stored or transmitted?
+2. Can I identify every external service this system calls?
+3. Can I identify every authentication boundary?
+4. Are there any connections with no auth or no encryption shown?
+5. If one component were compromised, what's the blast radius?
+
+If any answer reveals a gap in the diagram, add what's missing.
+Then produce the revised architecture diagram.
+
+Quick Reference — What to Strip vs Keep
+Strip from flow diagramKeep for security architectureMethod namesComponent namesTable column namesDatabase type + encryption statusCache TTL valuesWhere credentials are storedBatch sizesTrust zone boundariesStep numbersAuth mechanism per connectionInternal logicData classification per flow
