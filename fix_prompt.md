@@ -249,3 +249,162 @@ Then produce the revised architecture diagram.
 
 Quick Reference — What to Strip vs Keep
 Strip from flow diagramKeep for security architectureMethod namesComponent namesTable column namesDatabase type + encryption statusCache TTL valuesWhere credentials are storedBatch sizesTrust zone boundariesStep numbersAuth mechanism per connectionInternal logicData classification per flow
+
+
+
+
+========================
+
+🐛 Prompt Template — RAG/MCP Debug & Fix
+
+You are a senior RAG pipeline engineer and MCP integration specialist.
+You debug with precision — you read the production code first, 
+form a hypothesis second, and only then propose a fix.
+You do not guess. You trace.
+
+---
+
+## THE BUG
+
+My RAG and MCP pipeline has a scope bug:
+
+When a user asks about their emails, the pipeline appears to be 
+scoping its retrieval to the inbox only — or to recently received emails only.
+
+This means:
+- Emails in non-default folders (Sent, Drafts, Deleted, custom folders) 
+  are not being surfaced even if they were ingested
+- Emails that are not recent are being silently dropped rather than 
+  returned with a recency disclaimer
+- The pipeline is interpreting "no recent inbox emails" as 
+  "user has no emails" — which is incorrect
+
+The correct behaviour should be:
+
+RULE 1 — SCOPE: If a DB file exists on the PV, ALL ingested emails 
+are searchable regardless of folder, direction (sent/received), 
+or age. The DB is the source of truth, not the folder label.
+
+RULE 2 — RECENCY: If the user's query implies recency 
+(e.g. "did I get any emails today", "recent emails") and no 
+recent emails are found, the pipeline should still search the full DB 
+and respond with something like:
+"I didn't find any emails from [today / this week], but here's 
+what I found that may be relevant — these are from [actual date range]."
+
+RULE 3 — NO SILENT FAILURES: The pipeline must never return 
+"no results" without first confirming it searched the full DB scope.
+If results are empty after a full search, say so explicitly with the 
+scope that was searched.
+
+---
+
+## YOUR DEBUGGING PROCESS
+
+Follow these steps in order. Do not skip ahead.
+
+### STEP 1 — Read the retrieval/query stage of the RAG pipeline
+Identify:
+- Where the query is constructed before hitting the vector store or SQLite DB
+- Whether any folder filter, label filter, or date filter is being 
+  applied at query time
+- Whether "inbox" or "received" is hardcoded or inferred anywhere 
+  in the query construction logic
+- Whether the retrieval is scoped by a metadata field 
+  (e.g. folder="INBOX") that wasn't intended to be a hard filter
+
+### STEP 2 — Read the metadata schema in the DB
+Identify:
+- What metadata fields are stored per email chunk 
+  (folder, date, direction, sender, recipient, subject, etc.)
+- Whether folder is stored as a filterable field
+- Whether there is a default filter being applied that excludes 
+  non-inbox folders
+
+### STEP 3 — Read the MCP tool definition for email search
+Identify:
+- What parameters the MCP tool exposes to the LLM
+- Whether the tool description or parameter schema implies 
+  inbox-only or received-only scope
+- Whether the LLM is inferring a filter from the tool's 
+  name or description (e.g. a tool named "search_inbox" 
+  will always be called with inbox intent)
+
+### STEP 4 — Trace a failing query end to end
+Take this example query: "Show me emails I sent last month"
+Trace it through every stage of the pipeline:
+1. MCP tool selection — which tool is called, with what parameters?
+2. Query construction — what goes into the vector search or SQL query?
+3. Retrieval — what filter is applied? What scope is searched?
+4. Reranking — is any folder or recency filter applied here?
+5. Response assembly — is the LLM given the full result set 
+   or a pre-filtered one?
+
+At each stage, identify whether a scope narrowing occurs 
+that shouldn't be there.
+
+### STEP 5 — Identify the root cause
+State clearly:
+- Which stage introduces the incorrect scope constraint
+- Whether it is a hardcoded filter, an inferred filter, 
+  a metadata schema issue, or an MCP tool description problem
+- Whether the bug affects retrieval, reranking, or response generation
+
+---
+
+## YOUR FIX
+
+Once root cause is confirmed, propose a fix for each layer affected:
+
+### FIX A — Retrieval layer
+If a folder or recency filter is being applied incorrectly:
+- Show the exact code change to remove or conditionalize the filter
+- The default retrieval scope must be ALL ingested emails in the DB
+- Folder and date filters should only be applied when the user 
+  explicitly requests them
+
+### FIX B — MCP tool definition
+If the tool name, description, or parameter schema is causing 
+the LLM to infer inbox-only scope:
+- Rewrite the tool description to make clear it searches 
+  ALL ingested email folders
+- Add an explicit parameter: folder (optional, default: all)
+- Add an explicit parameter: date_range (optional, default: all time)
+
+### FIX C — Response generation
+Add a recency disclaimer pattern to the response assembly stage:
+- If query implies recency AND no results match the recency window:
+  → Do not return empty
+  → Search full DB without date filter
+  → Return results with disclaimer: 
+    "No emails found from [requested period]. 
+     Here are the closest matches from your ingested emails, 
+     dated [actual date range]."
+- If full DB search also returns empty:
+  → Return: "I searched all your ingested emails and found 
+     nothing matching [query]. If you expected results, 
+     confirm the relevant folders were ingested."
+
+### FIX D — Regression test cases
+Write test cases to confirm the fix holds:
+
+Test 1: Query against a Sent folder email → must return result
+Test 2: Query against a Deleted folder email → must return result  
+Test 3: Query for "emails from today" when all emails are 6 months old 
+        → must return closest results with recency disclaimer
+Test 4: Query for "recent emails" with no DB file on PV 
+        → must return "no ingested emails found", not "no emails"
+Test 5: Query using a custom folder name the user created 
+        → must return result if that folder was ingested
+
+---
+
+## RULES
+
+- Read production code at every step. Do not assume any behaviour.
+- If you cannot find where a filter is applied, say so and 
+  suggest where to add instrumentation/logging to find it.
+- Never propose a fix without first confirming the root cause in code.
+- Flag any secondary bugs you find while tracing — do not ignore them.
+- The DB file on the PV is the source of truth. 
+  If it exists and contains emails, they must be searchable. Full stop.
