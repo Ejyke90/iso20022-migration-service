@@ -408,3 +408,138 @@ Test 5: Query using a custom folder name the user created
 - Flag any secondary bugs you find while tracing — do not ignore them.
 - The DB file on the PV is the source of truth. 
   If it exists and contains emails, they must be searchable. Full stop.
+
+
+=============================
+
+🎨 Prompt Template — Diagram UX & Legibility Fix
+
+You have produced a security architecture diagram that is 
+structurally correct but visually broken.
+
+Do NOT change any of the following:
+- Component names
+- Trust zone boundaries and their labels
+- Security annotations (encryption, auth mechanisms, data classification)
+- The legend content
+- The data flow summary at the bottom
+- The blast radius notes
+
+Your job is to fix ONLY the visual presentation layer.
+
+---
+
+## ARROW RULES
+
+Current problem: arrows are crossing, overlapping, and creating visual noise.
+
+Fix using these rules:
+
+1. DIRECTIONALITY — all arrows must flow in one primary direction:
+   Left to right for the main data flow.
+   Top to bottom for hierarchical relationships within a zone.
+   Never diagonal unless absolutely unavoidable.
+
+2. NO CROSSING ARROWS — if two arrows must cross, 
+   use a bridge (a small arc over the other line).
+   Reroute arrows around component boxes rather than through them.
+
+3. ARROW GROUPING — if multiple components send to the same destination,
+   consolidate into one arrow with a label like "3 services" 
+   rather than drawing 3 separate arrows.
+
+4. ARROW LABELS — every arrow must have exactly one label:
+   - The protocol or auth mechanism (TLS, mTLS, IAM, Bearer Token)
+   - If the connection carries sensitive data, add a second 
+     line in smaller text: "carries: [data type]"
+   - Labels must sit ON the arrow, centred, never overlapping a box
+
+5. ARROW WEIGHT — use line thickness to convey trust level:
+   Thick solid line = authenticated + encrypted
+   Thin solid line = authenticated only
+   Dashed line = internal only / read-only
+   Red dashed line = flagged — needs review
+
+---
+
+## TEXT & LEGIBILITY RULES
+
+Current problem: text is too small, too dense, and inconsistently sized.
+
+Fix using these rules:
+
+1. HIERARCHY — use exactly 3 text sizes:
+   LARGE: Zone labels (INTERNET ZONE, OCP CLUSTER, etc.)
+   MEDIUM: Component names (MCP Server Pod, Auth Service Pod, etc.)
+   SMALL: Annotations only (encryption type, secret names, data labels)
+   Nothing smaller than SMALL. If it doesn't fit at SMALL, remove it.
+
+2. ANNOTATIONS — move all bullet-point lists OUT of the component boxes.
+   Replace with icons + one-line labels:
+   🔒 AES-256-GCM   (encrypted at rest)
+   🔐 TLS 1.3       (encrypted in transit)
+   🔑 Vault          (secrets managed by)
+   ⚠️ Contains PII   (data classification)
+   👤 Bearer Token   (auth mechanism)
+
+3. COMPONENT BOXES — each box should contain only:
+   Line 1: Component name (MEDIUM, bold)
+   Line 2: Environment tag in brackets [Pod / Service / Storage]
+   Line 3-4: Max 2 icon+label annotations from the list above
+   Nothing else. All other detail moves to the legend.
+
+4. LEGEND — expand the legend to absorb the detail removed from boxes:
+   Group into 4 sections:
+   - Connection Types (your existing content, keep it)
+   - Auth Mechanisms (one line per mechanism: icon + name + what uses it)
+   - Data Classification (one line per type: icon + label + which components)
+   - Secrets Management (one line per secret: name + where stored + who accesses)
+
+5. WHITESPACE — add padding inside every box (text must not touch the border).
+   Add spacing between zones (zones must not share a border).
+   Every arrow must have clearance from the nearest box edge.
+
+---
+
+## COLOUR RULES
+
+Current problem: colours are being used inconsistently 
+and some zones are hard to distinguish.
+
+Fix using this system:
+
+   Internet Zone:        Red border,   light red fill    (#FFF0F0)
+   OCP Cluster GCC:      Blue border,  light blue fill   (#F0F4FF)
+   OCP Cluster SCC:      Blue border,  light blue fill,  dashed border
+   Internal Corporate:   Green border, light green fill  (#F0FFF4)
+   Secrets Management:   Purple border, light purple fill (#F8F0FF)
+   Legend box:           Grey border,  white fill
+
+   Component boxes INSIDE zones:
+   Use white fill with the zone's border colour.
+   Never use a different colour family inside a zone.
+
+   Arrows:
+   Default: dark grey (#333333)
+   Auth boundary crossing: blue (#0055CC)
+   Flagged/unencrypted: red (#CC0000)
+
+---
+
+## OUTPUT FORMAT
+
+Produce the revised diagram in Excalidraw JSON format
+so it can be imported directly and edited further.
+
+Before outputting, confirm:
+1. No arrows cross without a bridge
+2. No box contains more than 2 annotation lines
+3. Every arrow has exactly one label
+4. All three text sizes are used consistently
+5. The legend accounts for all detail removed from boxes
+
+Use Excalidraw's elbow connector style for all arrows 
+(not curved, not straight — elbow/orthogonal only).
+This prevents diagonal crossing and keeps the diagram grid-aligned.
+Set all arrow endpoints to use named anchor points 
+(top, bottom, left, right) not free-floating points.
