@@ -689,3 +689,27 @@ Also add one row for:
   Entra ID breached → token forgery risk
 
 Keep the box compact. Two columns: Impact | Mitigation.
+
+
+
+==============
+
+Remove all connection lines and numbered circle labels 
+from the diagram canvas entirely.
+
+The CONNECTION KEY table already communicates every relationship.
+Lines on the canvas are now redundant and creating visual noise.
+
+After removing lines:
+- Reposition component boxes to use the freed whitespace
+- Ensure each zone box has even internal padding
+- The numbered circles (①②③) should only appear 
+  in the CONNECTION KEY table, not on the canvas
+
+Do not change any text, zone boundaries, 
+component labels, or the connection key table.
+
+
+Also — fix the Entra ID label while you're at it. Still says [EXTERNAL] in this version. Add this line to the same prompt:
+Also correct: Entra ID label must read [RBC Internal] not [EXTERNAL].
+Move it visually inside the INTERNAL CORPORATE zone border if it is not already.
