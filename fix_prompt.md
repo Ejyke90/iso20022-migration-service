@@ -733,3 +733,72 @@ For rows where the current value is "Rest":
   for that connection
 
 Do not change any other columns.
+
+=================================================================
+
+Fix the following three elements. Do not change anything else.
+
+---
+
+FIX 1 — CONNECTION KEY TABLE
+
+The table columns are misaligned. Rebuild it with these rules:
+
+- Fixed column widths — no column may resize based on content
+- Column order: # | From | To | Auth | Protocol | In Transit | At Rest
+- Every cell must have a value. Use these for empty cells:
+  Protocol missing → "Internal"
+  In Transit missing → "Internal only"
+  At Rest missing → "—"
+- Rows 5 and 6 (MCP Server → PVC, Embedding Sync → PVC):
+  Protocol = Internal
+  In Transit = Internal only
+  At Rest = AES-256-GCM
+- No row may wrap onto a second line
+- Use a fixed-width font for the table
+
+---
+
+FIX 2 — BLAST RADIUS BOX
+
+Rebuild as a clean two-column table inside the box:
+
+Column 1 header: "If Breached"
+Column 2 header: "Containment"
+
+Rules:
+- Each row is one component breach scenario
+- Max 8 words per cell
+- Icons must be inline with text, not on a separate line:
+  ✅ = control is active
+  ⚠️ = control is recommended, not yet confirmed
+- Equal column widths — 50/50 split
+- Add this missing row:
+  If Breached: S3 Bucket
+  Containment: ✅ VPC endpoint + bucket policy
+
+---
+
+FIX 3 — SECRETS (Vault) BOX
+
+Remove all environment variable names entirely.
+Replace each with a security classification label.
+
+Use these exact replacements:
+
+  ENCRYPTION_AES_KEY       → File Encryption Key
+  OAUTH_CLIENT_ID/SECRET   → Service Client Credentials  
+  MCP_INTERNAL_API_KEY     → Internal Service Token
+  S3_KEY/SECRET            → Object Storage Credentials
+
+Format each line as:
+  [Secret Name] → [Which services access it]
+
+Example:
+  File Encryption Key → MCP, Auth, Sync
+  Service Client Credentials → MCP, Auth, Sync
+  Internal Service Token → Internal proxy
+  Object Storage Credentials → Auth, Sync
+
+Do not show variable names anywhere on the diagram.
+Variable names belong in code, not in security architecture.
