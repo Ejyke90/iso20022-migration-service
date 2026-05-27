@@ -69,3 +69,85 @@ Confirm the output starts directly with
 "# Catch Me Up" or the first section heading.
 No introductory sentence. Report token count 
 from logs.
+
+
+
+So here's the step-by-step prompt template you can use, designed to always ground the diagram in production code first:
+
+🔐 Security Cloud Architecture — Prompt Template
+Phase 1: Ingestion Pipeline
+Read the production code for the ingestion service.
+Identify:
+1. The exact Cohere Embed v4 API call — input format, batch size, model string
+2. How embeddings are stored in SQLite — schema, table names, column types
+3. The AES encryption implementation — which library, key size, IV handling, 
+   whether encryption is per-file or per-chunk
+4. The S3 upload flow — SDK used, bucket structure, metadata attached, 
+   whether the encrypted file or raw file is uploaded
+5. Any IAM roles, KMS keys, or S3 bucket policies involved
+
+Then draw a diagram showing:
+[User/File Source] → [AES Encrypt] → [Cohere Embed v4] → [SQLite] → [S3]
+Label each arrow with the protocol, auth method, and data format in transit.
+
+===========
+Phase 2: Sync Service
+Read the production code for the sync service.
+Identify:
+1. The trigger mechanism — cron, event-driven, webhook?
+2. How it authenticates to S3 — IAM role, access key, IRSA?
+3. The exact path it writes to on the OCP PersistentVolume
+4. Whether it decrypts the file before writing, or writes encrypted
+5. Any checksum/integrity verification after download
+6. How the PV is mounted — StorageClass, access mode (RWO/RWX?)
+
+Then draw a diagram showing:
+[S3] → [Sync Service] → [OCP PV]
+Label the OCP namespace, the PVC name if visible, and the mount path.
+
+===========
+Phase 3: RAG + MCP Pipeline
+
+Read the production code for the RAG pipeline and MCP server.
+Identify each of the 6 stages explicitly — do not infer, read the code:
+Stage 1: Query intake — format, auth, rate limiting?
+Stage 2: [identify from code]
+Stage 3: [identify from code] — where does hydration occur?
+Stage 4: DNS reranking — which reranker, what's the scoring mechanism?
+Stage 5: [identify from code]
+Stage 6: Response assembly — how is context injected into the LLM prompt?
+
+Also identify:
+- How the MCP server reads the SQLite db file from the OCP PV
+- The MCP protocol version and transport (stdio, SSE, HTTP?)
+- Any vector similarity search — library, distance metric, top-k value
+- Authentication between the MCP client and server
+
+Then draw a diagram showing all 6 stages with data flowing left to right,
+with the OCP PV as the shared storage dependency.
+
+============
+
+Phase 4: Unified Diagram
+
+Combine all three diagrams into one unified architecture diagram.
+The three subsystems share these components:
+- S3 (ingestion writes, sync reads)
+- OCP PV (sync writes, RAG/MCP reads)
+- SQLite db file (embedded at ingestion, queried at RAG time)
+
+Draw boundaries showing:
+- Trust zones (internet-facing vs. internal vs. OCP cluster)
+- Encryption boundaries (what is encrypted at rest, in transit)
+- Auth boundaries (where IAM, mTLS, or API keys are verified)
+
+Use the actual component names from the codebase, not generic labels.
+
+Ground Rules (add these to every prompt)
+Rules:
+- Read production code files, not README or docs
+- If a detail is ambiguous in the code, say so — don't assume
+- Flag any security gaps you observe (e.g., unencrypted path, 
+  missing auth, hardcoded secrets)
+- Use actual variable names, function names, and config keys 
+  where they clarify the architecture
