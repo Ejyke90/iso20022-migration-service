@@ -33,6 +33,8 @@ or anything outside the blue OCP Cluster GCC box.
 REDESIGN: OCP CLUSTER GCC BOX LAYOUT
 
 The blue box needs a complete internal layout redesign.
+
+
 The goal is for the spatial arrangement of boxes to tell 
 the story of how the three services connect, so arrows 
 are short, direct, and never cross another box.
@@ -497,3 +499,68 @@ PVC → MCP Server (reads on demand)
 MCP Server → GenAI Gateway Cohere (OAuth2)
 MCP Server → Entra ID (JWKS validation)
 MCP Server → OAuth Endpoint (token validation)
+
+
+Embedding Sync touches only S3 and PVC. Nothing else.
+ Connector Correction Pass
+
+IMPORTANT — Output valid draw.io XML only.
+Use literal Unicode only. No HTML entities.
+Import via: Extras → Edit Diagram → paste XML
+
+Do not change any box positions, labels, or table content.
+Fix connectors only.
+
+---
+
+DELETE these connectors entirely:
+1. Any arrow between Embedding Sync and Exchange/EWS
+2. Any arrow between GTM and Embedding Sync
+3. Any arrow going FROM S3 Storage TO Email Service
+   (direction is wrong — delete and redraw correctly)
+
+---
+
+ADD these missing connectors:
+
+A. Exchange [EWS] → Email Service (Auth) [Pod]
+   Direction: Internal Corporate → OCP blue box
+   Label: "NTLM Authentication"
+   Line: solid, dark grey, arrow at Email Service end
+
+B. Email Service (Auth) [Pod] → S3 Storage [MinIO/Ceph]
+   Direction: OCP blue box → Internal Corporate
+   Label: "S3 key + AES-256-GCM"
+   Line: solid, dark grey, arrow at S3 end
+
+C. GTM Load Balancer → MCP Server [Pod]
+   Direction: RBC Network Zone → OCP blue box
+   Label: "TLS 1.3"
+   Line: solid, dark grey, arrow at MCP Server end
+
+D. MCP Server [Pod] → GenAI Gateway [Cohere]
+   Direction: OCP blue box → Internal Corporate
+   Label: "OAuth2"
+   Line: solid, dark grey, arrow at Cohere end
+
+---
+
+KEEP these connectors unchanged:
+- User Browser → GTM (LDAP creds)
+- MCP Client → MCP Server (EntraID / OIDC OAuth)
+- S3 Storage → Embedding Sync (Server to Server OAuth via GTM)
+- Embedding Sync → PVC (writes encrypted DB)
+- PVC → MCP Server (reads on demand)
+- MCP Server → Entra ID (JWKS)
+- MCP Server → OAuth Endpoint (token validation)
+
+---
+
+VERIFY BEFORE OUTPUT
+1. Embedding Sync connects to ONLY S3 and PVC
+2. Email Service arrow points TO S3, not from it
+3. GTM connects to MCP Server, not to Embedding Sync
+4. Exchange has an outbound arrow to Email Service
+5. MCP Server has an outbound arrow to Cohere
+6. No connector crosses another box
+7. All connectors have labels
