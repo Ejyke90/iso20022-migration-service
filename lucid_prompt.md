@@ -108,3 +108,81 @@ Before outputting, confirm:
 3. The connection key is a proper table, not a paragraph
 4. Zone colours match the spec above
 5. No diagonal connectors exist in the output
+
+=======================
+
+The draw.io diagram canvas is correct. Do not touch it.
+Fix only the three supporting sections below the canvas.
+
+---
+
+FIX 1 — CONNECTION KEY
+Currently rendering as a paragraph. Convert to a proper table.
+
+Create an HTML-style table inside a draw.io table shape with these 
+exact columns:
+  # | From | To | Protocol | In Transit | At Rest
+
+Rules:
+- One row per numbered connection
+- Alternate row shading: white and #F5F5F5
+- Header row: bold, #1565C0 text, #E3F2FD background
+- Column widths — fixed, not auto:
+  #=30px, From=120px, To=140px, 
+  Protocol=80px, In Transit=90px, At Rest=100px
+- For internal pod connections: 
+  Protocol = Internal, In Transit = Internal only
+- No cell may wrap to a second line — abbreviate if needed
+
+---
+
+FIX 2 — SECRETS TABLE
+Convert to a two-column table:
+
+Header: SECRETS (Vault)
+Columns: Secret | Accessed By
+
+Rows (use exactly these names, no env vars):
+  File Encryption Key      | MCP, Email Svc, Sync
+  Service Client Creds     | MCP, Auth, Sync
+  Internal Service Token   | Internal proxy
+  Object Storage Creds     | Email Svc, Sync
+
+Table style: same alternating shading as connection key.
+
+---
+
+FIX 3 — BLAST RADIUS TABLE
+Convert to a two-column table:
+
+Header: BLAST RADIUS (red #B71C1C text, #FFEBEE background)
+Columns: If Breached | Containment
+
+Rows:
+  MCP Pod          | ⚠️ Per-user AES keys
+  Email Svc (Auth) | ✅ TTL cache + secure erase
+  S3 Bucket        | ✅ VPC endpoint + bucket policy
+  PVC              | ⚠️ Per-user volume isolation
+  Entra ID         | ✅ JWKS validation + short expiry
+
+✅ = active control (green text)
+⚠️ = recommended, not confirmed (amber text)
+
+---
+
+FIX 4 — S3 STORAGE LABEL
+Current label reads [MinIO/CephA] — this is wrong.
+Correct it to: S3 Storage [MinIO/Ceph]
+Match exactly what the Excalidraw source shows.
+
+---
+
+FIX 5 — FOOTER LAYOUT
+Remove all empty space between the three tables.
+Stack them in this order with 16px gap between each:
+  1. CONNECTION KEY (full width)
+  2. SECRETS + BLAST RADIUS (side by side, 50/50 split)
+  3. DATA FLOW sentence (centred, 11px, grey #616161)
+
+Output as valid draw.io XML only.
+Do not change anything on the canvas above the footer.
