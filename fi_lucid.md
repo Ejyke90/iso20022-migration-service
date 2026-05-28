@@ -1,3 +1,7 @@
+The fix is a layout redesign of the blue box, not just new arrows.
+Here's what the layout should look like conceptually:
+
+
 ┌─── OCP CLUSTER — GCC ──────────────────────────────┐
 │                                                      │
 │  [MCP Server Pod] ──tool call──► [Email Service Pod] │
