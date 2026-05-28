@@ -34,6 +34,68 @@ Fix: Add this vocabulary block to the system prompt:
 
 All values rendered server-side before the prompt is sent.
 
+The flow looks like this:
+
+Your Backend / App Layer
+        │
+        │  1. Get current time + user timezone
+        │     (from user profile, device, or session)
+        │
+        │  2. Compute all derived values:
+        │     TODAY_DATE, TOMORROW_DATE, THIS_WEEK_MON, etc.
+        │
+        │  3. Render them into the system prompt string
+        │
+        ▼
+   System Prompt (now has concrete dates, no placeholders)
+        │
+        ▼
+   Claude (agent) receives a fully resolved prompt
+        │
+        ▼
+   MCP Tool Call (Gmail, Calendar, SQLite)
+        │
+        ▼
+   MCP Server executes with whatever parameters Claude passed
+
+In practice this means you need something like below (improve it for production grade if needed):
+
+from datetime import datetime, timedelta
+import pytz
+
+def build_system_prompt(user_timezone: str) -> str:
+    tz = pytz.timezone(user_timezone)
+    now = datetime.now(tz)
+    today = now.date()
+
+    # Compute week boundaries (Monday-anchored)
+    monday = today - timedelta(days=today.weekday())
+
+    variables = {
+        "CURRENT_DATETIME_ISO8601": now.isoformat(),
+        "USER_TIMEZONE": user_timezone,
+        "UTC_OFFSET": now.strftime("%z"),
+        "TODAY_DATE": str(today),
+        "DAY_OF_WEEK": now.strftime("%A"),
+        "TOMORROW_DATE": str(today + timedelta(days=1)),
+        "YESTERDAY_DATE": str(today - timedelta(days=1)),
+        "THIS_WEEK_MON": str(monday),
+        "THIS_WEEK_SUN": str(monday + timedelta(days=6)),
+        "LAST_WEEK_MON": str(monday - timedelta(days=7)),
+        "LAST_WEEK_SUN": str(monday - timedelta(days=1)),
+        "NEXT_WEEK_MON": str(monday + timedelta(days=7)),
+        "NEXT_WEEK_SUN": str(monday + timedelta(days=13)),
+    }
+
+    template = "..." # your system prompt with {{placeholders}}
+    for key, value in variables.items():
+        template = template.replace(f"{{{{{key}}}}}", value)
+
+    return template
+
+    
+
+
 [BUG] Week start is not defined — Claude defaults to Sunday
 
 Issue: Claude's training data is heavily US-centric; it assumes weeks start on Sunday. "This week's emails" will miss Monday–Tuesday if today is Wednesday and Claude anchors to the prior Sunday.
