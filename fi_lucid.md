@@ -463,3 +463,37 @@ VERIFY BEFORE OUTPUT
 4. No emoji or symbols in Blast Radius table
 5. MCP Client has a connector reaching MCP Server
 6. No connector crosses another box
+
+
+===============xxxxxxxxxxx===========
+What's Wrong
+1. Embedding Sync ← Exchange/EWS arrow
+Sync has no business talking to EWS. Sync is a background job that only pulls from S3 and writes to PVC. That arrow needs to be deleted entirely.
+2. Email Service ← S3 arrow direction is backwards
+Currently drawn as S3 → Email Service. It should be Email Service → S3. Email Service writes to S3, not the other way around.
+3. GTM Load Balancer has no connector into the blue box
+GTM should be the entry point for external traffic routing into MCP Server. It's floating disconnected.
+4. Exchange [EWS] has no connector to Email Service
+The NTLM authentication arrow from Exchange into Email Service is missing entirely from this version.
+5. MCP Server has no connector to GenAI Gateway [Cohere]
+MCP Server calls Cohere for reranking — that relationship is in the connection key table (row 7) but not drawn on the canvas.
+6. GTM → Embedding Sync arrow exists but shouldn't
+Sync is a background job. GTM doesn't route to it. That connector should not exist.
+
+Correct Architecture Summary
+Based on everything discussed:
+
+User Browser → GTM (LDAP creds)
+MCP Client → GTM (Bearer Token)
+GTM → MCP Server (TLS 1.3)
+
+Exchange [EWS] → Email Service (NTLM Auth)
+Email Service → S3 Storage (S3 key + AES-256-GCM)
+
+S3 Storage → Embedding Sync (Server to Server OAuth via GTM)
+Embedding Sync → PVC (writes encrypted DB)
+
+PVC → MCP Server (reads on demand)
+MCP Server → GenAI Gateway Cohere (OAuth2)
+MCP Server → Entra ID (JWKS validation)
+MCP Server → OAuth Endpoint (token validation)
