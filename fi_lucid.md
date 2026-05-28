@@ -211,3 +211,136 @@ CONNECTOR STYLE for all five:
   Small open arrow on destination end
   Font size 9px for labels
   Label colour: #616161
+
+
+
+
+============================
+
+Mapping your corrections to this reference:
+Reference diagramYour actual componentPersonal Data IngestorEmail Service (Auth) [Pod]Personal Embedding StorageS3 Storage [MinIO/Ceph]Data Sources (EWS/Slack/etc)Exchange [EWS]Embedding Sync ServiceEmbedding Sync [Pod]Openshift PVC / Personal embeddingsPVC [Storage]Embedding Last Used Cache❌ Remove entirelyOn prem Embedding serviceGenAI Gateway [Cohere]
+
+ Blue Box Redesign Using Reference Layout
+
+ IMPORTANT — Output valid draw.io XML only.
+Use literal Unicode only. No HTML entities.
+Import via: Extras → Edit Diagram → paste XML
+
+Only modify the interior of the OCP Cluster GCC blue box.
+Do not change anything outside the blue box.
+Do not change any table, footer, or other zone.
+
+---
+
+REFERENCE LAYOUT
+Model the interior of the blue box on this flow:
+
+  [Exchange EWS]  ←── outside box, top, existing component
+        │
+        │  Service Principal / NTLM Authentication
+        ▼
+  [Email Service (Auth) Pod]
+        │
+        │  Access Key & Secret (S3 key)
+        ▼
+  [S3 Storage MinIO/Ceph]  ←── exits right to Internal Corporate
+        │
+        │  Server to Server OAuth (through Apigee/GTM)
+        ▼
+  [Embedding Sync Pod]
+    (background job)
+        │
+        │  writes to PVC
+        ▼
+  [PVC Storage]
+        │
+        │  reads on demand
+        ▼
+  [MCP Server Pod]  ←── receives from RBC Assist UI (left entry)
+        │
+        │  EntraID / OIDC OAuth
+        ▼
+  [RBC Assist / MCP Client]  ←── outside box, existing component
+
+---
+
+LAYOUT RULES
+
+1. VERTICAL FLOW — arrange components top to bottom 
+   in this exact order inside the blue box:
+   
+   Top:    Email Service (Auth) [Pod]
+   Middle: S3 Storage [MinIO/Ceph]  
+           — this exits RIGHT to Internal Corporate zone
+           — keep it visually connected to that zone
+   Below:  Embedding Sync [Pod]
+           Label below box: "(background job)"
+   Below:  PVC [Storage]
+           — dashed border, it is shared storage
+   Bottom: MCP Server [Pod]
+
+2. CONNECTORS — vertical, orthogonal, no diagonals
+   Each connector needs an auth/protocol label:
+   
+   Exchange EWS → Email Service:
+     Label: "NTLM Authentication"
+     Enters blue box from top
+   
+   Email Service → S3 Storage:
+     Label: "S3 key + AES-256-GCM"
+   
+   S3 Storage → Embedding Sync:
+     Label: "Server to Server OAuth"
+     Note: show this going through GTM 
+     (small annotation, not a separate box)
+   
+   Embedding Sync → PVC:
+     Label: "writes encrypted DB"
+   
+   PVC → MCP Server:
+     Label: "reads on demand"
+     Line: dashed (read-only relationship)
+   
+   MCP Client → MCP Server:
+     Label: "EntraID / OIDC OAuth"
+     Enters blue box from left
+
+3. REMOVE — do not include:
+   - Embedding Last Used Cache
+   - Any reference to Slack or other data sources
+   - On prem Embedding service 
+     (Cohere/GenAI stays in Internal Corporate as-is)
+
+4. SCC MIRROR
+   Keep at bottom of blue box as a dashed footnote box.
+   Label: "Mirror DC — GTM routes both DCs"
+   Must not interfere with the vertical flow above it.
+
+5. CONNECTOR STYLE
+   All connectors:
+     Routing: orthogonal
+     Source end: no arrowhead
+     Destination end: open arrow
+     Label fontSize: 10px
+     Label fontColor: #212121
+     Label background: #FFFFFF
+     (labelBackgroundColor=#FFFFFF)
+
+6. BOX SIZING
+   Increase blue box height to comfortably fit 
+   5 components vertically with 24px gaps between them
+   plus the SCC Mirror footnote at the bottom.
+   Minimum blue box height: 600px
+
+7. VERIFY BEFORE OUTPUT
+   - Flow reads top to bottom without any crossing arrows
+   - Every connector has a label
+   - S3 Storage is spatially close to the right edge 
+     of the blue box so its connection to Internal 
+     Corporate is short and clean
+   - PVC has a dashed border
+   - No connector passes through any box
+
+The key insight from your reference image that was missing before is the auth label on every arrow. That's what makes the flow readable to a security team — they can trace not just what connects to what but how each connection is authenticated without looking at the connection key table. The diagram becomes self-explanatory. 
+
+Make this change in a new file called v3.
