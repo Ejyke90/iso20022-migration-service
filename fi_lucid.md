@@ -1,3 +1,112 @@
+┌─── OCP CLUSTER — GCC ──────────────────────────────┐
+│                                                      │
+│  [MCP Server Pod] ──tool call──► [Email Service Pod] │
+│        │                               │             │
+│   reads│                          writes│            │
+│        ▼                               ▼             │
+│    [PVC Storage] ◄──copies to── [Embedding Sync Pod] │
+│                                  (background job)    │
+│                                                      │
+│         ┌ ─ ─ [SCC Mirror DC] ─ ─ ┐                 │
+│              GTM routes both DCs                     │
+│         └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘                 │
+└──────────────────────────────────────────────────────┘
+
+
+PVC sits bottom-left — central to both MCP Server above it and Embedding Sync beside it. SCC Mirror moves to the bottom as a footnote box since it's a passive mirror, not an active component in the flow.
+
+Layout Redesign of Blue Box
+
+IMPORTANT — Output valid draw.io XML only.
+Use literal Unicode characters only. No HTML entities.
+Import via: Extras → Edit Diagram → paste XML
+
+Do not change any component names, labels, table content,
+or anything outside the blue OCP Cluster GCC box.
+
+---
+
+REDESIGN: OCP CLUSTER GCC BOX LAYOUT
+
+The blue box needs a complete internal layout redesign.
+The goal is for the spatial arrangement of boxes to tell 
+the story of how the three services connect, so arrows 
+are short, direct, and never cross another box.
+
+STEP 1 — INCREASE BLUE BOX SIZE
+Make the OCP Cluster GCC box significantly larger:
+- Wider: enough for a 2x2 grid of components
+- Taller: enough for two rows plus the SCC Mirror footnote
+- Maintain its position relative to the other two zones
+
+STEP 2 — REPOSITION COMPONENTS IN A 2x2 GRID
+
+Top-left:     MCP Server [Pod]
+Top-right:    Email Service (Auth) [Pod]
+Bottom-left:  PVC [Storage]
+Bottom-right: Embedding Sync [Pod]
+
+SCC Mirror [Mirror DC]:
+  Move to bottom of blue box, full width, 
+  short height (footnote style)
+  Dashed border, label: "Mirror DC — GTM routes both DCs"
+
+STEP 3 — INTERNAL CONNECTORS
+Draw these five connectors using the new positions.
+All connectors must be orthogonal (no diagonals).
+No connector may cross another box.
+
+A. MCP Client → MCP Server
+   Enters blue box from left
+   Label: "via RBC Assist UI harness"
+   Line: solid, grey
+
+B. MCP Server → Email Service
+   Top-left to top-right (horizontal)
+   Label: "tool call"
+   Line: solid, grey, right arrow
+
+C. Email Service → S3 Storage (exits blue box rightward)
+   From Email Service top-right to Internal Corporate
+   Label: "writes encrypted"
+   Line: solid, grey, right arrow
+
+D. Embedding Sync → PVC
+   Bottom-right to bottom-left (horizontal)
+   Label: "copies to PVC"
+   Line: solid, grey, left arrow
+   Note: Embedding Sync is a background job
+   Add small label below box: "(background job)"
+
+E. PVC → MCP Server
+   Bottom-left to top-left (vertical)
+   Label: "reads on demand"
+   Line: dashed, grey, up arrow
+
+STEP 4 — CONNECTOR STYLE
+All connectors:
+  Routing: orthogonal only
+  Source end: no arrowhead
+  Destination end: small open arrow
+  Label font: 9px, colour #616161
+  No connector may pass through or behind any box
+
+STEP 5 — VERIFY BEFORE OUTPUT
+Check these before generating XML:
+1. No connector crosses the SCC Mirror box
+2. PVC is adjacent to both MCP Server and Embedding Sync
+3. The Email Service → S3 arrow exits the blue box 
+   cleanly on the right edge
+4. SCC Mirror is at the bottom, not interfering 
+   with any connector path
+5. All five connectors have labels
+
+
+This layout change will cut the arrow crossing problem entirely because PVC is now physically between the two components that use it — MCP Server above and Embedding Sync beside it. The geometry does the work instead of fighting against it.
+
+======================================
+
+
 IMPORTANT — Output valid draw.io XML only.
 Do NOT use HTML entities. Use literal Unicode only.
 Import via: Extras → Edit Diagram → paste XML
