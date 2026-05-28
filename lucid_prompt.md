@@ -186,3 +186,91 @@ Stack them in this order with 16px gap between each:
 
 Output as valid draw.io XML only.
 Do not change anything on the canvas above the footer.
+
+
+================
+
+The canvas is correct. Do not change it.
+
+The CONNECTION KEY, SECRETS, and BLAST RADIUS sections 
+are rendering as paragraph text boxes.
+This is wrong. They must be actual draw.io table shapes.
+
+Use this exact XML pattern for each table:
+
+<mxCell id="table1" value="CONNECTION KEY" 
+  style="shape=table;startSize=30;container=1;
+         collapsible=0;childLayout=tableLayout;
+         fillColor=#E3F2FD;strokeColor=#1565C0;
+         fontStyle=1;fontSize=12;" 
+  vertex="1" parent="1">
+  <mxGeometry x="40" y="520" width="760" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="row1" value="" 
+  style="shape=tableRow;horizontal=0;
+         startSize=0;swimlaneHead=0;
+         fillColor=#F5F5F5;" 
+  vertex="1" parent="table1">
+  <mxGeometry y="30" width="760" height="30" as="geometry"/>
+</mxCell>
+
+<mxCell id="cell1" value="#" 
+  style="shape=partialRectangle;top=0;left=0;
+         bottom=0;right=0;fontStyle=1;" 
+  vertex="1" parent="row1">
+  <mxGeometry width="30" height="30" as="geometry"/>
+</mxCell>
+
+Repeat this pattern for every row and every cell.
+
+---
+
+CONNECTION KEY TABLE
+Columns: # | From | To | Protocol | In Transit | At Rest
+Column widths: 30 | 120 | 140 | 80 | 90 | 100
+Header fill: #E3F2FD, text: #1565C0, bold
+Odd rows: #FFFFFF, Even rows: #F5F5F5
+Use the 11 numbered connections from the Excalidraw source.
+
+---
+
+SECRETS TABLE
+Position: bottom-left, width 360px
+Header: SECRETS (Vault)
+Header fill: #F3E5F5, text: #6A1B9A, bold
+Columns: Secret (180px) | Accessed By (180px)
+Rows:
+  File Encryption Key      | MCP, Email Svc, Sync
+  Service Client Creds     | MCP, Auth, Sync
+  Internal Service Token   | Internal proxy
+  Object Storage Creds     | Email Svc, Sync
+
+---
+
+BLAST RADIUS TABLE
+Position: bottom-right, width 360px
+Header: BLAST RADIUS
+Header fill: #FFEBEE, text: #B71C1C, bold
+Columns: If Breached (150px) | Containment (210px)
+Rows:
+  MCP Pod          | ⚠️ Per-user AES keys
+  Email Svc (Auth) | ✅ TTL cache + secure erase
+  S3 Bucket        | ✅ VPC endpoint + bucket policy
+  PVC              | ⚠️ Per-user volume isolation
+  Entra ID         | ✅ JWKS + short token expiry
+
+---
+
+DATA FLOW
+Single text cell below both tables.
+Style: fontSize=11, fontColor=#616161, align=center
+Value: DATA FLOW: User → FE (LDAP) → Email (Auth) → 
+EWS (NTLM, PII) → Enc. → S3 → Sync → PVC → 
+MCP (dec.) → GenAI (rerank) → Client
+
+---
+
+Output valid draw.io XML only.
+No paragraph text boxes anywhere in the footer.
+Every section must use shape=table with shape=tableRow children.
