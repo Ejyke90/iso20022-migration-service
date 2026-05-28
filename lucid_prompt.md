@@ -274,3 +274,66 @@ MCP (dec.) → GenAI (rerank) → Client
 Output valid draw.io XML only.
 No paragraph text boxes anywhere in the footer.
 Every section must use shape=table with shape=tableRow children.
+
+
+
+======================
+
+Fix the following five issues only. Do not change anything else.
+
+---
+
+FIX 1 — CHARACTER ENCODING
+All special characters are rendering as raw HTML entities.
+Replace every HTML entity with the literal Unicode character:
+
+  &#246x; or circled numbers → use plain text: 1, 2, 3, 4...
+  &#2014; or &mdash; → use literal: —
+  &#x2705; → use literal: ✅
+  &#x26A0; → use literal: ⚠️
+  <br> tags in cell values → use a real line break 
+  or replace with a space
+
+Do this across all three tables and every cell.
+
+---
+
+FIX 2 — S3 STORAGE LABEL
+Current value: Storage<br>[MinIO/Ceph]
+Replace with two lines using Lucidchart line break syntax
+OR simplify to single line: S3 Storage [MinIO/Ceph]
+Do not show any HTML tags as visible text.
+
+---
+
+FIX 3 — CONNECTION KEY ROW NUMBERS
+Replace the # column values with plain integers:
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+Do not use circled Unicode numbers — they are not 
+rendering correctly in Lucidchart CSV import.
+
+---
+
+FIX 4 — BLAST RADIUS ICONS
+Replace all encoded emoji with literal characters:
+✅ for active controls (green)
+⚠️ for recommended controls (amber)
+If Lucidchart does not render emoji, replace with:
+✅ → [Active]
+⚠️ → [Recommended]
+
+---
+
+FIX 5 — ZONE CONNECTORS
+Add connection lines between zones using these 
+zone-to-zone relationships only (not component level):
+
+  RBC Network Zone → OCP Cluster GCC
+  OCP Cluster GCC → Internal Corporate
+  OCP Cluster GCC → PVC (already internal, dashed line)
+  OCP Cluster GCC ↔ SCC Mirror (dashed, double-ended)
+
+Line style: straight, no arrowheads, dark grey
+One line per zone relationship — not per component.
+
+Output updated Lucidchart CSV only.
