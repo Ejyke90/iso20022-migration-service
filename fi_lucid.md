@@ -344,3 +344,122 @@ LAYOUT RULES
 The key insight from your reference image that was missing before is the auth label on every arrow. That's what makes the flow readable to a security team — they can trace not just what connects to what but how each connection is authenticated without looking at the connection key table. The diagram becomes self-explanatory. 
 
 Make this change in a new file called v3.
+
+
+===========
+FInal fix
+
+
+What's Missing / Wrong
+1. MCP Client is not connected to GTM
+The RBC Network Zone shows MCP Client, GTM Load Balancer, and User Browser as isolated boxes — none of them have connectors going into the blue OCP box. The flow starts abruptly at Email Service with no entry point shown from the left zone.
+2. Exchange [EWS] has no connector to Email Service
+The NTLM Authentication arrow is pointing the wrong way — it's coming FROM Internal Corporate TO Email Service, but EWS should be the source that Email Service pulls from. Also it looks like it's floating rather than anchored to Exchange.
+3. S3 Storage is inside the blue box
+It should be in Internal Corporate zone on the right, with an arrow exiting the blue box rightward. Currently it's sitting inside OCP which misrepresents where S3 lives.
+4. Internal Corporate zone looks empty/sparse
+With S3 potentially moved inside the blue box, the right zone has lost a component and looks unbalanced.
+5. Blast Radius icons still showing △ and ■
+You've confirmed you don't want emojis at all — replace with plain text labels.
+
+
+IMPORTANT — Output valid draw.io XML only.
+Use literal Unicode only. No HTML entities.
+Import via: Extras → Edit Diagram → paste XML
+
+---
+
+FIX 1 — RBC NETWORK ZONE CONNECTORS
+Add connectors from the RBC Network Zone 
+into the OCP Cluster blue box:
+
+MCP Client [RBC Assist UI] → MCP Server [Pod]
+  Label: "EntraID / OIDC OAuth"
+  Enters blue box from left side
+  Line: solid, dark grey, open arrow
+
+GTM Load Balancer [RBC Network] → MCP Server [Pod]
+  Label: "TLS 1.3"
+  Enters blue box from left side
+  Line: solid, dark grey, open arrow
+
+User Browser [RBC Intranet] → GTM Load Balancer
+  Label: "LDAP creds"
+  Line: solid, dark grey, open arrow
+
+---
+
+FIX 2 — EXCHANGE EWS CONNECTOR
+Exchange [EWS] lives in Internal Corporate zone.
+Email Service (Auth) [Pod] pulls from it.
+
+Draw connector:
+  From: Exchange [EWS] (Internal Corporate)
+  To: Email Service (Auth) [Pod] (OCP blue box)
+  Label: "NTLM Authentication"
+  Direction: right to left 
+  (Exchange is the source, Email Service pulls from it)
+  Line: solid, dark grey, open arrow pointing 
+  at Email Service
+
+---
+
+FIX 3 — S3 STORAGE LOCATION
+S3 Storage [MinIO/Ceph] must live in 
+Internal Corporate zone, NOT inside the blue box.
+
+If it is currently inside the blue box:
+  Move it to Internal Corporate zone
+  Position it top-left of that zone
+
+The connector from Email Service → S3 Storage
+must cross from the blue box rightward 
+into Internal Corporate.
+  Label: "S3 key + AES-256-GCM"
+  Line: solid, exits right edge of blue box
+
+The connector from S3 → Embedding Sync
+must re-enter the blue box from the right.
+  Label: "Server to Server OAuth (via GTM)"
+
+---
+
+FIX 4 — BLAST RADIUS TABLE
+Remove all emoji and icon characters entirely.
+Replace with plain text + colour only:
+
+  Per-user AES keys          → no icon, plain text
+  TTL cache + secure erase   → no icon, plain text
+  VPC endpoint + bucket policy → no icon, plain text
+  Per-user volume isolation  → no icon, plain text
+  JWKS + short token expiry  → no icon, plain text
+
+For the Containment column:
+  Active controls: text colour #2E7D32 (green)
+  Recommended controls: text colour #E65100 (amber)
+
+Add a small legend below the Blast Radius table:
+  Green text = Active control
+  Amber text = Recommended control
+
+No emoji, no symbols, no icon characters anywhere 
+in the Blast Radius table.
+
+---
+
+FIX 5 — OCP CLUSTER LABEL
+The blue box label currently shows a warning icon 
+next to "OCP CLUSTER — GCC".
+Remove any icon or symbol from the zone label.
+Plain text only: OCP CLUSTER — GCC
+
+---
+
+VERIFY BEFORE OUTPUT
+1. S3 Storage is in Internal Corporate, not blue box
+2. Every zone has at least one inbound connector
+3. Exchange → Email Service arrow points left to right
+   with arrowhead at Email Service end
+4. No emoji or symbols in Blast Radius table
+5. MCP Client has a connector reaching MCP Server
+6. No connector crosses another box
