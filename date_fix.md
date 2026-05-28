@@ -1,11 +1,11 @@
 Code Review: MCP Tool System Prompt — Date/Time Handling
 Summary
-Your MCP tools (Gmail, Calendar, etc.) are suffering from a cluster of date/time bugs that all share the same root cause: the system prompt doesn't give Claude a reliable, unambiguous time anchor, and the tool descriptions have gaps in relative-date vocabulary and week/boundary semantics. Claude fills those gaps with assumptions — and its assumptions are wrong or inconsistent. The fix is a single, authoritative date/time preamble block added to the system prompt, plus patched tool descriptions.
+Your MCP tools (Outlook, Calendar, etc.) are suffering from a cluster of date/time bugs that all share the same root cause: the system prompt doesn't give Agents a reliable, unambiguous time anchor, and the tool descriptions have gaps in relative-date vocabulary and week/boundary semantics. The Client side Agent fills those gaps with assumptions — and its assumptions are wrong or inconsistent. The fix is a single, authoritative date/time preamble block added to the system prompt, plus patched tool descriptions.
 
 🔴 Critical — Must Fix
 [BUG] No authoritative "now" injected at runtime
 
-Issue: Claude doesn't know what time it is unless you tell it. Without today = <ISO datetime + timezone> injected into every request, phrases like "tomorrow", "this week", "recent", "latest" are resolved by Claude's training heuristics — which are inconsistent and sometimes wrong (e.g. it may use UTC midnight as "now", or anchor to its training cutoff).
+Issue: Some AI model (e.g Claude Haiku) doesn't know what time it is unless you tell it. Without today = <ISO datetime + timezone> injected into every request, phrases like "tomorrow", "this week", "recent", "latest" are resolved by Claude's training heuristics — which are inconsistent and sometimes wrong (e.g. it may use UTC midnight as "now", or anchor to its training cutoff).
 Fix: Inject a preamble at the top of every system prompt or as the first user-turn system message:
 
 ## Time Context (injected at request time)
