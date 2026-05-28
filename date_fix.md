@@ -106,11 +106,17 @@ This month : {{THIS_MONTH_START}} – {{THIS_MONTH_END}}
 This weekend: {{THIS_SAT}} – {{THIS_SUN}}
 
 ## 🌍 Timezone Rules
-- ALL date range boundaries must be expressed as RFC 3339 with the user's UTC offset.
-  Example: start of today = {{TODAY_DATE}}T00:00:00{{UTC_OFFSET}}
-- Never use bare dates (2026-05-28) for API parameters — always include time and offset.
-- "Start of day" = 00:00:00 in user's local timezone.
-- "End of day"   = 23:59:59 in user's local timezone.
+Before constructing any date range query:
+1. Check the ingestion DB schema to determine how timestamps are stored
+   (UTC, local time with offset, or Unix epoch).
+2. Check whether a user_timezone or offset column exists in the DB.
+3. If timestamps are already stored in the user's local time → query as-is,
+   no conversion needed.
+4. If timestamps are stored in UTC → convert all range boundaries from
+   user's local time to UTC before querying.
+5. ALL responses to the user must display times in their local timezone
+   ({{USER_TIMEZONE}}), regardless of how the DB stores them.
+   Never surface UTC or epoch values directly to the user.
 
 ## 📬 Recency & Sort Rules
 - "latest" / "most recent" / "newest" → sort DESCENDING by received/start time
